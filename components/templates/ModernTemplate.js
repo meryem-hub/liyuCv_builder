@@ -246,7 +246,7 @@ export default function ModernTemplate({ resume }) {
   }
 
   return (
-    <div ref={resumeRef} className="bg-white text-gray-800 p-8 font-sans">
+    <div ref={resumeRef} className="bg-white text-gray-800 p-3 font-sans">
       {/* Simple Print Button */}
       <div className="text-right mb-6">
         <button
@@ -273,7 +273,7 @@ export default function ModernTemplate({ resume }) {
         
         {socialMedia && (
           <div className="flex justify-center flex-wrap gap-2 mt-1 text-xs">
-            {socialMedia.linkedin && <span className="text-blue-600">LinkedIn: {socialMedia.linkedin}</span>}
+            {socialMedia.linkedin && <span className="text-gray-600">LinkedIn: {socialMedia.linkedin}</span>}
             {socialMedia.github && <span className="text-gray-700">GitHub: {socialMedia.github}</span>}
             {socialMedia.portfolio && <span className="text-green-600">Portfolio: {socialMedia.portfolio}</span>}
           </div>
@@ -321,7 +321,7 @@ export default function ModernTemplate({ resume }) {
                   <p className="text-gray-600 text-sm mb-2">{project.description}</p>
                   <div className="flex gap-4 text-sm">
                     {project.demoLink && (
-                      <a href={project.demoLink} className="text-blue-600 hover:underline">Live Demo</a>
+                      <a href={project.demoLink} className="text-gray-600 hover:underline">Live Demo</a>
                     )}
                     {project.githubLink && (
                       <a href={project.githubLink} className="text-gray-700 hover:underline">GitHub</a>

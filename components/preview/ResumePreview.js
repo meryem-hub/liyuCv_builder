@@ -2,11 +2,14 @@
 'use client'
 import { useResumeStore } from '@/lib/store'
 import ModernTemplate from '@/components/templates/ModernTemplate'
+import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
+import CreativeTemplate from '@/components/templates/CreativeTemplate'
+import MinimalTemplate from '@/components/templates/MinimalTemplate'
+import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 
 export default function ResumePreview() {
   const { resume, currentTemplate } = useResumeStore()
 
-  // Add safety check
   if (!resume) {
     return (
       <div className="w-full h-64 flex items-center justify-center bg-white rounded-2xl">
@@ -15,9 +18,19 @@ export default function ResumePreview() {
     )
   }
 
+  const templates = {
+    modern: ModernTemplate,
+    professional: ProfessionalTemplate,
+    creative: CreativeTemplate,
+    minimal: MinimalTemplate,
+    executive: ExecutiveTemplate
+  }
+
+  const TemplateComponent = templates[currentTemplate] || ModernTemplate
+
   return (
-    <div className="w-full">
-      <ModernTemplate resume={resume} />
+    <div className="w-full resume-preview">
+      <TemplateComponent resume={resume} />
     </div>
   )
 }

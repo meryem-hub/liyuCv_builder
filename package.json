@@ -2,11 +2,12 @@
   "name": "liyucv",
   "version": "0.1.0",
   "private": true,
+ 
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "export": "next build && next export"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",

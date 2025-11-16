@@ -2,7 +2,7 @@
 'use client'
 import Link from 'next/link'
 import { useResumeStore } from '@/lib/store'
-import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette } from 'lucide-react'
+import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette,User } from 'lucide-react'
 
 const templates = [
   {
@@ -23,12 +23,21 @@ const templates = [
     icon: Award,
     features: ['Professional Layout', 'Executive Style', 'Formal Design']
   },
+   {
+    id: 'executive',
+    name: 'Executive',
+    description: 'Premium design with profile photo for leadership roles',
+    category: 'Premium',
+    color: 'from-indigo-600 to-purple-700',
+    icon: User, 
+    features: ['Profile Photo', 'Executive Layout', 'Premium Design']
+  },
   {
     id: 'creative',
     name: 'Creative',
     description: 'Modern gradient-based design for creatives',
     category: 'Design',
-    color: 'from-purple-500 to-pink-600',
+    color: 'from-gray-500 to-pink-600',
     icon: Palette,
     features: ['Creative Layout', 'Gradient Design', 'Visual Appeal']
   },
@@ -99,7 +108,7 @@ export default function TemplatesPage() {
       {/* Templates Grid */}
       <section className="pb-32">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {templates.map((template, index) => (
               <TemplateCard 
                 key={template.id}
