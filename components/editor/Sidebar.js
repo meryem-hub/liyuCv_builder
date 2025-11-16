@@ -1,10 +1,13 @@
-// components/editor/Sidebar.js
+// components/editor/Sidebar.js - FIXED VERSION
 'use client'
 import { useResumeStore } from '@/lib/store'
+import { Crown, Zap, Award, Palette } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Sidebar() {
   const { 
     resume, 
+    currentTemplate, // ADD THIS
     updatePersonalInfo, 
     updateSkills,
     updateExperience,
@@ -33,10 +36,47 @@ export default function Sidebar() {
     updateEducation(newEdu)
   }
 
+  // Get template icon and color
+  const getTemplateInfo = () => {
+    switch(currentTemplate) {
+      case 'modern':
+        return { icon: Zap, color: 'from-yellow-400 to-yellow-600', name: 'Modern' }
+      case 'professional':
+        return { icon: Award, color: 'from-blue-500 to-blue-700', name: 'Professional' }
+      case 'creative':
+        return { icon: Palette, color: 'from-purple-500 to-pink-600', name: 'Creative' }
+      case 'minimal':
+        return { icon: Crown, color: 'from-green-500 to-green-700', name: 'Minimal' }
+      default:
+        return { icon: Zap, color: 'from-yellow-400 to-yellow-600', name: 'Modern' }
+    }
+  }
+
+  const templateInfo = getTemplateInfo()
+  const TemplateIcon = templateInfo.icon
+
   return (
     <div className="w-80 bg-gray-800 text-white p-6 overflow-y-auto">
       <h2 className="text-2xl font-bold mb-6 text-yellow-400">Edit Your CV</h2>
       
+      {/* Current Template Display - ADD THIS SECTION */}
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold mb-4 text-gray-300">Current Template</h3>
+        <div className="bg-gray-700 p-4 rounded-lg mb-4">
+          <div className="flex items-center space-x-3">
+            <div className={`w-10 h-10 bg-gradient-to-br ${templateInfo.color} rounded-lg flex items-center justify-center`}>
+              <TemplateIcon className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="text-white font-medium">{templateInfo.name}</div>
+              <Link href="/templates" className="text-yellow-400 text-sm hover:text-yellow-300">
+                Change Template
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Personal Information */}
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4 text-gray-300">Personal Information</h3>
@@ -398,23 +438,15 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Template Selection */}
-      <div>
-        <h3 className="text-lg font-semibold mb-4 text-gray-300">Templates</h3>
-        <div className="grid grid-cols-2 gap-3">
-          <button className="p-4 bg-gray-700 rounded-lg border-2 border-yellow-500 hover:bg-gray-600 transition">
-            Modern
-          </button>
-          <button className="p-4 bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 transition">
-            Classic
-          </button>
-          <button className="p-4 bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 transition">
-            Executive
-          </button>
-          <button className="p-4 bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 transition">
-            Creative
-          </button>
-        </div>
+      {/* Template Selection - REMOVE THE OLD TEMPLATE SELECTION */}
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold mb-4 text-gray-300">Need a Different Template?</h3>
+        <Link 
+          href="/templates"
+          className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium text-center block border border-gray-600"
+        >
+          Browse All Templates
+        </Link>
       </div>
     </div>
   )

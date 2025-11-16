@@ -92,10 +92,13 @@ export default function Home() {
         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </Link>
       
-      <button className="border-2 border-yellow-500/50 text-yellow-300 font-semibold text-lg px-12 py-5 rounded-xl transition-all duration-300 hover:bg-yellow-500/10 hover:border-yellow-400 flex items-center space-x-3">
-        <Eye className="w-5 h-5" />
-        <span>View Templates</span>
-      </button>
+   <Link 
+  href="/templates"
+  className="border-2 border-yellow-500/50 text-yellow-300 font-semibold text-lg px-12 py-5 rounded-xl transition-all duration-300 hover:bg-yellow-500/10 hover:border-yellow-400 flex items-center space-x-3"
+>
+  <Eye className="w-5 h-5" />
+  <span>View Templates</span>
+</Link>
     </div>
   </div>
 </section>
