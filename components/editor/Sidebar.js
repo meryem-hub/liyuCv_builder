@@ -1,7 +1,7 @@
-// components/editor/Sidebar.js - RESPONSIVE VERSION
+// components/editor/Sidebar.js - UPDATED WITH PROFESSIONAL SUMMARY
 'use client'
 import { useResumeStore } from '@/lib/store'
-import { Crown, Zap, Award, Palette, User, Menu, X } from 'lucide-react'
+import { Crown, Zap, Award, Palette, User, Menu, X, Plus, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -10,11 +10,20 @@ export default function Sidebar() {
     resume, 
     currentTemplate,
     updatePersonalInfo, 
+    updateProfessionalSummary, // ADD THIS
     updateSkills,
     updateExperience,
     updateEducation,
     updateProjects,
     updateSocialMedia,
+    updateAchievements,
+    updateReferences,
+    updateLanguages,
+    updateCertifications,
+    updateInterests,
+    addItem,
+    removeItem,
+    updateItem
   } = useResumeStore()
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -33,6 +42,26 @@ export default function Sidebar() {
   const deleteEducation = (id) => {
     const newEdu = resume.education.filter(edu => edu.id !== id)
     updateEducation(newEdu)
+  }
+
+  const deleteAchievement = (id) => {
+    const newAchievements = resume.achievements.filter(achievement => achievement.id !== id)
+    updateAchievements(newAchievements)
+  }
+
+  const deleteReference = (id) => {
+    const newReferences = resume.references.filter(reference => reference.id !== id)
+    updateReferences(newReferences)
+  }
+
+  const deleteLanguage = (id) => {
+    const newLanguages = resume.languages.filter(language => language.id !== id)
+    updateLanguages(newLanguages)
+  }
+
+  const deleteCertification = (id) => {
+    const newCertifications = resume.certifications.filter(certification => certification.id !== id)
+    updateCertifications(newCertifications)
   }
 
   // Get template info
@@ -119,6 +148,21 @@ export default function Sidebar() {
           </div>
         </div>
 
+        {/* Professional Summary - UPDATED SECTION */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Professional Summary</h3>
+          <textarea
+            placeholder="Write a compelling professional summary that highlights your key qualifications, experience, and career objectives..."
+            value={resume.professionalSummary || ''} // CHANGED FROM personalInfo.summary
+            onChange={(e) => updateProfessionalSummary(e.target.value)} // CHANGED TO updateProfessionalSummary
+            rows="4"
+            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+          />
+          <p className="text-xs text-gray-400 mt-2">
+            This appears at the top of your resume. Keep it concise and impactful (3-5 lines).
+          </p>
+        </div>
+
         {/* Personal Information */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4 text-gray-300">Personal Information</h3>
@@ -184,6 +228,13 @@ export default function Sidebar() {
               placeholder="Portfolio Website"
               value={resume.socialMedia?.portfolio || ''}
               onChange={(e) => updateSocialMedia({ portfolio: e.target.value })}
+              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+            />
+            <input
+              type="text"
+              placeholder="X URL"
+              value={resume.socialMedia?.X || ''}
+              onChange={(e) => updateSocialMedia({ X: e.target.value })}
               className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
             />
           </div>
@@ -274,9 +325,10 @@ export default function Sidebar() {
               }]
               updateExperience(newExp)
             }}
-            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm"
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
           >
-            + Add Experience
+            <Plus className="w-4 h-4" />
+            <span>Add Experience</span>
           </button>
         </div>
 
@@ -363,48 +415,11 @@ export default function Sidebar() {
               }]
               updateProjects(newProjects)
             }}
-            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm"
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
           >
-            + Add Project
+            <Plus className="w-4 h-4" />
+            <span>Add Project</span>
           </button>
-        </div>
-
-        {/* Skills */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 text-gray-300">Skills</h3>
-          <input
-            type="text"
-            placeholder="Add skills (comma separated)"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                const newSkill = e.target.value.trim()
-                if (newSkill) {
-                  updateSkills([...resume.skills, newSkill])
-                  e.target.value = ''
-                }
-              }
-            }}
-            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
-          />
-          <div className="flex flex-wrap gap-2 mt-3">
-            {resume.skills.map((skill, index) => (
-              <span 
-                key={index}
-                className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium flex items-center"
-              >
-                {skill}
-                <button
-                  onClick={() => {
-                    const newSkills = resume.skills.filter((_, i) => i !== index)
-                    updateSkills(newSkills)
-                  }}
-                  className="ml-2 text-black hover:text-gray-800 text-xs"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
         </div>
 
         {/* Education */}
@@ -464,10 +479,269 @@ export default function Sidebar() {
               }]
               updateEducation(newEdu)
             }}
-            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm"
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
           >
-            + Add Education
+            <Plus className="w-4 h-4" />
+            <span>Add Education</span>
           </button>
+        </div>
+
+        {/* Skills */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Skills</h3>
+          <input
+            type="text"
+            placeholder="Add skills (comma separated)"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                const newSkill = e.target.value.trim()
+                if (newSkill) {
+                  updateSkills([...resume.skills, newSkill])
+                  e.target.value = ''
+                }
+              }
+            }}
+            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+          />
+          <div className="flex flex-wrap gap-2 mt-3">
+            {resume.skills.map((skill, index) => (
+              <span 
+                key={index}
+                className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium flex items-center"
+              >
+                {skill}
+                <button
+                  onClick={() => {
+                    const newSkills = resume.skills.filter((_, i) => i !== index)
+                    updateSkills(newSkills)
+                  }}
+                  className="ml-2 text-black hover:text-gray-800 text-xs"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Achievements */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Achievements & Awards</h3>
+          {resume.achievements?.map((achievement, index) => (
+            <div key={achievement.id} className="mb-4 p-4 bg-gray-700 rounded-lg relative">
+              <button
+                onClick={() => deleteAchievement(achievement.id)}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition"
+              >
+                ×
+              </button>
+              
+              <input
+                type="text"
+                placeholder="Achievement Title"
+                value={achievement.title}
+                onChange={(e) => {
+                  const newAchievements = [...resume.achievements]
+                  newAchievements[index].title = e.target.value
+                  updateAchievements(newAchievements)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Organization"
+                value={achievement.organization}
+                onChange={(e) => {
+                  const newAchievements = [...resume.achievements]
+                  newAchievements[index].organization = e.target.value
+                  updateAchievements(newAchievements)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Year"
+                value={achievement.year}
+                onChange={(e) => {
+                  const newAchievements = [...resume.achievements]
+                  newAchievements[index].year = e.target.value
+                  updateAchievements(newAchievements)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+              />
+            </div>
+          ))}
+          <button
+            onClick={() => {
+              const newAchievements = [...(resume.achievements || []), {
+                id: Date.now(),
+                title: '',
+                organization: '',
+                year: ''
+              }]
+              updateAchievements(newAchievements)
+            }}
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Achievement</span>
+          </button>
+        </div>
+
+        {/* Languages */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Languages</h3>
+          {resume.languages?.map((language, index) => (
+            <div key={language.id} className="mb-4 p-4 bg-gray-700 rounded-lg relative">
+              <button
+                onClick={() => deleteLanguage(language.id)}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition"
+              >
+                ×
+              </button>
+              
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  placeholder="Language"
+                  value={language.language}
+                  onChange={(e) => {
+                    const newLanguages = [...resume.languages]
+                    newLanguages[index].language = e.target.value
+                    updateLanguages(newLanguages)
+                  }}
+                  className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+                />
+                <input
+                  type="text"
+                  placeholder="Proficiency"
+                  value={language.proficiency}
+                  onChange={(e) => {
+                    const newLanguages = [...resume.languages]
+                    newLanguages[index].proficiency = e.target.value
+                    updateLanguages(newLanguages)
+                  }}
+                  className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+                />
+              </div>
+            </div>
+          ))}
+          <button
+            onClick={() => {
+              const newLanguages = [...(resume.languages || []), {
+                id: Date.now(),
+                language: '',
+                proficiency: ''
+              }]
+              updateLanguages(newLanguages)
+            }}
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Language</span>
+          </button>
+        </div>
+
+        {/* Certifications */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Certifications</h3>
+          {resume.certifications?.map((certification, index) => (
+            <div key={certification.id} className="mb-4 p-4 bg-gray-700 rounded-lg relative">
+              <button
+                onClick={() => deleteCertification(certification.id)}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition"
+              >
+                ×
+              </button>
+              
+              <input
+                type="text"
+                placeholder="Certification Name"
+                value={certification.name}
+                onChange={(e) => {
+                  const newCertifications = [...resume.certifications]
+                  newCertifications[index].name = e.target.value
+                  updateCertifications(newCertifications)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Issuing Organization"
+                value={certification.organization}
+                onChange={(e) => {
+                  const newCertifications = [...resume.certifications]
+                  newCertifications[index].organization = e.target.value
+                  updateCertifications(newCertifications)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Year"
+                value={certification.year}
+                onChange={(e) => {
+                  const newCertifications = [...resume.certifications]
+                  newCertifications[index].year = e.target.value
+                  updateCertifications(newCertifications)
+                }}
+                className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+              />
+            </div>
+          ))}
+          <button
+            onClick={() => {
+              const newCertifications = [...(resume.certifications || []), {
+                id: Date.now(),
+                name: '',
+                organization: '',
+                year: ''
+              }]
+              updateCertifications(newCertifications)
+            }}
+            className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Certification</span>
+          </button>
+        </div>
+
+        {/* Interests */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-300">Interests</h3>
+          <input
+            type="text"
+            placeholder="Add interests (comma separated)"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                const newInterest = e.target.value.trim()
+                if (newInterest) {
+                  updateInterests([...(resume.interests || []), newInterest])
+                  e.target.value = ''
+                }
+              }
+            }}
+            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+          />
+          <div className="flex flex-wrap gap-2 mt-3">
+            {resume.interests?.map((interest, index) => (
+              <span 
+                key={index}
+                className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium flex items-center"
+              >
+                {interest}
+                <button
+                  onClick={() => {
+                    const newInterests = resume.interests.filter((_, i) => i !== index)
+                    updateInterests(newInterests)
+                  }}
+                  className="ml-2 text-black hover:text-gray-800 text-xs"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Template Selection */}

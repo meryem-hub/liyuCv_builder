@@ -13,7 +13,17 @@ export default function ProfessionalTemplate({ resume }) {
     )
   }
 
-  const { personalInfo = {}, experience = [], education = [], skills = [], projects = [], socialMedia = {} } = resume
+  const { 
+    personalInfo = {}, 
+    professionalSummary = '',
+    experience = [], 
+    education = [], 
+    skills = [], 
+    projects = [], 
+    socialMedia = {},
+    languages = [],
+    certifications = []
+  } = resume
 
   const safePersonalInfo = {
     name: personalInfo?.name || 'Your Name',
@@ -24,214 +34,414 @@ export default function ProfessionalTemplate({ resume }) {
     ...personalInfo
   }
 
- // IN ProfessionalTemplate.js - ADD THIS PDF FUNCTION (same as ModernTemplate)
-const handleExportPDF = () => {
-  try {
-    // Use the resumeRef instead of querySelector
-    const resumeElement = resumeRef.current
-    if (!resumeElement) {
-      console.error('Resume element not found')
-      alert('Cannot generate PDF. Please refresh and try again.')
-      return
-    }
+  // PDF Export Function - UPDATED
+  const handleExportPDF = () => {
+    try {
+      const resumeElement = resumeRef.current
+      if (!resumeElement) {
+        console.error('Resume element not found')
+        alert('Cannot generate PDF. Please refresh and try again.')
+        return
+      }
 
-    // Clone the element to remove the button
-    const clone = resumeElement.cloneNode(true)
-    const button = clone.querySelector('button')
-    if (button) {
-      button.remove()
-    }
+      // Clone the element to remove the button
+      const clone = resumeElement.cloneNode(true)
+      const button = clone.querySelector('button')
+      if (button) {
+        button.remove()
+      }
 
-    const printWindow = window.open('', '_blank')
-    if (!printWindow) {
-      alert('Please allow popups for PDF generation')
-      return
-    }
+      const printWindow = window.open('', '_blank')
+      if (!printWindow) {
+        alert('Please allow popups for PDF generation')
+        return
+      }
 
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Resume - ${safePersonalInfo.name || 'My Resume'}</title>
-          <style>
-            /* Import Tailwind-like styles */
-            @import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css');
-            
-            /* Custom print styles */
-            body { 
-              font-family: system-ui, -apple-system, sans-serif;
-              margin: 0;
-              padding: 20mm;
-              background: white;
-              color: #1f2937;
-              width: 210mm;
-              min-height: 297mm;
-            }
-            
-            /* Resume container */
-            .resume-container {
-              max-width: 100%;
-              margin: 0 auto;
-            }
-            
-            /* Professional Template Specific Styles */
-            .header {
-              text-align: center;
-              margin-bottom: 2rem;
-              padding-bottom: 1.5rem;
-              border-bottom: 2px solid #2563eb;
-            }
-            
-            .name {
-              font-size: 1.875rem;
-              font-weight: bold;
-              color: #111827;
-              margin-bottom: 0.5rem;
-            }
-            
-            .title {
-              font-size: 1.125rem;
-              color: #4b5563;
-              margin-bottom: 1rem;
-            }
-            
-            .contact-info {
-              display: flex;
-              justify-content: center;
-              flex-wrap: wrap;
-              gap: 0.5rem;
-              font-size: 0.75rem;
-              color: #6b7280;
-            }
-            
-            /* Section styles */
-            .section {
-              margin-bottom: 1.5rem;
-            }
-            
-            .section-title {
-              font-size: 1.125rem;
-              font-weight: bold;
-              color: #111827;
-              margin-bottom: 0.75rem;
-              display: flex;
-              align-items: center;
-            }
-            
-            .section-title::before {
-              content: "";
-              width: 0.25rem;
-              height: 1rem;
-              background-color: #2563eb;
-              margin-right: 0.5rem;
-              border-radius: 0.125rem;
-            }
-            
-            /* Experience/Education/Project items */
-            .item-card {
-              background-color: #f9fafb;
-              padding: 1rem;
-              border-radius: 0.5rem;
-              margin-bottom: 1rem;
-            }
-            
-            .item-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: flex-start;
-              margin-bottom: 0.5rem;
-            }
-            
-            .item-title {
-              font-weight: 600;
-              color: #111827;
-            }
-            
-            .item-date {
-              color: #6b7280;
-              font-size: 0.875rem;
-              background-color: #dbeafe;
-              padding: 0.25rem 0.5rem;
-              border-radius: 0.25rem;
-            }
-            
-            .item-company {
-              color: #374151;
-              font-weight: 500;
-              font-size: 0.875rem;
-              margin-bottom: 0.5rem;
-            }
-            
-            .item-description {
-              color: #4b5563;
-              font-size: 0.875rem;
-              white-space: pre-line;
-            }
-            
-            /* Skills */
-            .skills-container {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 0.5rem;
-            }
-            
-            .skill-tag {
-              background-color: #2563eb;
-              color: white;
-              padding: 0.5rem 0.75rem;
-              border-radius: 9999px;
-              font-size: 0.875rem;
-              font-weight: 600;
-            }
-            
-            /* Grid layout */
-            .grid-container {
-              display: grid;
-              grid-template-columns: 2fr 1fr;
-              gap: 1.5rem;
-            }
-            
-            /* Links */
-            a {
-              color: #2563eb;
-              text-decoration: none;
-            }
-            
-            a:hover {
-              text-decoration: underline;
-            }
-            
-            /* Hide print button */
-            button {
-              display: none !important;
-            }
-            
-            @media print {
-              body {
-                padding: 15mm;
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Resume - ${safePersonalInfo.name || 'My Resume'}</title>
+            <style>
+              /* Reset and base styles */
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
               }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="resume-container">
-            ${clone.innerHTML}
-          </div>
-        </body>
-      </html>
-    `)
-    printWindow.document.close()
-    
-    // Wait a bit for content to load then print
-    setTimeout(() => {
-      printWindow.print()
-    }, 1000)
-    
-  } catch (error) {
-    console.error('PDF Error:', error)
-    alert('Failed to generate PDF. Please try the browser print (Ctrl+P) and choose "Save as PDF".')
+              
+              body { 
+                font-family: system-ui, -apple-system, sans-serif;
+                margin: 0;
+                padding: 15mm;
+                background: white;
+                color: #1f2937;
+                width: 210mm;
+                min-height: 297mm;
+                line-height: 1.6;
+              }
+              
+              /* Resume container */
+              .resume-container {
+                max-width: 100%;
+                margin: 0 auto;
+              }
+              
+              /* Header styles */
+              .bg-gradient-to-r {
+                background: linear-gradient(to right, #4b5563, #1f2937);
+                color: white;
+                padding: 2rem;
+                margin-bottom: 2rem;
+              }
+              
+              .max-w-6xl {
+                max-width: 72rem;
+                margin: 0 auto;
+              }
+              
+              .text-center {
+                text-align: center;
+              }
+              
+              .text-4xl {
+                font-size: 2.25rem;
+                font-weight: bold;
+                margin-bottom: 0.75rem;
+              }
+              
+              .text-xl {
+                font-size: 1.25rem;
+                color: #f3f4f6;
+                margin-bottom: 1.5rem;
+              }
+              
+              .flex {
+                display: flex;
+              }
+              
+              .justify-center {
+                justify-content: center;
+              }
+              
+              .flex-wrap {
+                flex-wrap: wrap;
+              }
+              
+              .items-center {
+                align-items: center;
+              }
+              
+              .gap-4 {
+                gap: 1rem;
+              }
+              
+              .space-x-2 > * + * {
+                margin-left: 0.5rem;
+              }
+              
+              /* Main content grid */
+              .grid {
+                display: grid;
+              }
+              
+              .lg\\:grid-cols-3 {
+                grid-template-columns: 2fr 1fr;
+                gap: 2rem;
+              }
+              
+              .lg\\:col-span-2 {
+                grid-column: span 2 / span 2;
+              }
+              
+              /* Section styles */
+              .space-y-8 > * + * {
+                margin-top: 2rem;
+              }
+              
+              .space-y-6 > * + * {
+                margin-top: 1.5rem;
+              }
+              
+              .space-y-4 > * + * {
+                margin-top: 1rem;
+              }
+              
+              .space-y-3 > * + * {
+                margin-top: 0.75rem;
+              }
+              
+              .space-y-2 > * + * {
+                margin-top: 0.5rem;
+              }
+              
+              .text-2xl {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #111827;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e5e7eb;
+              }
+              
+              .text-gray-700 {
+                color: #374151;
+              }
+              
+              .text-gray-800 {
+                color: #1f2937;
+              }
+              
+              .text-gray-900 {
+                color: #111827;
+              }
+              
+              .text-gray-600 {
+                color: #6b7280;
+              }
+              
+              .leading-relaxed {
+                line-height: 1.625;
+              }
+              
+              .whitespace-pre-line {
+                white-space: pre-line;
+              }
+              
+              /* Experience items */
+              .border-l-4 {
+                border-left: 4px solid #6b7280;
+                padding-left: 1.5rem;
+              }
+              
+              .border-gray-500 {
+                border-color: #6b7280;
+              }
+              
+              .pl-6 {
+                padding-left: 1.5rem;
+              }
+              
+              .flex.justify-between {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 0.5rem;
+              }
+              
+              .text-xl {
+                font-size: 1.25rem;
+                font-weight: 600;
+              }
+              
+              .text-lg {
+                font-size: 1.125rem;
+              }
+              
+              .text-sm {
+                font-size: 0.875rem;
+              }
+              
+              .bg-gray-50 {
+                background-color: #f9fafb;
+              }
+              
+              .px-3 {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+              }
+              
+              .py-1 {
+                padding-top: 0.25rem;
+                padding-bottom: 0.25rem;
+              }
+              
+              .rounded {
+                border-radius: 0.375rem;
+              }
+              
+              .font-medium {
+                font-weight: 500;
+              }
+              
+              .font-semibold {
+                font-weight: 600;
+              }
+              
+              .font-bold {
+                font-weight: 700;
+              }
+              
+              /* Project cards */
+              .bg-gray-50 {
+                background-color: #f9fafb;
+              }
+              
+              .p-6 {
+                padding: 1.5rem;
+              }
+              
+              .rounded-lg {
+                border-radius: 0.5rem;
+              }
+              
+              .border {
+                border: 1px solid #e5e7eb;
+              }
+              
+              .border-gray-200 {
+                border-color: #e5e7eb;
+              }
+              
+              .mb-3 {
+                margin-bottom: 0.75rem;
+              }
+              
+              .mb-4 {
+                margin-bottom: 1rem;
+              }
+              
+              /* Education items */
+              .p-4 {
+                padding: 1rem;
+              }
+              
+              .bg-white {
+                background-color: white;
+              }
+              
+              /* Skills list */
+              .w-2 {
+                width: 0.5rem;
+              }
+              
+              .h-2 {
+                height: 0.5rem;
+              }
+              
+              .bg-gray-500 {
+                background-color: #6b7280;
+              }
+              
+              .rounded-full {
+                border-radius: 9999px;
+              }
+              
+              /* Links */
+              a {
+                color: #2563eb;
+                text-decoration: none;
+              }
+              
+              a:hover {
+                text-decoration: underline;
+              }
+              
+              /* Hide print button */
+              button {
+                display: none !important;
+              }
+              
+              /* Margin and padding utilities */
+              .p-8 {
+                padding: 2rem;
+              }
+              
+              .mb-6 {
+                margin-bottom: 1.5rem;
+              }
+              
+              .pb-2 {
+                padding-bottom: 0.5rem;
+              }
+              
+              .mt-4 {
+                margin-top: 1rem;
+              }
+              
+              .ml-auto {
+                margin-left: auto;
+              }
+              
+              /* Flex utilities */
+              .flex.items-center.space-x-3 > * + * {
+                margin-left: 0.75rem;
+              }
+              
+              /* Grid gap */
+              .gap-8 {
+                gap: 2rem;
+              }
+              
+              .gap-6 {
+                gap: 1.5rem;
+              }
+              
+              /* Print specific styles */
+              @media print {
+                body {
+                  padding: 10mm;
+                  width: 100%;
+                  min-height: 100%;
+                }
+                
+                .bg-gradient-to-r {
+                  background: linear-gradient(to right, #4b5563, #1f2937) !important;
+                  -webkit-print-color-adjust: exact;
+                  print-color-adjust: exact;
+                }
+                
+                /* Ensure proper page breaks */
+                .resume-container {
+                  page-break-inside: avoid;
+                }
+                
+                section {
+                  page-break-inside: avoid;
+                }
+                
+                /* Prevent elements from being cut off */
+                .lg\\:grid-cols-3 {
+                  grid-template-columns: 2fr 1fr;
+                }
+              }
+              
+              /* Force grid layout for PDF */
+              @media all {
+                .grid {
+                  display: grid !important;
+                }
+                
+                .lg\\:grid-cols-3 {
+                  grid-template-columns: 2fr 1fr !important;
+                }
+                
+                .lg\\:col-span-2 {
+                  grid-column: 1 / span 2 !important;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="resume-container">
+              ${clone.innerHTML}
+            </div>
+            <script>
+              // Force proper layout before printing
+              setTimeout(() => {
+                window.print();
+              }, 500);
+            </script>
+          </body>
+        </html>
+      `)
+      printWindow.document.close()
+      
+    } catch (error) {
+      console.error('PDF Error:', error)
+      alert('Failed to generate PDF. Please try the browser print (Ctrl+P) and choose "Save as PDF".')
+    }
   }
-}
 
   return (
     <div ref={resumeRef} className="bg-white text-gray-800 font-sans min-h-screen">
@@ -291,9 +501,8 @@ const handleExportPDF = () => {
               <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">
                 Professional Summary
               </h2>
-              <p className="text-gray-700 leading-relaxed">
-                Experienced professional with a proven track record of delivering exceptional results. 
-                Passionate about innovation and continuous improvement.
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                {professionalSummary || 'Experienced professional with a proven track record of delivering exceptional results. Passionate about innovation and continuous improvement.'}
               </p>
             </section>
 
@@ -395,38 +604,38 @@ const handleExportPDF = () => {
             )}
 
             {/* Languages */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">
-                Languages
-              </h2>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-700">English</span>
-                  <span className="text-gray-600">Fluent</span>
+            {languages.length > 0 && (
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">
+                  Languages
+                </h2>
+                <div className="space-y-2">
+                  {languages.map((lang) => (
+                    <div key={lang.id} className="flex justify-between">
+                      <span className="text-gray-700">{lang.language}</span>
+                      <span className="text-gray-600">{lang.proficiency}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">Arabic</span>
-                  <span className="text-gray-600">Native</span>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Certifications */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">
-                Certifications
-              </h2>
-              <div className="space-y-3">
-                <div className="text-gray-700">
-                  <div className="font-medium">AWS Certified Solutions Architect</div>
-                  <div className="text-sm text-gray-600">2023</div>
+            {certifications.length > 0 && (
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">
+                  Certifications
+                </h2>
+                <div className="space-y-3">
+                  {certifications.map((cert) => (
+                    <div key={cert.id} className="text-gray-700">
+                      <div className="font-medium">{cert.name}</div>
+                      <div className="text-sm text-gray-600">{cert.organization} • {cert.year}</div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-gray-700">
-                  <div className="font-medium">Google Professional Cloud Architect</div>
-                  <div className="text-sm text-gray-600">2022</div>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
           </div>
         </div>
       </div>
