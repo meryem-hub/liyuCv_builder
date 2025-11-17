@@ -2,7 +2,8 @@
 'use client'
 import Link from 'next/link'
 import { useResumeStore } from '@/lib/store'
-import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette,User } from 'lucide-react'
+import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X } from 'lucide-react'
+import { useState } from 'react'
 
 const templates = [
   {
@@ -12,25 +13,25 @@ const templates = [
     category: 'Popular',
     color: 'from-yellow-400 to-yellow-600',
     icon: Zap,
-    features: ['Modern Layout', 'ATS Friendly', 'Mobile Optimized']
+    features: ['Modern Layout', 'Mobile Optimized']
   },
   {
     id: 'professional',
     name: 'Professional',
-    description: 'Corporate design perfect for traditional industries',
-    category: 'Business',
+    description: 'Corporate design perfect for Software Engineer',
+    category: 'Software',
     color: 'from-blue-500 to-blue-700',
     icon: Award,
-    features: ['Professional Layout', 'Executive Style', 'Formal Design']
+    features: ['Professional Layout',  'Formal Design']
   },
-   {
+  {
     id: 'executive',
     name: 'Executive',
-    description: 'Premium design with profile photo for leadership roles',
+    description: 'Premium design with profile photo for Software Engineer',
     category: 'Premium',
     color: 'from-indigo-600 to-purple-700',
     icon: User, 
-    features: ['Profile Photo', 'Executive Layout', 'Premium Design']
+    features: ['Profile Photo', 'Premium Design']
   },
   {
     id: 'creative',
@@ -52,13 +53,38 @@ const templates = [
   }
 ]
 
+// Import your template components
+import ModernTemplate from '@/components/templates/ModernTemplate'
+import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
+import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
+import CreativeTemplate from '@/components/templates/CreativeTemplate'
+import MinimalTemplate from '@/components/templates/MinimalTemplate'
+
+const templateComponents = {
+  modern: ModernTemplate,
+  professional: ProfessionalTemplate,
+  executive: ExecutiveTemplate,
+  creative: CreativeTemplate,
+  minimal: MinimalTemplate
+}
+
 export default function TemplatesPage() {
-  const { updateTemplate } = useResumeStore()
+  const { updateTemplate, resume } = useResumeStore()
+  const [previewTemplate, setPreviewTemplate] = useState(null)
 
   const handleTemplateSelect = (templateId) => {
     updateTemplate(templateId)
-    // You can also redirect to editor automatically if needed
   }
+
+  const handlePreview = (templateId) => {
+    setPreviewTemplate(templateId)
+  }
+
+  const closePreview = () => {
+    setPreviewTemplate(null)
+  }
+
+  const TemplatePreview = templateComponents[previewTemplate]
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -115,111 +141,170 @@ export default function TemplatesPage() {
                 template={template}
                 index={index}
                 onSelect={handleTemplateSelect}
+                onPreview={handlePreview}
               />
             ))}
           </div>
         </div>
       </section>
+
+      {/* Preview Modal */}
+      {previewTemplate && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl overflow-hidden">
+            {/* Header */}
+            <div className="absolute top-4 right-4 z-10 flex gap-2">
+              <Link
+                href="/editor"
+                onClick={() => {
+                  handleTemplateSelect(previewTemplate)
+                  closePreview()
+                }}
+                className="bg-yellow-500 text-black font-bold px-6 py-3 rounded-lg hover:scale-105 transition-transform flex items-center space-x-2"
+              >
+                <span>Use This Template</span>
+                <ArrowLeft className="w-4 h-4 rotate-180" />
+              </Link>
+              <button
+                onClick={closePreview}
+                className="bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Preview Content */}
+            <div className="h-[90vh] overflow-y-auto">
+              {TemplatePreview && <TemplatePreview resume={resume} />}
+            </div>
+
+            {/* Footer */}
+            <div className="absolute bottom-4 left-4 right-4 z-10">
+              <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-gray-900">
+                      {templates.find(t => t.id === previewTemplate)?.name} Template
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      {templates.find(t => t.id === previewTemplate)?.description}
+                    </p>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
-// Template Card Component
-function TemplateCard({ template, index, onSelect }) {
+function TemplateCard({ template, index, onSelect, onPreview }) {
   const Icon = template.icon
 
   return (
-    <div className="group relative">
-      {/* Main Card */}
-      <div className="relative bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:border-yellow-500/30 hover:shadow-2xl hover:shadow-yellow-500/10">
+    <div className="group relative cursor-pointer">
+      {/* Card Wrapper */}
+      <div className="
+        relative rounded-3xl overflow-hidden
+        bg-gray-900/80 border border-gray-800
+        transition-all duration-500 ease-out
+        hover:scale-[1.03] hover:border-yellow-500/40
+        hover:shadow-[0_0_35px_-5px_rgba(234,179,8,0.25)]
+      ">
         
-        {/* Template Preview */}
-        <div className="relative h-80 bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden">
-          {/* Animated Background */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${template.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
-          
-          {/* Template Content Preview */}
-          <div className="absolute inset-0 p-6 flex flex-col">
-            {/* Header */}
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <div className="w-20 h-2 bg-gray-700 rounded mb-2"></div>
-                <div className="w-32 h-4 bg-gray-600 rounded mb-1"></div>
-                <div className="w-24 h-3 bg-gray-500 rounded"></div>
-              </div>
-              <div className="w-16 h-6 bg-gray-700 rounded"></div>
-            </div>
+        {/* Gradient Header */}
+        <div
+          className={`
+            h-40 relative overflow-hidden
+            bg-gradient-to-br ${template.color}
+          `}
+        >
+          {/* Soft Glow */}
+          <div className="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
 
-            {/* Content Sections */}
-            <div className="space-y-4 flex-1">
-              <div className="w-full h-4 bg-gray-700 rounded"></div>
-              <div className="w-3/4 h-4 bg-gray-600 rounded"></div>
-              <div className="w-1/2 h-4 bg-gray-500 rounded"></div>
-              <div className="w-full h-16 bg-gray-800 rounded mt-4"></div>
-            </div>
-
-            {/* Skills Preview */}
-            <div className="flex flex-wrap gap-2 mt-4">
-              <div className="w-16 h-6 bg-gray-700 rounded-full"></div>
-              <div className="w-20 h-6 bg-gray-700 rounded-full"></div>
-              <div className="w-14 h-6 bg-gray-700 rounded-full"></div>
-            </div>
-          </div>
-
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
-            <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 space-y-4">
-              <Link
-                href="/editor"
-                onClick={() => onSelect(template.id)}
-                className="bg-yellow-500 text-black font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform flex items-center space-x-3"
-              >
-                <span>Use This Template</span>
-                <ArrowLeft className="w-5 h-5 rotate-180" />
-              </Link>
-              
-              <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-xl hover:bg-white hover:text-black transition-all flex items-center space-x-3">
-                <Eye className="w-5 h-5" />
-                <span>Preview</span>
-              </button>
-            </div>
+          {/* Floating Icon Badge */}
+          <div className="
+            absolute bottom-4 left-4
+            w-16 h-16 rounded-2xl
+            flex items-center justify-center
+            bg-black/20 backdrop-blur-md
+            border border-white/10
+            shadow-[0_8px_20px_rgba(0,0,0,0.25)]
+          ">
+            <Icon className="w-8 h-8 text-white" />
           </div>
         </div>
 
-        {/* Card Footer */}
-        <div className="p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <div className={`w-12 h-12 bg-gradient-to-br ${template.color} rounded-xl flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">{template.name}</h3>
-                  <span className="text-yellow-500 text-sm font-medium">{template.category}</span>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm">{template.description}</p>
-            </div>
+        {/* Content Section */}
+        <div className="p-6 pt-10">
+          <div className="mb-4">
+            <h3 className="text-xl font-bold text-white">{template.name}</h3>
+            <span className="text-yellow-500 text-sm font-medium">
+              {template.category}
+            </span>
+            <p className="text-gray-400 text-sm mt-2">
+              {template.description}
+            </p>
           </div>
 
+         
+
           {/* Features */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-6">
             {template.features.map((feature, idx) => (
               <span 
                 key={idx}
-                className="inline-flex items-center space-x-1 bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-xs"
+                className="
+                  inline-flex items-center gap-1
+                  bg-gray-800 text-gray-300 
+                  px-3 py-1 rounded-full text-xs
+                "
               >
                 <Check className="w-3 h-3 text-yellow-500" />
-                <span>{feature}</span>
+                {feature}
               </span>
             ))}
+          </div>
+
+          {/* Buttons */}
+          <div className="space-y-3">
+            <button
+              onClick={() => onSelect(template.id)}
+              className="
+                w-full bg-yellow-500 text-black font-bold py-3 rounded-xl
+                hover:scale-[1.02] transition-all flex items-center justify-center gap-2
+              "
+            >
+              Use This Template
+              <ArrowLeft className="w-4 h-4 rotate-180" />
+            </button>
+
+            <button
+              onClick={() => onPreview(template.id)}
+              className="
+                w-full border border-white text-white font-semibold py-3 rounded-xl
+                hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2
+              "
+            >
+              <Eye className="w-4 h-4" />
+              Preview
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Glow Effect */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${template.color} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10`}></div>
+      {/* Gradient Halo on Hover */}
+      <div
+        className={`
+          absolute inset-0 rounded-3xl blur-3xl opacity-0
+          bg-gradient-to-br ${template.color}
+          transition-opacity duration-500 -z-10
+          group-hover:opacity-20
+        `}
+      />
     </div>
   )
 }
