@@ -20,7 +20,7 @@ const templates = [
     name: 'Professional',
     description: 'Corporate design perfect for Software Engineer',
     category: 'Software',
-    color: 'from-blue-500 to-blue-700',
+    color: 'from-graye-500 to-white',
     icon: Award,
     features: ['Professional Layout',  'Formal Design']
   },
@@ -29,7 +29,7 @@ const templates = [
     name: 'Executive',
     description: 'Premium design with profile photo for Software Engineer',
     category: 'Premium',
-    color: 'from-indigo-600 to-purple-700',
+    color: 'from-indigo-600 to-white-700',
     icon: User, 
     features: ['Profile Photo', 'Premium Design']
   },
@@ -180,7 +180,7 @@ export default function TemplatesPage() {
 
             {/* Footer */}
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+              <div className="bg-white/95 backdrop-grayr-sm rounded-lg p-4 shadow-lg">
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="font-bold text-gray-900">
@@ -230,7 +230,7 @@ function TemplateCard({ template, index, onSelect, onPreview }) {
             absolute bottom-4 left-4
             w-16 h-16 rounded-2xl
             flex items-center justify-center
-            bg-black/20 backdrop-blur-md
+            bg-black/20 backdrop-grayr-md
             border border-white/10
             shadow-[0_8px_20px_rgba(0,0,0,0.25)]
           ">
@@ -299,7 +299,7 @@ function TemplateCard({ template, index, onSelect, onPreview }) {
       {/* Gradient Halo on Hover */}
       <div
         className={`
-          absolute inset-0 rounded-3xl blur-3xl opacity-0
+          absolute inset-0 rounded-3xl grayr-3xl opacity-0
           bg-gradient-to-br ${template.color}
           transition-opacity duration-500 -z-10
           group-hover:opacity-20

@@ -12,8 +12,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Liyu CV",
-  description: "Professional CVs for successful journeys",
+  title: "ልዩCV - Professional Resume Builder",
+  description: "Create beautiful, professional resumes with modern templates. ",
+  keywords: "resume, cv, builder, professional, templates, ethiopia, job application",
+  authors: [{ name: "ልዩCV" }],
 };
 
 export default function RootLayout({ children }) {
