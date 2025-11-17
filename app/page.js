@@ -56,31 +56,32 @@ export default function Home() {
           </p>
 
           {/* Stats */}
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-6 lg:space-x-12 mb-12 sm:mb-16">
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
-                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-                <span>96%</span>
-              </div>
-              <div className="text-gray-400 text-xs sm:text-sm">Interview Rate</div>
-            </div>
-            <div className="hidden sm:block h-12 w-px bg-yellow-500/30"></div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
-                <Star className="w-6 h-6 sm:w-8 sm:h-8" />
-                <span>4.9/5</span>
-              </div>
-              <div className="text-gray-400 text-xs sm:text-sm">Rating</div>
-            </div>
-            <div className="hidden sm:block h-12 w-px bg-yellow-500/30"></div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8" />
-                <span>50K+</span>
-              </div>
-              <div className="text-gray-400 text-xs sm:text-sm">Users</div>
-            </div>
-          </div>
+      <div className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-6 lg:space-x-12 mb-12 sm:mb-16">
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
+      <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
+      <span>5+</span>
+    </div>
+    <div className="text-gray-400 text-xs sm:text-sm">Hours Saved</div>
+  </div>
+  <div className="hidden sm:block h-12 w-px bg-yellow-500/30"></div>
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
+      <Star className="w-6 h-6 sm:w-8 sm:h-8" />
+      <span>5</span>
+    </div>
+    <div className="text-gray-400 text-xs sm:text-sm">Templates</div>
+  </div>
+  <div className="hidden sm:block h-12 w-px bg-yellow-500/30"></div>
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
+      <Users className="w-6 h-6 sm:w-8 sm:h-8" />
+      <span>99%</span>
+    </div>
+    <div className="text-gray-400 text-xs sm:text-sm">User Satisfaction</div>
+  </div>
+</div>
+
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
