@@ -118,15 +118,16 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* Feature 1 */}
-            <div className="group bg-gray-900 border border-yellow-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-yellow-400/40 hover:scale-105">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-yellow-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
-                <Award className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">ATS Optimized</h3>
-              <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                Every CV is designed to pass through Applicant Tracking Systems used by recruiters worldwide.
-              </p>
-            </div>
+          <div className="group bg-gray-900 border border-yellow-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-yellow-400/40 hover:scale-105">
+  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-yellow-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+  </div>
+  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Easy to Read</h3>
+  <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
+    Clean layout that highlights your skills and experience clearly.
+  </p>
+</div>
+
 
             {/* Feature 2 */}
             <div className="group bg-gray-900 border border-yellow-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-yellow-400/40 hover:scale-105">
@@ -135,7 +136,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Quick Setup</h3>
               <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                Build a professional CV in under a minute—no design skills required.
+                Build a professional CV in under a minute no design skills required.
               </p>
             </div>
 
@@ -146,7 +147,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Instant Export</h3>
               <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                Download your CV as PDF, PNG, or shareable link with one click.
+                Download your CV as PDF.
               </p>
             </div>
           </div>
@@ -173,7 +174,7 @@ export default function Home() {
               </div>
               <div className="p-4 sm:p-6">
                 <h3 className="font-semibold text-base sm:text-lg mb-1 sm:mb-2 text-white">Executive</h3>
-                <p className="text-gray-400 text-xs sm:text-sm">Ideal for leadership and management roles</p>
+                <p className="text-gray-400 text-xs sm:text-sm">Perfect for senior professionals.</p>
               </div>
             </div>
 
