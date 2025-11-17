@@ -269,30 +269,24 @@ function TemplateCard({ template, index, onSelect, onPreview }) {
             ))}
           </div>
 
-          {/* Buttons */}
-          <div className="space-y-3">
-            <button
-              onClick={() => onSelect(template.id)}
-              className="
-                w-full bg-yellow-500 text-black font-bold py-3 rounded-xl
-                hover:scale-[1.02] transition-all flex items-center justify-center gap-2
-              "
-            >
-              Use This Template
-              <ArrowLeft className="w-4 h-4 rotate-180" />
-            </button>
+       {/* Buttons */}
+<div className="space-y-3">
+  <Link
+    href="/editor"
+    onClick={() => onSelect(template.id)}
+    className="block w-full bg-yellow-500 text-black font-bold py-3 rounded-xl hover:scale-[1.02] transition-all text-center"
+  >
+    Use This Template
+  </Link>
 
-            <button
-              onClick={() => onPreview(template.id)}
-              className="
-                w-full border border-white text-white font-semibold py-3 rounded-xl
-                hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2
-              "
-            >
-              <Eye className="w-4 h-4" />
-              Preview
-            </button>
-          </div>
+  <button
+    onClick={() => onPreview(template.id)}
+    className="w-full border border-white text-white font-semibold py-3 rounded-xl hover:bg-white hover:text-black transition-all"
+  >
+    <Eye className="w-4 h-4 inline mr-2" />
+    Preview
+  </button>
+</div>
         </div>
       </div>
 
