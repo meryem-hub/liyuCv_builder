@@ -2,7 +2,7 @@
 'use client'
 import Link from 'next/link'
 import { useResumeStore } from '@/lib/store'
-import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X } from 'lucide-react'
+import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X, Star } from 'lucide-react'
 import { useState } from 'react'
 
 const templates = [
@@ -11,7 +11,6 @@ const templates = [
     name: 'Modern',
     description: 'Clean, contemporary design with yellow accents',
     category: 'Popular',
-    color: 'from-yellow-400 to-yellow-600',
     icon: Zap,
     features: ['Modern Layout', 'Mobile Optimized']
   },
@@ -20,16 +19,14 @@ const templates = [
     name: 'Professional',
     description: 'Corporate design perfect for Software Engineer',
     category: 'Software',
-    color: 'from-graye-500 to-white',
     icon: Award,
-    features: ['Professional Layout',  'Formal Design']
+    features: ['Professional Layout', 'Formal Design']
   },
   {
     id: 'executive',
     name: 'Executive',
     description: 'Premium design with profile photo for Software Engineer',
     category: 'Premium',
-    color: 'from-indigo-600 to-white-700',
     icon: User, 
     features: ['Profile Photo', 'Premium Design']
   },
@@ -38,7 +35,6 @@ const templates = [
     name: 'Creative',
     description: 'Modern gradient-based design for creatives',
     category: 'Design',
-    color: 'from-gray-500 to-pink-600',
     icon: Palette,
     features: ['Creative Layout', 'Gradient Design', 'Visual Appeal']
   },
@@ -47,25 +43,33 @@ const templates = [
     name: 'Minimal',
     description: 'Ultra-clean, minimalist design for developers',
     category: 'Tech',
-    color: 'from-green-500 to-green-700',
     icon: Crown,
     features: ['Minimal Layout', 'Clean Design', 'Developer Focused']
+  },
+  {
+    id: 'elegant',
+    name: 'Elegant',
+    description: 'Sophisticated design with premium typography',
+    category: 'Premium',
+    icon: Star,
+    features: ['Elegant Typography','Luxury Design']
   }
 ]
 
-// Import your template components
 import ModernTemplate from '@/components/templates/ModernTemplate'
 import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
 import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
+import ElegantTemplate from '@/components/templates/ElegantTemplate'
 
 const templateComponents = {
   modern: ModernTemplate,
   professional: ProfessionalTemplate,
   executive: ExecutiveTemplate,
   creative: CreativeTemplate,
-  minimal: MinimalTemplate
+  minimal: MinimalTemplate,
+  elegant: ElegantTemplate
 }
 
 export default function TemplatesPage() {
@@ -88,7 +92,6 @@ export default function TemplatesPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Navigation */}
       <nav className="border-b border-yellow-600/20">
         <div className="container mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
@@ -117,7 +120,6 @@ export default function TemplatesPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="py-20">
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-6xl font-bold mb-6">
@@ -131,15 +133,13 @@ export default function TemplatesPage() {
         </div>
       </section>
 
-      {/* Templates Grid */}
       <section className="pb-32">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {templates.map((template, index) => (
+            {templates.map((template) => (
               <TemplateCard 
                 key={template.id}
                 template={template}
-                index={index}
                 onSelect={handleTemplateSelect}
                 onPreview={handlePreview}
               />
@@ -148,11 +148,9 @@ export default function TemplatesPage() {
         </div>
       </section>
 
-      {/* Preview Modal */}
       {previewTemplate && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
           <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl overflow-hidden">
-            {/* Header */}
             <div className="absolute top-4 right-4 z-10 flex gap-2">
               <Link
                 href="/editor"
@@ -173,14 +171,12 @@ export default function TemplatesPage() {
               </button>
             </div>
 
-            {/* Preview Content */}
             <div className="h-[90vh] overflow-y-auto">
               {TemplatePreview && <TemplatePreview resume={resume} />}
             </div>
 
-            {/* Footer */}
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <div className="bg-white/95 backdrop-grayr-sm rounded-lg p-4 shadow-lg">
+              <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="font-bold text-gray-900">
@@ -190,7 +186,6 @@ export default function TemplatesPage() {
                       {templates.find(t => t.id === previewTemplate)?.description}
                     </p>
                   </div>
-                
                 </div>
               </div>
             </div>
@@ -201,104 +196,66 @@ export default function TemplatesPage() {
   )
 }
 
-function TemplateCard({ template, index, onSelect, onPreview }) {
+function TemplateCard({ template, onSelect, onPreview }) {
   const Icon = template.icon
 
   return (
     <div className="group relative cursor-pointer">
-      {/* Card Wrapper */}
       <div className="
-        relative rounded-3xl overflow-hidden
-        bg-gray-900/80 border border-gray-800
-        transition-all duration-500 ease-out
-        hover:scale-[1.03] hover:border-yellow-500/40
-        hover:shadow-[0_0_35px_-5px_rgba(234,179,8,0.25)]
+        relative rounded-3xl
+        bg-gray-900
+        border border-gray-800
+        overflow-hidden
+        transition-all duration-500
+        hover:border-yellow-500/50
+        hover:shadow-2xl
       ">
-        
-        {/* Gradient Header */}
-        <div
-          className={`
-            h-40 relative overflow-hidden
-            bg-gradient-to-br ${template.color}
-          `}
-        >
-          {/* Soft Glow */}
-          <div className="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
-
-          {/* Floating Icon Badge */}
-          <div className="
-            absolute bottom-4 left-4
-            w-16 h-16 rounded-2xl
-            flex items-center justify-center
-            bg-black/20 backdrop-grayr-md
-            border border-white/10
-            shadow-[0_8px_20px_rgba(0,0,0,0.25)]
-          ">
-            <Icon className="w-8 h-8 text-white" />
+        <div className="p-6 pb-0">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <h3 className="text-2xl font-bold text-white">{template.name}</h3>
+              <span className="text-yellow-500 text-sm font-mono uppercase tracking-wider">
+                {template.category}
+              </span>
+            </div>
+            <Icon className="w-6 h-6 text-yellow-500" />
           </div>
         </div>
 
-        {/* Content Section */}
-        <div className="p-6 pt-10">
-          <div className="mb-4">
-            <h3 className="text-xl font-bold text-white">{template.name}</h3>
-            <span className="text-yellow-500 text-sm font-medium">
-              {template.category}
-            </span>
-            <p className="text-gray-400 text-sm mt-2">
-              {template.description}
-            </p>
-          </div>
+        <div className="px-6 py-4">
+          <p className="text-gray-400 text-sm leading-relaxed">
+            {template.description}
+          </p>
+        </div>
 
-         
-
-          {/* Features */}
-          <div className="flex flex-wrap gap-2 mb-6">
+        <div className="px-6 pb-4">
+          <div className="flex flex-wrap gap-1.5">
             {template.features.map((feature, idx) => (
               <span 
                 key={idx}
-                className="
-                  inline-flex items-center gap-1
-                  bg-gray-800 text-gray-300 
-                  px-3 py-1 rounded-full text-xs
-                "
+                className="text-xs text-gray-300 bg-gray-800 px-2.5 py-1 rounded-full"
               >
-                <Check className="w-3 h-3 text-yellow-500" />
                 {feature}
               </span>
             ))}
           </div>
+        </div>
 
-       {/* Buttons */}
-<div className="space-y-3">
-  <Link
-    href="/editor"
-    onClick={() => onSelect(template.id)}
-    className="block w-full bg-yellow-500 text-black font-bold py-3 rounded-xl hover:scale-[1.02] transition-all text-center"
-  >
-    Use This Template
-  </Link>
-
-  <button
-    onClick={() => onPreview(template.id)}
-    className="w-full border border-white text-white font-semibold py-3 rounded-xl hover:bg-white hover:text-black transition-all"
-  >
-    <Eye className="w-4 h-4 inline mr-2" />
-    Preview
-  </button>
-</div>
+        <div className="p-6 pt-0 flex gap-3">
+          <button
+            onClick={() => onSelect(template.id)}
+            className="flex-1 bg-yellow-500 text-black font-semibold py-2.5 rounded-xl hover:bg-yellow-400 transition"
+          >
+            Select Template
+          </button>
+          <button
+            onClick={() => onPreview(template.id)}
+            className="px-4 py-2.5 border border-gray-700 rounded-xl text-gray-300 hover:border-yellow-500 hover:text-yellow-500 transition"
+          >
+            <Eye className="w-5 h-5" />
+          </button>
         </div>
       </div>
-
-      {/* Gradient Halo on Hover */}
-      <div
-        className={`
-          absolute inset-0 rounded-3xl grayr-3xl opacity-0
-          bg-gradient-to-br ${template.color}
-          transition-opacity duration-500 -z-10
-          group-hover:opacity-20
-        `}
-      />
     </div>
   )
 }
