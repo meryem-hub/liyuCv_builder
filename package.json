@@ -2,7 +2,6 @@
   "name": "liyucv",
   "version": "0.1.0",
   "private": true,
- 
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,6 +14,7 @@
     "jspdf": "^3.0.3",
     "lucide-react": "^0.553.0",
     "next": "16.0.3",
+    "puppeteer": "^24.40.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-to-print": "^3.2.0",

@@ -1,6 +1,7 @@
 // app/templates/page.js
 'use client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useResumeStore } from '@/lib/store'
 import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X, Star } from 'lucide-react'
 import { useState } from 'react'
@@ -25,7 +26,7 @@ const templates = [
   {
     id: 'executive',
     name: 'Executive',
-    description: 'Premium design with profile photo for Software Engineer',
+    description: 'Premium design with profile photo ',
     category: 'Premium',
     icon: User, 
     features: ['Profile Photo', 'Premium Design']
@@ -73,11 +74,13 @@ const templateComponents = {
 }
 
 export default function TemplatesPage() {
+  const router = useRouter()
   const { updateTemplate, resume } = useResumeStore()
   const [previewTemplate, setPreviewTemplate] = useState(null)
 
   const handleTemplateSelect = (templateId) => {
     updateTemplate(templateId)
+    router.push('/editor')
   }
 
   const handlePreview = (templateId) => {
@@ -152,8 +155,7 @@ export default function TemplatesPage() {
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
           <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl overflow-hidden">
             <div className="absolute top-4 right-4 z-10 flex gap-2">
-              <Link
-                href="/editor"
+              <button
                 onClick={() => {
                   handleTemplateSelect(previewTemplate)
                   closePreview()
@@ -162,7 +164,7 @@ export default function TemplatesPage() {
               >
                 <span>Use This Template</span>
                 <ArrowLeft className="w-4 h-4 rotate-180" />
-              </Link>
+              </button>
               <button
                 onClick={closePreview}
                 className="bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-700 transition-colors"
@@ -198,6 +200,10 @@ export default function TemplatesPage() {
 
 function TemplateCard({ template, onSelect, onPreview }) {
   const Icon = template.icon
+
+  const handleSelect = () => {
+    onSelect(template.id)
+  }
 
   return (
     <div className="group relative cursor-pointer">
@@ -243,7 +249,7 @@ function TemplateCard({ template, onSelect, onPreview }) {
 
         <div className="p-6 pt-0 flex gap-3">
           <button
-            onClick={() => onSelect(template.id)}
+            onClick={handleSelect}
             className="flex-1 bg-yellow-500 text-black font-semibold py-2.5 rounded-xl hover:bg-yellow-400 transition"
           >
             Select Template

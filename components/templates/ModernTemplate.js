@@ -1,378 +1,485 @@
-// components/templates/ModernTemplate.js 
+// components/templates/ModernTemplate.js
 'use client'
-import { useRef } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
+import { exportToPDF } from '../../app/utils/exportPDF'
 
+// Split into smaller components
+const ResumeHeader = ({ personalInfo, socialMedia }) => (
+  <div className="text-center mt-10 mb-8 border-b-2 border-yellow-500 pb-6">
+    <h1 className="text-3xl font-bold text-gray-900">{personalInfo.name}</h1>
+    <p className="text-lg text-gray-600 mt-1">{personalInfo.title}</p>
+    <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-gray-500">
+      <span>{personalInfo.email}</span>
+      <span>•</span>
+      <span>{personalInfo.phone}</span>
+      <span>•</span>
+      <span>{personalInfo.location}</span>
+    </div>
+    
+    {socialMedia && Object.keys(socialMedia).length > 0 && (
+      <div className="flex justify-center flex-wrap gap-3 mt-2 text-xs">
+        {socialMedia.linkedin && (
+          <a 
+            href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+            aria-label="LinkedIn Profile"
+          >
+            LinkedIn
+          </a>
+        )}
+        {socialMedia.github && (
+          <a 
+            href={socialMedia.github.startsWith('http') ? socialMedia.github : `https://${socialMedia.github}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:underline"
+            aria-label="GitHub Profile"
+          >
+            GitHub
+          </a>
+        )}
+        {socialMedia.portfolio && (
+          <a 
+            href={socialMedia.portfolio.startsWith('http') ? socialMedia.portfolio : `https://${socialMedia.portfolio}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-600 hover:underline"
+            aria-label="Portfolio Website"
+          >
+            Portfolio
+          </a>
+        )}
+        {socialMedia.X && (
+          <a 
+            href={socialMedia.X.startsWith('http') ? socialMedia.X : `https://${socialMedia.X}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:underline"
+            aria-label="X Profile"
+          >
+            X
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+)
+
+// Professional Summary Component
+const ProfessionalSummary = ({ summary }) => {
+  if (!summary) return null
+  
+  return (
+    <section className="mb-8">
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Professional Summary
+      </h2>
+      <div className="p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+        <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{summary}</p>
+      </div>
+    </section>
+  )
+}
+
+const ExperienceSection = ({ experiences }) => {
+  if (!experiences?.length) return null
+  
+  // Helper function to format date range
+  const formatDateRange = (startDate, endDate) => {
+    if (!startDate && !endDate) return null
+    if (!endDate || endDate.trim() === '') return startDate
+    if (endDate === 'Present') return `${startDate} - Present`
+    return `${startDate} - ${endDate}`
+  }
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Experience
+      </h2>
+      {experiences.map((exp) => {
+        const dateRange = formatDateRange(exp.startDate, exp.endDate)
+        
+        return (
+          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
+              <h3 className="font-semibold text-gray-900">{exp.position}</h3>
+              {dateRange && (
+                <span className="text-gray-500 text-sm bg-yellow-100 px-2 py-1 rounded">
+                  {dateRange}
+                </span>
+              )}
+            </div>
+            <p className="text-gray-700 font-medium text-sm mb-2">{exp.company}</p>
+            <p className="text-gray-600 text-sm whitespace-pre-line">{exp.description}</p>
+          </div>
+        )
+      })}
+    </section>
+  )
+}
+
+const ProjectsSection = ({ projects }) => {
+  if (!projects?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Projects
+      </h2>
+      {projects.map((project) => (
+        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+          <h3 className="font-semibold text-gray-900 mb-2">{project.name}</h3>
+          {project.techStack && (
+            <p className="text-gray-600 text-sm mb-2">
+              <span className="font-medium">Tech Stack:</span> {project.techStack}
+            </p>
+          )}
+          <p className="text-gray-600 text-sm mb-2">{project.description}</p>
+          <div className="flex gap-4 text-sm">
+            {project.demoLink && (
+              <a 
+                href={project.demoLink} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+                aria-label="Live Demo"
+              >
+                Live Demo
+              </a>
+            )}
+            {project.githubLink && (
+              <a 
+                href={project.githubLink} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:underline"
+                aria-label="GitHub Repository"
+              >
+                GitHub
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+const EducationSection = ({ education }) => {
+  if (!education?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Education
+      </h2>
+      {education.map((edu) => (
+        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+          <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
+          <p className="text-gray-700 text-sm mt-1">{edu.school}</p>
+          <p className="text-gray-500 text-sm mt-1">{edu.year}</p>
+          {edu.gpa && <p className="text-gray-500 text-sm mt-1">GPA: {edu.gpa}</p>}
+        </div>
+      ))}
+    </section>
+  )
+}
+
+const SkillsSection = ({ skills }) => {
+  if (!skills?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Skills
+      </h2>
+      <div className="flex flex-wrap gap-2">
+        {skills.map((skill, index) => (
+          <span 
+            key={index}
+            className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold shadow-sm hover:bg-yellow-600 transition-colors"
+            aria-label={`Skill: ${skill}`}
+          >
+            {skill}
+          </span>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// Achievements Section
+const AchievementsSection = ({ achievements }) => {
+  if (!achievements?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Achievements & Awards
+      </h2>
+      {achievements.map((achievement) => (
+        <div key={achievement.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+          <h3 className="font-semibold text-gray-900">{achievement.title}</h3>
+          <p className="text-gray-700 text-sm mt-1">{achievement.organization}</p>
+          <p className="text-gray-500 text-sm mt-1">{achievement.year}</p>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+// Languages Section
+const LanguagesSection = ({ languages }) => {
+  if (!languages?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Languages
+      </h2>
+      <div className="space-y-2">
+        {languages.map((language) => (
+          <div key={language.id} className="p-3 bg-gray-50 rounded-lg">
+            <span className="font-semibold text-gray-900">{language.language}</span>
+            <span className="text-gray-600 text-sm ml-2">- {language.proficiency}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// Certifications Section
+const CertificationsSection = ({ certifications }) => {
+  if (!certifications?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Certifications
+      </h2>
+      {certifications.map((cert) => (
+        <div key={cert.id} className="mb-3 p-3 bg-gray-50 rounded-lg">
+          <h3 className="font-semibold text-gray-900">{cert.name}</h3>
+          <p className="text-gray-700 text-sm">{cert.organization}</p>
+          <p className="text-gray-500 text-sm">{cert.year}</p>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+// Interests Section
+const InterestsSection = ({ interests }) => {
+  if (!interests?.length) return null
+  
+  return (
+    <section>
+      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Interests
+      </h2>
+      <div className="flex flex-wrap gap-2">
+        {interests.map((interest, index) => (
+          <span 
+            key={index}
+            className="bg-gray-100 text-gray-700 px-3 py-2 rounded-full text-sm"
+          >
+            {interest}
+          </span>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+const PDFExportButton = ({ onExport, isExporting }) => (
+  <div className="text-right mb-6 print:hidden">
+    <button
+      onClick={onExport}
+      disabled={isExporting}
+      className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
+      aria-label="Export resume as PDF"
+    >
+      <span aria-hidden="true">{isExporting ? '⏳' : '📄'}</span>
+      <span>{isExporting ? 'Generating...' : 'Save as PDF'}</span>
+    </button>
+  </div>
+)
+
+// Loading skeleton for better UX
+const LoadingSkeleton = () => (
+  <div className="bg-white text-gray-800 p-8 font-sans">
+    <div className="animate-pulse">
+      <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/4 mx-auto mb-8"></div>
+      <div className="grid grid-cols-3 gap-6">
+        <div className="col-span-2 space-y-4">
+          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-32 bg-gray-200 rounded"></div>
+        </div>
+        <div className="h-40 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+)
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Resume Error:', error, errorInfo)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="bg-white text-gray-800 p-8 font-sans text-center">
+          <div className="text-red-500 text-lg mb-2">⚠️ Failed to load resume</div>
+          <p className="text-gray-600 text-sm mb-4">Please refresh the page or try again later.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition"
+          >
+            Refresh Page
+          </button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
+// Main Component
 export default function ModernTemplate({ resume }) {
   const resumeRef = useRef(null)
-  
-  // Add safety checks for undefined resume
-  if (!resume) {
-    return (
-      <div className="bg-white text-gray-800 p-8 font-sans text-center">
-        <div className="text-yellow-500 text-lg">Loading resume...</div>
-      </div>
-    )
+  const [isExporting, setIsExporting] = useState(false)
+
+  // Safe data extraction with proper defaults
+  const safeData = {
+    personalInfo: {
+      name: resume?.personalInfo?.name || 'Your Name',
+      title: resume?.personalInfo?.title || 'Professional Title',
+      email: resume?.personalInfo?.email || 'your.email@example.com',
+      phone: resume?.personalInfo?.phone || '+1234567890',
+      location: resume?.personalInfo?.location || 'City, Country',
+      ...resume?.personalInfo
+    },
+    professionalSummary: resume?.professionalSummary || '',
+    experience: resume?.experience || [],
+    education: resume?.education || [],
+    skills: resume?.skills || [],
+    projects: resume?.projects || [],
+    socialMedia: resume?.socialMedia || {},
+    achievements: resume?.achievements || [],
+    languages: resume?.languages || [],
+    certifications: resume?.certifications || [],
+    interests: resume?.interests || []
   }
 
-  // Safe destructuring with fallbacks
-  const { 
-    personalInfo = {}, 
-    experience = [], 
-    education = [], 
-    skills = [], 
-    projects = [], 
-    socialMedia = {} 
-  } = resume
-
-  // Safe personalInfo with fallbacks
-  const safePersonalInfo = {
-    name: personalInfo?.name || 'Your Name',
-    title: personalInfo?.title || 'Professional Title',
-    email: personalInfo?.email || 'your.email@example.com',
-    phone: personalInfo?.phone || '+1234567890',
-    location: personalInfo?.location || 'City, Country',
-    ...personalInfo
-  }
-
-  // PDF Export function - WITH PROPER STYLES
   const handleExportPDF = () => {
-    try {
-      // Use the resumeRef instead of querySelector
-      const resumeElement = resumeRef.current
-      if (!resumeElement) {
-        console.error('Resume element not found')
-        alert('Cannot generate PDF. Please refresh and try again.')
-        return
-      }
+    if (!resumeRef.current) return
 
-      // Clone the element to remove the button
-      const clone = resumeElement.cloneNode(true)
-      const button = clone.querySelector('button')
-      if (button) {
-        button.remove()
-      }
+    const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
+    
+    exportToPDF(resumeRef.current, fileName)
+  }
 
-      const printWindow = window.open('', '_blank')
-      if (!printWindow) {
-        alert('Please allow popups for PDF generation')
-        return
-      }
-
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Resume - ${safePersonalInfo.name || 'My Resume'}</title>
-            <style>
-              /* Import Tailwind-like styles */
-              @import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css');
-              
-              /* Custom print styles */
-              body { 
-                font-family: system-ui, -apple-system, sans-serif;
-                margin: 0;
-                padding: 20mm;
-                background: white;
-                color: #1f2937;
-                width: 210mm;
-                min-height: 297mm;
-              }
-              
-              /* Resume container */
-              .resume-container {
-                max-width: 100%;
-                margin: 0 auto;
-              }
-              
-              /* Header styles */
-              .header {
-                text-align: center;
-                margin-bottom: 2rem;
-                padding-bottom: 1.5rem;
-                border-bottom: 2px solid #eab308;
-              }
-              
-              .name {
-                font-size: 1.875rem;
-                font-weight: bold;
-                color: #111827;
-                margin-bottom: 0.5rem;
-              }
-              
-              .title {
-                font-size: 1.125rem;
-                color: #4b5563;
-                margin-bottom: 1rem;
-              }
-              
-              .contact-info {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                font-size: 0.75rem;
-                color: #6b7280;
-              }
-              
-              /* Section styles */
-              .section {
-                margin-bottom: 1.5rem;
-              }
-              
-              .section-title {
-                font-size: 1.125rem;
-                font-weight: bold;
-                color: #111827;
-                margin-bottom: 0.75rem;
-                display: flex;
-                align-items: center;
-              }
-              
-              .section-title::before {
-                content: "";
-                width: 0.25rem;
-                height: 1rem;
-                background-color: #eab308;
-                margin-right: 0.5rem;
-                border-radius: 0.125rem;
-              }
-              
-              /* Experience/Education/Project items */
-              .item-card {
-                background-color: #f9fafb;
-                padding: 1rem;
-                border-radius: 0.5rem;
-                margin-bottom: 1rem;
-              }
-              
-              .item-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 0.5rem;
-              }
-              
-              .item-title {
-                font-weight: 600;
-                color: #111827;
-              }
-              
-              .item-date {
-                color: #6b7280;
-                font-size: 0.875rem;
-                background-color: #fef3c7;
-                padding: 0.25rem 0.5rem;
-                border-radius: 0.25rem;
-              }
-              
-              .item-company {
-                color: #374151;
-                font-weight: 500;
-                font-size: 0.875rem;
-                margin-bottom: 0.5rem;
-              }
-              
-              .item-description {
-                color: #4b5563;
-                font-size: 0.875rem;
-                white-space: pre-line;
-              }
-              
-              /* Skills */
-              .skills-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-              }
-              
-              .skill-tag {
-                background-color: #eab308;
-                color: white;
-                padding: 0.5rem 0.75rem;
-                border-radius: 9999px;
-                font-size: 0.875rem;
-                font-weight: 600;
-              }
-              
-              /* Grid layout */
-              .grid-container {
-                display: grid;
-                grid-template-columns: 2fr 1fr;
-                gap: 1.5rem;
-              }
-              
-              /* Links */
-              a {
-                color: #2563eb;
-                text-decoration: none;
-              }
-              
-              a:hover {
-                text-decoration: underline;
-              }
-              
-              /* Hide print button */
-              button {
-                display: none !important;
-              }
-              
-              @media print {
-                body {
-                  padding: 15mm;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="resume-container">
-              ${clone.innerHTML}
-            </div>
-          </body>
-        </html>
-      `)
-      printWindow.document.close()
-      
-      // Wait a bit for content to load then print
-      setTimeout(() => {
-        printWindow.print()
-        // Optional: close window after print
-        // setTimeout(() => printWindow.close(), 1000)
-      }, 1000)
-      
-    } catch (error) {
-      console.error('PDF Error:', error)
-      alert('Failed to generate PDF. Please try the browser print (Ctrl+P) and choose "Save as PDF".')
-    }
+  // Loading state
+  if (!resume) {
+    return <LoadingSkeleton />
   }
 
   return (
-    <div ref={resumeRef} className="bg-white text-gray-800 p-3 font-sans">
-      {/* Simple Print Button */}
-      <div className="text-right mb-6">
-        <button
-          onClick={handleExportPDF}
-          className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
-        >
-          <span>📄</span>
-          <span>Save as PDF</span>
-        </button>
-      </div>
-
-      {/* Rest of your resume content remains the same */}
-      {/* Header */}
-      <div className="text-center mt-10 mb-8 border-b-2 border-yellow-500 pb-6">
-        <h1 className="text-3xl font-bold text-gray-900">{safePersonalInfo.name}</h1>
-        <p className="text-lg text-gray-600 mt-1">{safePersonalInfo.title}</p>
-        <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-gray-500">
-          <span>{safePersonalInfo.email}</span>
-          <span>•</span>
-          <span>{safePersonalInfo.phone}</span>
-          <span>•</span>
-          <span>{safePersonalInfo.location}</span>
-        </div>
+    <ErrorBoundary>
+      <div className="bg-white text-gray-800 p-3 font-sans">
+        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
         
-        {socialMedia && (
-          <div className="flex justify-center flex-wrap gap-2 mt-1 text-xs">
-            {socialMedia.linkedin && <span className="text-gray-600">LinkedIn: {socialMedia.linkedin}</span>}
-            {socialMedia.github && <span className="text-gray-700">GitHub: {socialMedia.github}</span>}
-            {socialMedia.portfolio && <span className="text-green-600">Portfolio: {socialMedia.portfolio}</span>}
+        <div ref={resumeRef} className="resume-content">
+          <ResumeHeader 
+            personalInfo={safeData.personalInfo}
+            socialMedia={safeData.socialMedia}
+          />
+
+          {/* Professional Summary */}
+          <ProfessionalSummary summary={safeData.professionalSummary} />
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="md:col-span-2 space-y-6">
+              <ExperienceSection experiences={safeData.experience} />
+              <ProjectsSection projects={safeData.projects} />
+              <EducationSection education={safeData.education} />
+              <AchievementsSection achievements={safeData.achievements} />
+              <CertificationsSection certifications={safeData.certifications} />
+            </div>
+
+            <div className="md:col-span-1 space-y-6">
+              <SkillsSection skills={safeData.skills} />
+              <LanguagesSection languages={safeData.languages} />
+              <InterestsSection interests={safeData.interests} />
+            </div>
           </div>
-        )}
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Main Content */}
-        <div className="md:col-span-2 space-y-6">
-          {/* Experience */}
-          {experience.length > 0 && (
-            <section>
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
-                Experience
-              </h2>
-              {experience.map((exp) => (
-                <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-gray-900">{exp.position}</h3>
-                    <span className="text-gray-500 text-sm bg-yellow-100 px-2 py-1 rounded">{exp.startDate} - {exp.endDate}</span>
-                  </div>
-                  <p className="text-gray-700 font-medium text-sm mb-2">{exp.company}</p>
-                  <p className="text-gray-600 text-sm whitespace-pre-line">{exp.description}</p>
-                </div>
-              ))}
-            </section>
-          )}
-
-          {/* Projects */}
-          {projects && projects.length > 0 && (
-            <section>
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
-                Projects
-              </h2>
-              {projects.map((project) => (
-                <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">{project.name}</h3>
-                  {project.techStack && (
-                    <p className="text-gray-600 text-sm mb-2">
-                      <span className="font-medium">Tech Stack:</span> {project.techStack}
-                    </p>
-                  )}
-                  <p className="text-gray-600 text-sm mb-2">{project.description}</p>
-                  <div className="flex gap-4 text-sm">
-                    {project.demoLink && (
-                      <a href={project.demoLink} className="text-gray-600 hover:underline">Live Demo</a>
-                    )}
-                    {project.githubLink && (
-                      <a href={project.githubLink} className="text-gray-700 hover:underline">GitHub</a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </section>
-          )}
-
-          {/* Education */}
-          {education.length > 0 && (
-            <section>
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
-                Education
-              </h2>
-              {education.map((edu) => (
-                <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
-                  <p className="text-gray-700 text-sm mt-1">{edu.school}</p>
-                  <p className="text-gray-500 text-sm mt-1">{edu.year}</p>
-                </div>
-              ))}
-            </section>
-          )}
-        </div>
-
-        {/* Sidebar */}
-        <div className="md:col-span-1 space-y-6">
-          {/* Skills */}
-          {skills.length > 0 && (
-            <section>
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
-                Skills
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <span 
-                    key={index}
-                    className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold shadow-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
         </div>
       </div>
-    </div>
+
+      <style jsx>{`
+        @media print {
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+          
+          .print\\:hidden {
+            display: none !important;
+          }
+          
+          .resume-content {
+            padding: 0;
+            margin: 0;
+          }
+          
+          .bg-gray-50 {
+            background: white !important;
+            border: 1px solid #e5e7eb !important;
+          }
+          
+          .shadow-lg, .shadow-md, .shadow-sm {
+            box-shadow: none !important;
+          }
+          
+          .hover\\:shadow-md:hover {
+            box-shadow: none !important;
+          }
+          
+          button, a {
+            print-color-adjust: exact;
+          }
+        }
+        
+        @page {
+          size: A4;
+          margin: 15mm;
+        }
+      `}</style>
+    </ErrorBoundary>
   )
 }
