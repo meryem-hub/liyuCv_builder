@@ -1,4 +1,3 @@
-// components/editor/Sidebar.js - UPDATED WITH PROFESSIONAL SUMMARY
 'use client'
 import { useResumeStore } from '@/lib/store'
 import { Crown, Zap, Award, Palette, User, Menu, X, Plus, Trash2 } from 'lucide-react'
@@ -241,106 +240,137 @@ export default function Sidebar() {
         </div>
 
         {/* Experience */}
-    <div className="mb-8">
+<div className="mb-8">
   <h3 className="text-lg font-semibold mb-4 text-gray-300">Experience</h3>
+
   {resume.experience.map((exp, index) => (
     <div key={exp.id} className="mb-6 p-4 bg-gray-700 rounded-lg relative">
+      
+      {/* Delete */}
       <button
         onClick={() => deleteExperience(exp.id)}
         className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition"
       >
         ×
       </button>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+
+      {/* Job + Company */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
         <input
           type="text"
           placeholder="Job Title"
           value={exp.position}
           onChange={(e) => {
-            const newExp = [...resume.experience]
-            newExp[index].position = e.target.value
-            updateExperience(newExp)
+            const newExp = [...resume.experience];
+            newExp[index].position = e.target.value;
+            updateExperience(newExp);
           }}
           className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
         />
+
         <input
           type="text"
           placeholder="Company"
           value={exp.company}
           onChange={(e) => {
-            const newExp = [...resume.experience]
-            newExp[index].company = e.target.value
-            updateExperience(newExp)
+            const newExp = [...resume.experience];
+            newExp[index].company = e.target.value;
+            updateExperience(newExp);
           }}
           className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
         />
       </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+
+      {/* Dates */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+        
+        {/* Start Date */}
         <input
           type="text"
-          placeholder="Start Date (e.g., Jan 2020 or 2020)"
+          placeholder="Start Date"
           value={exp.startDate}
           onChange={(e) => {
-            const newExp = [...resume.experience]
-            newExp[index].startDate = e.target.value
-            updateExperience(newExp)
+            const newExp = [...resume.experience];
+            newExp[index].startDate = e.target.value;
+            updateExperience(newExp);
           }}
           className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
         />
-        <div className="flex gap-2">
+
+        {/* End Date + Toggle */}
+        <div className="flex items-center gap-2 w-full min-w-0">
           <input
             type="text"
-            placeholder="End Date (leave empty or type 'Present')"
-            value={exp.endDate || ''}
+            placeholder="End Date"
+            value={exp.endDate === "Present" ? "" : exp.endDate || ""}
             onChange={(e) => {
-              const newExp = [...resume.experience]
-              newExp[index].endDate = e.target.value
-              updateExperience(newExp)
+              const newExp = [...resume.experience];
+              newExp[index].endDate = e.target.value;
+              updateExperience(newExp);
             }}
-            className="flex-1 p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+            disabled={exp.endDate === "Present"}
+            className={`flex-1 min-w-0 p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm ${
+              exp.endDate === "Present"
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
           />
-          {exp.endDate !== 'Present' && (
-            <button
-              onClick={() => {
-                const newExp = [...resume.experience]
-                newExp[index].endDate = 'Present'
-                updateExperience(newExp)
-              }}
-              className="px-3 py-2 bg-green-600 text-white rounded text-xs hover:bg-green-500 transition"
-              title="Mark as Current Position"
-            >
-              Present
-            </button>
-          )}
+
+          {/* Small Toggle */}
+          <button
+            onClick={() => {
+              const newExp = [...resume.experience];
+              newExp[index].endDate =
+                exp.endDate === "Present" ? "" : "Present";
+              updateExperience(newExp);
+            }}
+            className={`relative w-9 h-5 flex items-center rounded-full transition ${
+              exp.endDate === "Present"
+                ? "bg-yellow-500"
+                : "bg-gray-500"
+            }`}
+          >
+            <span
+              className={`absolute left-1 w-3 h-3 bg-white rounded-full transition-transform ${
+                exp.endDate === "Present"
+                  ? "translate-x-4"
+                  : ""
+              }`}
+            />
+          </button>
         </div>
       </div>
-      
+
+      {/* Description */}
       <textarea
-        placeholder="Job responsibilities and achievements"
+        placeholder="Experience description"
         value={exp.description}
         onChange={(e) => {
-          const newExp = [...resume.experience]
-          newExp[index].description = e.target.value
-          updateExperience(newExp)
+          const newExp = [...resume.experience];
+          newExp[index].description = e.target.value;
+          updateExperience(newExp);
         }}
-        rows="3"
+        rows="2"
         className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
       />
     </div>
   ))}
+
+  {/* Add Button */}
   <button
     onClick={() => {
-      const newExp = [...resume.experience, {
-        id: Date.now(),
-        company: '',
-        position: '',
-        startDate: '',
-        endDate: '', 
-        description: ''
-      }]
-      updateExperience(newExp)
+      const newExp = [
+        ...resume.experience,
+        {
+          id: Date.now(),
+          company: "",
+          position: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        },
+      ];
+      updateExperience(newExp);
     }}
     className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-400 transition font-medium text-sm flex items-center justify-center space-x-2"
   >
