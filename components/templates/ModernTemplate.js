@@ -5,10 +5,10 @@ import { exportToPDF } from '../../app/utils/exportPDF'
 
 // Split into smaller components
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
-  <div className="text-center mt-10 mb-8 border-b-2 border-yellow-500 pb-6">
-    <h1 className="text-3xl font-bold text-gray-900">{personalInfo.name}</h1>
-    <p className="text-lg text-gray-600 mt-1">{personalInfo.title}</p>
-    <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-gray-500">
+  <div className="text-center mt-6 mb-6 border-b-2 border-yellow-500 pb-4">
+    <h1 className="text-2xl font-bold text-gray-900">{personalInfo.name}</h1>
+    <p className="text-md text-gray-600 mt-1">{personalInfo.title}</p>
+    <div className="flex justify-center flex-wrap gap-2 mt-1 text-xs text-gray-500">
       <span>{personalInfo.email}</span>
       <span>•</span>
       <span>{personalInfo.phone}</span>
@@ -17,14 +17,13 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
     </div>
     
     {socialMedia && Object.keys(socialMedia).length > 0 && (
-      <div className="flex justify-center flex-wrap gap-3 mt-2 text-xs">
+      <div className="flex justify-center flex-wrap gap-3 mt-1 text-xs">
         {socialMedia.linkedin && (
           <a 
             href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
-            aria-label="LinkedIn Profile"
           >
             LinkedIn
           </a>
@@ -35,7 +34,6 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-700 hover:underline"
-            aria-label="GitHub Profile"
           >
             GitHub
           </a>
@@ -46,20 +44,8 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-600 hover:underline"
-            aria-label="Portfolio Website"
           >
             Portfolio
-          </a>
-        )}
-        {socialMedia.X && (
-          <a 
-            href={socialMedia.X.startsWith('http') ? socialMedia.X : `https://${socialMedia.X}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-700 hover:underline"
-            aria-label="X Profile"
-          >
-            X
           </a>
         )}
       </div>
@@ -67,27 +53,25 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
   </div>
 )
 
-// Professional Summary Component
 const ProfessionalSummary = ({ summary }) => {
   if (!summary) return null
   
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <div className="mb-6">
+      <h2 className="text-lg font-bold text-gray-900 mb-2 flex items-center">
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Professional Summary
       </h2>
-      <div className="p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
-        <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{summary}</p>
+      <div className="bg-gray-50 p-3 rounded-lg">
+        <p className="text-gray-700 text-sm leading-relaxed">{summary}</p>
       </div>
-    </section>
+    </div>
   )
 }
 
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
   
-  // Helper function to format date range
   const formatDateRange = (startDate, endDate) => {
     if (!startDate && !endDate) return null
     if (!endDate || endDate.trim() === '') return startDate
@@ -96,30 +80,30 @@ const ExperienceSection = ({ experiences }) => {
   }
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Experience
       </h2>
       {experiences.map((exp) => {
         const dateRange = formatDateRange(exp.startDate, exp.endDate)
         
         return (
-          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
-              <h3 className="font-semibold text-gray-900">{exp.position}</h3>
+          <div key={exp.id} className="mb-4">
+            <div className="flex justify-between items-start flex-wrap gap-2">
+              <h3 className="font-semibold text-gray-900 text-sm">{exp.position}</h3>
               {dateRange && (
-                <span className="text-gray-500 text-sm bg-yellow-100 px-2 py-1 rounded">
+                <span className="text-gray-500 text-xs bg-yellow-100 px-2 py-0.5 rounded">
                   {dateRange}
                 </span>
               )}
             </div>
-            <p className="text-gray-700 font-medium text-sm mb-2">{exp.company}</p>
-            <p className="text-gray-600 text-sm whitespace-pre-line">{exp.description}</p>
+            <p className="text-gray-700 text-xs mb-1">{exp.company}</p>
+            <p className="text-gray-600 text-xs whitespace-pre-line">{exp.description}</p>
           </div>
         )
       })}
-    </section>
+    </div>
   )
 }
 
@@ -127,47 +111,35 @@ const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Projects
       </h2>
       {projects.map((project) => (
-        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
-          <h3 className="font-semibold text-gray-900 mb-2">{project.name}</h3>
+        <div key={project.id} className="mb-3">
+          <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
           {project.techStack && (
-            <p className="text-gray-600 text-sm mb-2">
-              <span className="font-medium">Tech Stack:</span> {project.techStack}
+            <p className="text-gray-600 text-xs mb-1">
+              <span className="font-medium">Tech:</span> {project.techStack}
             </p>
           )}
-          <p className="text-gray-600 text-sm mb-2">{project.description}</p>
-          <div className="flex gap-4 text-sm">
+          <p className="text-gray-600 text-xs mb-1">{project.description}</p>
+          <div className="flex gap-3 text-xs">
             {project.demoLink && (
-              <a 
-                href={project.demoLink} 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-                aria-label="Live Demo"
-              >
+              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 Live Demo
               </a>
             )}
             {project.githubLink && (
-              <a 
-                href={project.githubLink} 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-700 hover:underline"
-                aria-label="GitHub Repository"
-              >
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:underline">
                 GitHub
               </a>
             )}
           </div>
         </div>
       ))}
-    </section>
+    </div>
   )
 }
 
@@ -175,20 +147,22 @@ const EducationSection = ({ education }) => {
   if (!education?.length) return null
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Education
       </h2>
       {education.map((edu) => (
-        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
-          <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
-          <p className="text-gray-700 text-sm mt-1">{edu.school}</p>
-          <p className="text-gray-500 text-sm mt-1">{edu.year}</p>
-          {edu.gpa && <p className="text-gray-500 text-sm mt-1">GPA: {edu.gpa}</p>}
+        <div key={edu.id} className="mb-3">
+          <div className="flex justify-between items-start flex-wrap gap-2">
+            <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
+            <span className="text-gray-500 text-xs">{edu.year}</span>
+          </div>
+          <p className="text-gray-700 text-xs">{edu.school}</p>
+          {edu.gpa && <p className="text-gray-500 text-xs">GPA: {edu.gpa}</p>}
         </div>
       ))}
-    </section>
+    </div>
   )
 }
 
@@ -196,141 +170,81 @@ const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Skills
       </h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="skills-container">
         {skills.map((skill, index) => (
-          <span 
-            key={index}
-            className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold shadow-sm hover:bg-yellow-600 transition-colors"
-            aria-label={`Skill: ${skill}`}
-          >
+          <span key={index} className="skill-badge">
             {skill}
           </span>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
-// Achievements Section
-const AchievementsSection = ({ achievements }) => {
-  if (!achievements?.length) return null
-  
-  return (
-    <section>
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
-        Achievements & Awards
-      </h2>
-      {achievements.map((achievement) => (
-        <div key={achievement.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
-          <h3 className="font-semibold text-gray-900">{achievement.title}</h3>
-          <p className="text-gray-700 text-sm mt-1">{achievement.organization}</p>
-          <p className="text-gray-500 text-sm mt-1">{achievement.year}</p>
-        </div>
-      ))}
-    </section>
-  )
-}
-
-// Languages Section
 const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Languages
       </h2>
-      <div className="space-y-2">
+      <div className="space-y-1">
         {languages.map((language) => (
-          <div key={language.id} className="p-3 bg-gray-50 rounded-lg">
+          <div key={language.id} className="text-sm">
             <span className="font-semibold text-gray-900">{language.language}</span>
-            <span className="text-gray-600 text-sm ml-2">- {language.proficiency}</span>
+            <span className="text-gray-600 ml-2">- {language.proficiency}</span>
           </div>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
-// Certifications Section
-const CertificationsSection = ({ certifications }) => {
-  if (!certifications?.length) return null
-  
-  return (
-    <section>
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
-        Certifications
-      </h2>
-      {certifications.map((cert) => (
-        <div key={cert.id} className="mb-3 p-3 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-900">{cert.name}</h3>
-          <p className="text-gray-700 text-sm">{cert.organization}</p>
-          <p className="text-gray-500 text-sm">{cert.year}</p>
-        </div>
-      ))}
-    </section>
-  )
-}
-
-// Interests Section
 const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
   
   return (
-    <section>
+    <div className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full"></div>
         Interests
       </h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="interests-container">
         {interests.map((interest, index) => (
-          <span 
-            key={index}
-            className="bg-gray-100 text-gray-700 px-3 py-2 rounded-full text-sm"
-          >
+          <span key={index} className="interest-badge">
             {interest}
           </span>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
 const PDFExportButton = ({ onExport, isExporting }) => (
-  <div className="text-right mb-6 print:hidden">
+  <div className="text-right mb-4 print:hidden">
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
-      aria-label="Export resume as PDF"
+      className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
     >
-      <span aria-hidden="true">{isExporting ? '⏳' : '📄'}</span>
+      <span>{isExporting ? '⏳' : '📄'}</span>
       <span>{isExporting ? 'Generating...' : 'Save as PDF'}</span>
     </button>
   </div>
 )
 
-// Loading skeleton for better UX
 const LoadingSkeleton = () => (
-  <div className="bg-white text-gray-800 p-8 font-sans">
+  <div className="bg-white text-gray-800 p-4 font-sans">
     <div className="animate-pulse">
-      <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
-      <div className="h-4 bg-gray-200 rounded w-1/4 mx-auto mb-8"></div>
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-4">
-          <div className="h-32 bg-gray-200 rounded"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
-        </div>
-        <div className="h-40 bg-gray-200 rounded"></div>
-      </div>
+      <div className="h-6 bg-gray-200 rounded w-1/3 mx-auto mb-2"></div>
+      <div className="h-3 bg-gray-200 rounded w-1/4 mx-auto mb-4"></div>
     </div>
   </div>
 )
@@ -338,11 +252,11 @@ const LoadingSkeleton = () => (
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+    return { hasError: true }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -352,12 +266,11 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="bg-white text-gray-800 p-8 font-sans text-center">
-          <div className="text-red-500 text-lg mb-2">⚠️ Failed to load resume</div>
-          <p className="text-gray-600 text-sm mb-4">Please refresh the page or try again later.</p>
+        <div className="bg-white text-gray-800 p-4 font-sans text-center">
+          <div className="text-red-500 text-sm mb-2">⚠️ Failed to load resume</div>
           <button
             onClick={() => window.location.reload()}
-            className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition"
+            className="bg-yellow-500 text-black px-3 py-1 rounded-lg text-sm"
           >
             Refresh Page
           </button>
@@ -373,7 +286,6 @@ export default function ModernTemplate({ resume }) {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
 
-  // Safe data extraction with proper defaults
   const safeData = {
     personalInfo: {
       name: resume?.personalInfo?.name || 'Your Name',
@@ -397,20 +309,17 @@ export default function ModernTemplate({ resume }) {
 
   const handleExportPDF = () => {
     if (!resumeRef.current) return
-
     const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
-    
     exportToPDF(resumeRef.current, fileName)
   }
 
-  // Loading state
   if (!resume) {
     return <LoadingSkeleton />
   }
 
   return (
     <ErrorBoundary>
-      <div className="bg-white text-gray-800 p-3 font-sans">
+      <div className="bg-white text-gray-800 p-4 font-sans" style={{ maxWidth: '210mm', margin: '0 auto' }}>
         <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
         
         <div ref={resumeRef} className="resume-content">
@@ -419,19 +328,19 @@ export default function ModernTemplate({ resume }) {
             socialMedia={safeData.socialMedia}
           />
 
-          {/* Professional Summary */}
           <ProfessionalSummary summary={safeData.professionalSummary} />
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-6">
+          {/* Main Grid Layout - 2 columns */}
+          <div className="resume-main-grid">
+            {/* Left Column - 2/3 width */}
+            <div className="resume-left-column">
               <ExperienceSection experiences={safeData.experience} />
               <ProjectsSection projects={safeData.projects} />
               <EducationSection education={safeData.education} />
-              <AchievementsSection achievements={safeData.achievements} />
-              <CertificationsSection certifications={safeData.certifications} />
             </div>
 
-            <div className="md:col-span-1 space-y-6">
+            {/* Right Column - 1/3 width */}
+            <div className="resume-right-column">
               <SkillsSection skills={safeData.skills} />
               <LanguagesSection languages={safeData.languages} />
               <InterestsSection interests={safeData.interests} />
@@ -441,6 +350,51 @@ export default function ModernTemplate({ resume }) {
       </div>
 
       <style jsx>{`
+        /* Screen Styles */
+        .resume-main-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 2rem;
+          align-items: start;
+        }
+        
+        .resume-left-column,
+        .resume-right-column {
+          overflow: visible;
+        }
+        
+        .skills-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        
+        .skill-badge {
+          background-color: #eab308;
+          color: white;
+          padding: 0.4rem 0.8rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          display: inline-block;
+        }
+        
+        .interests-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        
+        .interest-badge {
+          background-color: #f3f4f6;
+          color: #374151;
+          padding: 0.4rem 0.8rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          display: inline-block;
+        }
+        
+        /* CRITICAL: Print Styles */
         @media print {
           body {
             margin: 0;
@@ -457,27 +411,79 @@ export default function ModernTemplate({ resume }) {
             margin: 0;
           }
           
+          /* Force 2-column grid in print */
+          .resume-main-grid {
+            display: grid !important;
+            grid-template-columns: 2fr 1fr !important;
+            gap: 2rem !important;
+            page-break-after: avoid;
+            page-break-before: avoid;
+          }
+          
+          /* Ensure columns don't break */
+          .resume-left-column,
+          .resume-right-column {
+            display: block !important;
+            width: 100% !important;
+            page-break-inside: avoid;
+          }
+          
+          /* Force skills badges to show correctly */
+          .skills-container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+          }
+          
+          .skill-badge {
+            background-color: #eab308 !important;
+            color: white !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 9999px !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            display: inline-block !important;
+            print-color-adjust: exact !important;
+            -webkit-print-color-adjust: exact !important;
+          }
+          
+          .interests-container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+          }
+          
+          .interest-badge {
+            background-color: #f3f4f6 !important;
+            color: #374151 !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 9999px !important;
+            font-size: 0.75rem !important;
+            display: inline-block !important;
+          }
+          
+          /* Remove extra backgrounds */
           .bg-gray-50 {
             background: white !important;
             border: 1px solid #e5e7eb !important;
           }
           
-          .shadow-lg, .shadow-md, .shadow-sm {
-            box-shadow: none !important;
+          /* Prevent content from breaking */
+          div, section {
+            page-break-inside: avoid;
+            break-inside: avoid;
           }
           
-          .hover\\:shadow-md:hover {
-            box-shadow: none !important;
-          }
-          
-          button, a {
+          /* Keep colors in print */
+          button, a, .skill-badge, .bg-yellow-100 {
             print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
           }
         }
         
         @page {
           size: A4;
-          margin: 15mm;
+          margin: 1.2cm;
         }
       `}</style>
     </ErrorBoundary>
