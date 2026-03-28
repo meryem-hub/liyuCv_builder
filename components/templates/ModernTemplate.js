@@ -1,9 +1,9 @@
 // components/templates/ModernTemplate.js
 'use client'
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 
-// Split into smaller components
+// Resume Header Component
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
   <div className="text-center mt-10 mb-8 border-b-2 border-yellow-500 pb-6">
     <h1 className="text-3xl font-bold text-gray-900">{personalInfo.name}</h1>
@@ -24,7 +24,6 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
-            aria-label="LinkedIn Profile"
           >
             LinkedIn
           </a>
@@ -35,7 +34,6 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-700 hover:underline"
-            aria-label="GitHub Profile"
           >
             GitHub
           </a>
@@ -46,20 +44,18 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-600 hover:underline"
-            aria-label="Portfolio Website"
           >
             Portfolio
           </a>
         )}
-        {socialMedia.X && (
+        {socialMedia.x && (
           <a 
-            href={socialMedia.X.startsWith('http') ? socialMedia.X : `https://${socialMedia.X}`}
+            href={socialMedia.x.startsWith('http') ? socialMedia.x : `https://${socialMedia.x}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-700 hover:underline"
-            aria-label="X Profile"
           >
-            X
+            X (Twitter)
           </a>
         )}
       </div>
@@ -77,17 +73,17 @@ const ProfessionalSummary = ({ summary }) => {
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Professional Summary
       </h2>
-      <div className="p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+      <div className="p-4 bg-gray-50 rounded-lg">
         <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{summary}</p>
       </div>
     </section>
   )
 }
 
+// Experience Section
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
   
-  // Helper function to format date range
   const formatDateRange = (startDate, endDate) => {
     if (!startDate && !endDate) return null
     if (!endDate || endDate.trim() === '') return startDate
@@ -96,7 +92,7 @@ const ExperienceSection = ({ experiences }) => {
   }
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Experience
@@ -105,7 +101,7 @@ const ExperienceSection = ({ experiences }) => {
         const dateRange = formatDateRange(exp.startDate, exp.endDate)
         
         return (
-          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
               <h3 className="font-semibold text-gray-900">{exp.position}</h3>
               {dateRange && (
@@ -123,17 +119,18 @@ const ExperienceSection = ({ experiences }) => {
   )
 }
 
+// Projects Section
 const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Projects
       </h2>
       {projects.map((project) => (
-        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
           <h3 className="font-semibold text-gray-900 mb-2">{project.name}</h3>
           {project.techStack && (
             <p className="text-gray-600 text-sm mb-2">
@@ -148,7 +145,6 @@ const ProjectsSection = ({ projects }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
-                aria-label="Live Demo"
               >
                 Live Demo
               </a>
@@ -159,7 +155,6 @@ const ProjectsSection = ({ projects }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 hover:underline"
-                aria-label="GitHub Repository"
               >
                 GitHub
               </a>
@@ -171,17 +166,18 @@ const ProjectsSection = ({ projects }) => {
   )
 }
 
+// Education Section
 const EducationSection = ({ education }) => {
   if (!education?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Education
       </h2>
       {education.map((edu) => (
-        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
           <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
           <p className="text-gray-700 text-sm mt-1">{edu.school}</p>
           <p className="text-gray-500 text-sm mt-1">{edu.year}</p>
@@ -192,11 +188,12 @@ const EducationSection = ({ education }) => {
   )
 }
 
+// Skills Section
 const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Skills
@@ -205,8 +202,7 @@ const SkillsSection = ({ skills }) => {
         {skills.map((skill, index) => (
           <span 
             key={index}
-            className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold shadow-sm hover:bg-yellow-600 transition-colors"
-            aria-label={`Skill: ${skill}`}
+            className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold"
           >
             {skill}
           </span>
@@ -221,13 +217,13 @@ const AchievementsSection = ({ achievements }) => {
   if (!achievements?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Achievements & Awards
       </h2>
       {achievements.map((achievement) => (
-        <div key={achievement.id} className="mb-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+        <div key={achievement.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
           <h3 className="font-semibold text-gray-900">{achievement.title}</h3>
           <p className="text-gray-700 text-sm mt-1">{achievement.organization}</p>
           <p className="text-gray-500 text-sm mt-1">{achievement.year}</p>
@@ -242,7 +238,7 @@ const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Languages
@@ -264,7 +260,7 @@ const CertificationsSection = ({ certifications }) => {
   if (!certifications?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Certifications
@@ -285,7 +281,7 @@ const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
   
   return (
-    <section>
+    <section className="mb-6">
       <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
         <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Interests
@@ -304,6 +300,7 @@ const InterestsSection = ({ interests }) => {
   )
 }
 
+// PDF Export Button
 const PDFExportButton = ({ onExport, isExporting }) => (
   <div className="text-right mb-6 print:hidden">
     <button
@@ -318,7 +315,7 @@ const PDFExportButton = ({ onExport, isExporting }) => (
   </div>
 )
 
-// Loading skeleton for better UX
+// Loading Skeleton
 const LoadingSkeleton = () => (
   <div className="bg-white text-gray-800 p-8 font-sans">
     <div className="animate-pulse">
@@ -335,6 +332,7 @@ const LoadingSkeleton = () => (
   </div>
 )
 
+// Error Boundary
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
@@ -373,7 +371,6 @@ export default function ModernTemplate({ resume }) {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
 
-  // Safe data extraction with proper defaults
   const safeData = {
     personalInfo: {
       name: resume?.personalInfo?.name || 'Your Name',
@@ -395,15 +392,22 @@ export default function ModernTemplate({ resume }) {
     interests: resume?.interests || []
   }
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     if (!resumeRef.current) return
 
     const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
     
-    exportToPDF(resumeRef.current, fileName)
+    setIsExporting(true)
+    try {
+      await exportToPDF(resumeRef.current, fileName)
+    } catch (error) {
+      console.error('Export failed:', error)
+      alert('Failed to export PDF. Please try again.')
+    } finally {
+      setIsExporting(false)
+    }
   }
 
-  // Loading state
   if (!resume) {
     return <LoadingSkeleton />
   }
@@ -419,11 +423,20 @@ export default function ModernTemplate({ resume }) {
             socialMedia={safeData.socialMedia}
           />
 
-          {/* Professional Summary */}
           <ProfessionalSummary summary={safeData.professionalSummary} />
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-6">
+          {/* Two Column Layout - Fixed for PDF */}
+          <div 
+            className="resume-two-column-layout"
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: '2fr 1fr', 
+              gap: '24px',
+              width: '100%'
+            }}
+          >
+            {/* Left Column - Main Content */}
+            <div style={{ minWidth: 0 }}>
               <ExperienceSection experiences={safeData.experience} />
               <ProjectsSection projects={safeData.projects} />
               <EducationSection education={safeData.education} />
@@ -431,7 +444,8 @@ export default function ModernTemplate({ resume }) {
               <CertificationsSection certifications={safeData.certifications} />
             </div>
 
-            <div className="md:col-span-1 space-y-6">
+            {/* Right Column - Sidebar */}
+            <div style={{ minWidth: 0 }}>
               <SkillsSection skills={safeData.skills} />
               <LanguagesSection languages={safeData.languages} />
               <InterestsSection interests={safeData.interests} />
@@ -441,6 +455,21 @@ export default function ModernTemplate({ resume }) {
       </div>
 
       <style jsx>{`
+        /* Screen styles */
+        .resume-two-column-layout {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+          .resume-two-column-layout {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+        }
+        
+        /* Print styles - Critical for PDF */
         @media print {
           body {
             margin: 0;
@@ -455,23 +484,56 @@ export default function ModernTemplate({ resume }) {
           .resume-content {
             padding: 0;
             margin: 0;
+            width: 100%;
+          }
+          
+          /* Force grid layout in print */
+          .resume-two-column-layout {
+            display: grid !important;
+            grid-template-columns: 2fr 1fr !important;
+            gap: 24px !important;
+            page-break-inside: avoid !important;
+          }
+          
+          /* Prevent column breaks */
+          .resume-two-column-layout > div {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          
+          /* Prevent sections from breaking */
+          section, .mb-4, .mb-6, .mb-8 {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          
+          /* Force background colors */
+          .bg-yellow-500 {
+            background-color: #eab308 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
           .bg-gray-50 {
-            background: white !important;
-            border: 1px solid #e5e7eb !important;
+            background-color: #f9fafb !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
+          .bg-yellow-100 {
+            background-color: #fef9c3 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          
+          /* Remove shadows */
           .shadow-lg, .shadow-md, .shadow-sm {
             box-shadow: none !important;
           }
           
-          .hover\\:shadow-md:hover {
-            box-shadow: none !important;
-          }
-          
-          button, a {
-            print-color-adjust: exact;
+          /* Ensure borders */
+          .border-b-2 {
+            border-bottom-width: 2px !important;
           }
         }
         

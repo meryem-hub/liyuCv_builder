@@ -62,7 +62,6 @@ import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
 import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
-import ElegantTemplate from '@/components/templates/ElegantTemplate'
 
 const templateComponents = {
   modern: ModernTemplate,
@@ -70,7 +69,6 @@ const templateComponents = {
   executive: ExecutiveTemplate,
   creative: CreativeTemplate,
   minimal: MinimalTemplate,
-  elegant: ElegantTemplate
 }
 
 export default function TemplatesPage() {

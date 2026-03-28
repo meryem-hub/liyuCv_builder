@@ -1,57 +1,95 @@
+// app/api/generate-pdf/route.js
 import puppeteer from 'puppeteer'
+import { NextResponse } from 'next/server'
 
 export async function POST(req) {
+  let browser = null
+  
   try {
     const { html } = await req.json()
 
     if (!html) {
-      return new Response(
-        JSON.stringify({ message: 'HTML is required' }),
+      return NextResponse.json(
+        { message: 'HTML is required' },
         { status: 400 }
       )
     }
 
-    const browser = await puppeteer.launch({
+    console.log('Launching browser...')
+    
+    // Launch browser with optimized settings
+    browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--window-size=1200,800'
+      ],
+      timeout: 60000
     })
 
     const page = await browser.newPage()
-
-    await page.setContent(html, {
-      waitUntil: 'networkidle0',
+    
+    // Set viewport to desktop size
+    await page.setViewport({
+      width: 1200,
+      height: 800,
+      deviceScaleFactor: 1
     })
 
-    // wait for styles (Tailwind)
-    await new Promise(resolve => setTimeout(resolve, 700))
+    console.log('Setting content...')
+    
+    // Set content with simpler wait condition
+    await page.setContent(html, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000
+    })
 
+    // Wait a bit for styles to apply
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    console.log('Generating PDF...')
+    
+    // Generate PDF with optimized settings
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
+      preferCSSPageSize: false,
       margin: {
-        top: '10mm',
-        bottom: '10mm',
-        left: '10mm',
-        right: '10mm',
+        top: '15mm',
+        bottom: '15mm',
+        left: '15mm',
+        right: '15mm',
       },
+      scale: 1,
+      displayHeaderFooter: false,
     })
 
-    await browser.close()
-
-    return new Response(pdf, {
+    console.log('PDF generated successfully')
+    
+    return new NextResponse(pdf, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename=resume.pdf',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
       },
     })
 
   } catch (error) {
-    console.error('PDF ERROR:', error)
-
-    return new Response(
-      JSON.stringify({ error: error.message }),
+    console.error('PDF Generation Error:', error)
+    
+    return NextResponse.json(
+      { error: error.message || 'Failed to generate PDF' },
       { status: 500 }
     )
+  } finally {
+    if (browser) {
+      await browser.close()
+      console.log('Browser closed')
+    }
   }
 }
