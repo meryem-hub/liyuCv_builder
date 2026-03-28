@@ -3,7 +3,6 @@
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 
-// Resume Header Component - Compact version
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
   <div className="text-center mb-6 border-b border-yellow-500 pb-4">
     <h1 className="text-2xl font-bold text-gray-900">{personalInfo.name}</h1>
@@ -53,7 +52,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
   </div>
 )
 
-// Professional Summary Component - Compact
+// Professional Summary Component 
 const ProfessionalSummary = ({ summary }) => {
   if (!summary) return null
   
@@ -70,7 +69,7 @@ const ProfessionalSummary = ({ summary }) => {
   )
 }
 
-// Experience Section - Compact
+// Experience Section 
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
   
@@ -109,7 +108,7 @@ const ExperienceSection = ({ experiences }) => {
   )
 }
 
-// Projects Section - Compact
+// Projects Section 
 const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
   
@@ -156,7 +155,7 @@ const ProjectsSection = ({ projects }) => {
   )
 }
 
-// Education Section - Compact
+// Education Section 
 const EducationSection = ({ education }) => {
   if (!education?.length) return null
   
@@ -178,7 +177,7 @@ const EducationSection = ({ education }) => {
   )
 }
 
-// Skills Section - Compact with badges
+// Skills Section 
 const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
   
@@ -202,7 +201,7 @@ const SkillsSection = ({ skills }) => {
   )
 }
 
-// Achievements Section - Compact
+// Achievements Section 
 const AchievementsSection = ({ achievements }) => {
   if (!achievements?.length) return null
   
@@ -223,7 +222,7 @@ const AchievementsSection = ({ achievements }) => {
   )
 }
 
-// Languages Section - Compact
+// Languages Section 
 const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
   
@@ -245,7 +244,7 @@ const LanguagesSection = ({ languages }) => {
   )
 }
 
-// Certifications Section - MOVED TO SIDEBAR
+// Certifications Section 
 const CertificationsSection = ({ certifications }) => {
   if (!certifications?.length) return null
   
@@ -268,7 +267,7 @@ const CertificationsSection = ({ certifications }) => {
   )
 }
 
-// Interests Section - Compact
+// Interests Section 
 const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
   
