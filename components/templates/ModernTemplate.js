@@ -3,11 +3,11 @@
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 
-// Resume Header Component
+// Resume Header Component - Compact version
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
-  <div className="text-center mt-10 mb-8 border-b-2 border-yellow-500 pb-6">
-    <h1 className="text-3xl font-bold text-gray-900">{personalInfo.name}</h1>
-    <p className="text-lg text-gray-600 mt-1">{personalInfo.title}</p>
+  <div className="text-center mb-6 border-b border-yellow-500 pb-4">
+    <h1 className="text-2xl font-bold text-gray-900">{personalInfo.name}</h1>
+    <p className="text-base text-gray-600 mt-1">{personalInfo.title}</p>
     <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-gray-500">
       <span>{personalInfo.email}</span>
       <span>•</span>
@@ -23,7 +23,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className="text-yellow-700 hover:underline"
           >
             LinkedIn
           </a>
@@ -33,7 +33,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             href={socialMedia.github.startsWith('http') ? socialMedia.github : `https://${socialMedia.github}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 hover:underline"
+            className="text-yellow-700 hover:underline"
           >
             GitHub
           </a>
@@ -43,19 +43,9 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             href={socialMedia.portfolio.startsWith('http') ? socialMedia.portfolio : `https://${socialMedia.portfolio}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green-600 hover:underline"
+            className="text-yellow-700 hover:underline"
           >
             Portfolio
-          </a>
-        )}
-        {socialMedia.x && (
-          <a 
-            href={socialMedia.x.startsWith('http') ? socialMedia.x : `https://${socialMedia.x}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-700 hover:underline"
-          >
-            X (Twitter)
           </a>
         )}
       </div>
@@ -63,24 +53,24 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
   </div>
 )
 
-// Professional Summary Component
+// Professional Summary Component - Compact
 const ProfessionalSummary = ({ summary }) => {
   if (!summary) return null
   
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Professional Summary
       </h2>
-      <div className="p-4 bg-gray-50 rounded-lg">
-        <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{summary}</p>
+      <div className="p-3 bg-gray-50 rounded">
+        <p className="text-gray-700 text-xs leading-relaxed whitespace-pre-line">{summary}</p>
       </div>
     </section>
   )
 }
 
-// Experience Section
+// Experience Section - Compact
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
   
@@ -92,26 +82,26 @@ const ExperienceSection = ({ experiences }) => {
   }
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
-        Experience
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Work Experience
       </h2>
       {experiences.map((exp) => {
         const dateRange = formatDateRange(exp.startDate, exp.endDate)
         
         return (
-          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-            <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
-              <h3 className="font-semibold text-gray-900">{exp.position}</h3>
+          <div key={exp.id} className="mb-3 p-3 bg-gray-50 rounded">
+            <div className="flex justify-between items-start mb-1 flex-wrap gap-1">
+              <h3 className="font-semibold text-gray-900 text-sm">{exp.position}</h3>
               {dateRange && (
-                <span className="text-gray-500 text-sm bg-yellow-100 px-2 py-1 rounded">
+                <span className="text-gray-500 text-xs bg-yellow-100 px-2 py-0.5 rounded">
                   {dateRange}
                 </span>
               )}
             </div>
-            <p className="text-gray-700 font-medium text-sm mb-2">{exp.company}</p>
-            <p className="text-gray-600 text-sm whitespace-pre-line">{exp.description}</p>
+            <p className="text-gray-700 font-medium text-xs mb-1">{exp.company}</p>
+            <p className="text-gray-600 text-xs leading-relaxed whitespace-pre-line">{exp.description}</p>
           </div>
         )
       })}
@@ -119,32 +109,32 @@ const ExperienceSection = ({ experiences }) => {
   )
 }
 
-// Projects Section
+// Projects Section - Compact
 const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Projects
       </h2>
       {projects.map((project) => (
-        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-900 mb-2">{project.name}</h3>
+        <div key={project.id} className="mb-3 p-3 bg-gray-50 rounded">
+          <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
           {project.techStack && (
-            <p className="text-gray-600 text-sm mb-2">
-              <span className="font-medium">Tech Stack:</span> {project.techStack}
+            <p className="text-gray-600 text-xs mb-1">
+              <span className="font-medium">Tech:</span> {project.techStack}
             </p>
           )}
-          <p className="text-gray-600 text-sm mb-2">{project.description}</p>
-          <div className="flex gap-4 text-sm">
+          <p className="text-gray-600 text-xs leading-relaxed mb-1">{project.description}</p>
+          <div className="flex gap-3 text-xs">
             {project.demoLink && (
               <a 
                 href={project.demoLink} 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-yellow-700 hover:underline"
               >
                 Live Demo
               </a>
@@ -166,43 +156,43 @@ const ProjectsSection = ({ projects }) => {
   )
 }
 
-// Education Section
+// Education Section - Compact
 const EducationSection = ({ education }) => {
   if (!education?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Education
       </h2>
       {education.map((edu) => (
-        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
-          <p className="text-gray-700 text-sm mt-1">{edu.school}</p>
-          <p className="text-gray-500 text-sm mt-1">{edu.year}</p>
-          {edu.gpa && <p className="text-gray-500 text-sm mt-1">GPA: {edu.gpa}</p>}
+        <div key={edu.id} className="mb-2 p-3 bg-gray-50 rounded">
+          <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
+          <p className="text-gray-700 text-xs mt-0.5">{edu.school}</p>
+          <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
+          {edu.gpa && <p className="text-gray-500 text-xs mt-0.5">GPA: {edu.gpa}</p>}
         </div>
       ))}
     </section>
   )
 }
 
-// Skills Section
+// Skills Section - Compact with badges
 const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
-        Skills
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Technical Skills
       </h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {skills.map((skill, index) => (
           <span 
             key={index}
-            className="bg-yellow-500 text-white px-3 py-2 rounded-full text-sm font-semibold"
+            className="bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium"
           >
             {skill}
           </span>
@@ -212,42 +202,42 @@ const SkillsSection = ({ skills }) => {
   )
 }
 
-// Achievements Section
+// Achievements Section - Compact
 const AchievementsSection = ({ achievements }) => {
   if (!achievements?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
-        Achievements & Awards
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        Achievements
       </h2>
       {achievements.map((achievement) => (
-        <div key={achievement.id} className="mb-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-900">{achievement.title}</h3>
-          <p className="text-gray-700 text-sm mt-1">{achievement.organization}</p>
-          <p className="text-gray-500 text-sm mt-1">{achievement.year}</p>
+        <div key={achievement.id} className="mb-2 p-2 bg-gray-50 rounded">
+          <h3 className="font-semibold text-gray-900 text-xs">{achievement.title}</h3>
+          <p className="text-gray-600 text-xs">{achievement.organization}</p>
+          <p className="text-gray-500 text-xs">{achievement.year}</p>
         </div>
       ))}
     </section>
   )
 }
 
-// Languages Section
+// Languages Section - Compact
 const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Languages
       </h2>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {languages.map((language) => (
-          <div key={language.id} className="p-3 bg-gray-50 rounded-lg">
-            <span className="font-semibold text-gray-900">{language.language}</span>
-            <span className="text-gray-600 text-sm ml-2">- {language.proficiency}</span>
+          <div key={language.id} className="p-2 bg-gray-50 rounded">
+            <span className="font-semibold text-gray-900 text-xs">{language.language}</span>
+            <span className="text-gray-600 text-xs ml-1">- {language.proficiency}</span>
           </div>
         ))}
       </div>
@@ -255,42 +245,44 @@ const LanguagesSection = ({ languages }) => {
   )
 }
 
-// Certifications Section
+// Certifications Section - MOVED TO SIDEBAR
 const CertificationsSection = ({ certifications }) => {
   if (!certifications?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Certifications
       </h2>
-      {certifications.map((cert) => (
-        <div key={cert.id} className="mb-3 p-3 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-900">{cert.name}</h3>
-          <p className="text-gray-700 text-sm">{cert.organization}</p>
-          <p className="text-gray-500 text-sm">{cert.year}</p>
-        </div>
-      ))}
+      <div className="space-y-1.5">
+        {certifications.map((cert) => (
+          <div key={cert.id} className="p-2 bg-gray-50 rounded">
+            <h3 className="font-semibold text-gray-900 text-xs">{cert.name}</h3>
+            <p className="text-gray-600 text-xs">{cert.organization}</p>
+            <p className="text-gray-500 text-xs">{cert.year}</p>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }
 
-// Interests Section
+// Interests Section - Compact
 const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
   
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-        <div className="w-1 h-4 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+    <section className="mb-5">
+      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
         Interests
       </h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {interests.map((interest, index) => (
           <span 
             key={index}
-            className="bg-gray-100 text-gray-700 px-3 py-2 rounded-full text-sm"
+            className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs"
           >
             {interest}
           </span>
@@ -302,11 +294,11 @@ const InterestsSection = ({ interests }) => {
 
 // PDF Export Button
 const PDFExportButton = ({ onExport, isExporting }) => (
-  <div className="text-right mb-6 print:hidden">
+  <div className="text-right mb-4 print:hidden">
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
+      className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
       aria-label="Export resume as PDF"
     >
       <span aria-hidden="true">{isExporting ? '⏳' : '📄'}</span>
@@ -317,16 +309,16 @@ const PDFExportButton = ({ onExport, isExporting }) => (
 
 // Loading Skeleton
 const LoadingSkeleton = () => (
-  <div className="bg-white text-gray-800 p-8 font-sans">
+  <div className="bg-white text-gray-800 p-6 font-sans">
     <div className="animate-pulse">
-      <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
-      <div className="h-4 bg-gray-200 rounded w-1/4 mx-auto mb-8"></div>
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-4">
-          <div className="h-32 bg-gray-200 rounded"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+      <div className="h-6 bg-gray-200 rounded w-1/3 mx-auto mb-3"></div>
+      <div className="h-3 bg-gray-200 rounded w-1/4 mx-auto mb-6"></div>
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-2 space-y-3">
+          <div className="h-24 bg-gray-200 rounded"></div>
+          <div className="h-24 bg-gray-200 rounded"></div>
         </div>
-        <div className="h-40 bg-gray-200 rounded"></div>
+        <div className="h-32 bg-gray-200 rounded"></div>
       </div>
     </div>
   </div>
@@ -350,12 +342,12 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="bg-white text-gray-800 p-8 font-sans text-center">
-          <div className="text-red-500 text-lg mb-2">⚠️ Failed to load resume</div>
-          <p className="text-gray-600 text-sm mb-4">Please refresh the page or try again later.</p>
+        <div className="bg-white text-gray-800 p-6 font-sans text-center">
+          <div className="text-red-500 text-base mb-2">⚠️ Failed to load resume</div>
+          <p className="text-gray-600 text-xs mb-3">Please refresh the page or try again later.</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition"
+            className="bg-yellow-500 text-black px-3 py-1 rounded-lg hover:bg-yellow-400 transition text-sm"
           >
             Refresh Page
           </button>
@@ -414,7 +406,7 @@ export default function ModernTemplate({ resume }) {
 
   return (
     <ErrorBoundary>
-      <div className="bg-white text-gray-800 p-3 font-sans">
+      <div className="bg-white text-gray-800 p-4 font-sans">
         <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
         
         <div ref={resumeRef} className="resume-content">
@@ -425,28 +417,28 @@ export default function ModernTemplate({ resume }) {
 
           <ProfessionalSummary summary={safeData.professionalSummary} />
 
-          {/* Two Column Layout - Fixed for PDF */}
+          {/* Two Column Layout - Optimized */}
           <div 
             className="resume-two-column-layout"
             style={{ 
               display: 'grid', 
               gridTemplateColumns: '2fr 1fr', 
-              gap: '24px',
+              gap: '20px',
               width: '100%'
             }}
           >
-            {/* Left Column - Main Content */}
+            {/* Left Column - Main Content (Experience, Projects, Education, Achievements) */}
             <div style={{ minWidth: 0 }}>
               <ExperienceSection experiences={safeData.experience} />
               <ProjectsSection projects={safeData.projects} />
               <EducationSection education={safeData.education} />
               <AchievementsSection achievements={safeData.achievements} />
-              <CertificationsSection certifications={safeData.certifications} />
             </div>
 
-            {/* Right Column - Sidebar */}
+            {/* Right Column - Sidebar (Skills, Certifications, Languages, Interests) */}
             <div style={{ minWidth: 0 }}>
               <SkillsSection skills={safeData.skills} />
+              <CertificationsSection certifications={safeData.certifications} />
               <LanguagesSection languages={safeData.languages} />
               <InterestsSection interests={safeData.interests} />
             </div>
@@ -455,11 +447,11 @@ export default function ModernTemplate({ resume }) {
       </div>
 
       <style jsx>{`
-        /* Screen styles */
+        /* Screen styles - Optimized */
         .resume-two-column-layout {
           display: grid;
           grid-template-columns: 2fr 1fr;
-          gap: 1.5rem;
+          gap: 1.25rem;
         }
         
         @media (max-width: 768px) {
@@ -469,7 +461,7 @@ export default function ModernTemplate({ resume }) {
           }
         }
         
-        /* Print styles - Critical for PDF */
+        /* Print styles - Optimized for one page */
         @media print {
           body {
             margin: 0;
@@ -491,7 +483,7 @@ export default function ModernTemplate({ resume }) {
           .resume-two-column-layout {
             display: grid !important;
             grid-template-columns: 2fr 1fr !important;
-            gap: 24px !important;
+            gap: 20px !important;
             page-break-inside: avoid !important;
           }
           
@@ -502,7 +494,7 @@ export default function ModernTemplate({ resume }) {
           }
           
           /* Prevent sections from breaking */
-          section, .mb-4, .mb-6, .mb-8 {
+          section, .mb-3, .mb-4, .mb-5 {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
@@ -526,20 +518,37 @@ export default function ModernTemplate({ resume }) {
             print-color-adjust: exact !important;
           }
           
-          /* Remove shadows */
-          .shadow-lg, .shadow-md, .shadow-sm {
+          /* Remove shadows and animations */
+          .shadow-lg, .shadow-md, .shadow-sm, .hover\\:scale-105 {
             box-shadow: none !important;
+            transform: none !important;
           }
           
           /* Ensure borders */
-          .border-b-2 {
-            border-bottom-width: 2px !important;
+          .border-b {
+            border-bottom-width: 1px !important;
           }
+          
+          /* Optimize spacing for print */
+          .mb-2 { margin-bottom: 0.5rem !important; }
+          .mb-3 { margin-bottom: 0.75rem !important; }
+          .mb-4 { margin-bottom: 1rem !important; }
+          .mb-5 { margin-bottom: 1.25rem !important; }
+          .mt-1 { margin-top: 0.25rem !important; }
+          .p-2 { padding: 0.5rem !important; }
+          .p-3 { padding: 0.75rem !important; }
+          
+          /* Optimize font sizes for print */
+          .text-xs { font-size: 9pt !important; }
+          .text-sm { font-size: 10pt !important; }
+          .text-base { font-size: 11pt !important; }
+          .text-lg { font-size: 12pt !important; }
+          .text-2xl { font-size: 16pt !important; }
         }
         
         @page {
           size: A4;
-          margin: 15mm;
+          margin: 12mm;
         }
       `}</style>
     </ErrorBoundary>
