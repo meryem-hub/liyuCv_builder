@@ -17,7 +17,7 @@ const PDFExportButton = ({ onExport, isExporting }) => (
   </div>
 )
 
-const ElegantBrownMinimalTemplate = ({ resume }) => {
+const ProfessionalTemplate = ({ resume }) => {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
 
@@ -404,4 +404,4 @@ const ElegantBrownMinimalTemplate = ({ resume }) => {
   )
 }
 
-export default ElegantBrownMinimalTemplate
+export default ProfessionalTemplate
