@@ -85,11 +85,12 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             }
             
             /* Resume container */
-            .resume-content {
-              max-width: 1100px;
-              margin: 0 auto;
-              background: white;
-            }
+         .resume-content {
+  width: 794px;       
+  min-height: 1123px; 
+  margin: 0;
+  background: white;
+}
             
             /* ========== MODERN TEMPLATE STYLES ========== */
             .resume-two-column-layout {
@@ -335,7 +336,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             
             @page {
               size: A4;
-              margin: 12mm;
+              margin: 0;
             }
           </style>
         </head>
