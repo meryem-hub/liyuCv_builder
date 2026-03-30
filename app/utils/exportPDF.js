@@ -84,13 +84,12 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               padding: 20px;
             }
             
-            /* Resume container */
-         .resume-content {
-  width: 794px;       
-  min-height: 1123px; 
-  margin: 0;
-  background: white;
-}
+            /* Resume container - UPDATED for better compatibility */
+            .resume-content {
+              width: 100%;
+              margin: 0 auto;
+              background: white;
+            }
             
             /* ========== MODERN TEMPLATE STYLES ========== */
             .resume-two-column-layout {
@@ -125,6 +124,109 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .text-\\[\\#3A2E24\\] { color: #3A2E24 !important; }
             .border-\\[\\#E8E0D5\\] { border-color: #E8E0D5 !important; }
             
+            /* ========== ELEGANT PROFESSIONAL TEMPLATE STYLES ========== */
+            /* 12-column grid system */
+            .grid-cols-12 {
+              display: grid !important;
+              grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+            }
+            
+            .md\\:col-span-4 {
+              grid-column: span 4 / span 4 !important;
+            }
+            
+            .md\\:col-span-8 {
+              grid-column: span 8 / span 8 !important;
+            }
+            
+            /* Gradient backgrounds */
+            .bg-gradient-to-br {
+              background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
+            }
+            
+            .from-slate-800 {
+              --tw-gradient-from: #1e293b !important;
+              --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+            }
+            
+            .to-gray-800 {
+              --tw-gradient-to: #1f2937 !important;
+            }
+            
+            /* White background with opacity */
+            .bg-white\\/10 {
+              background-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            
+            .border-white\\/10 {
+              border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            
+            .border-white\\/40 {
+              border-color: rgba(255, 255, 255, 0.4) !important;
+            }
+            
+            /* Text colors */
+            .text-purple-600 {
+              color: #9333ea !important;
+            }
+            
+            .text-gray-200 {
+              color: #e5e7eb !important;
+            }
+            
+            .text-gray-300 {
+              color: #d1d5db !important;
+            }
+            
+            .text-gray-400 {
+              color: #9ca3af !important;
+            }
+            
+            /* Image and sizing */
+            .object-cover {
+              object-fit: cover !important;
+            }
+            
+            .overflow-hidden {
+              overflow: hidden !important;
+            }
+            
+            .w-40 {
+              width: 10rem !important;
+            }
+            
+            .h-40 {
+              height: 10rem !important;
+            }
+            
+            .w-full {
+              width: 100% !important;
+            }
+            
+            .h-full {
+              height: 100% !important;
+            }
+            
+            /* Shadow */
+            .shadow-2xl {
+              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            }
+            
+            /* Border radius */
+            .rounded-xl {
+              border-radius: 0.75rem !important;
+            }
+            
+            /* Additional spacing for this template */
+            .mb-10 {
+              margin-bottom: 2.5rem !important;
+            }
+            
+            .mb-12 {
+              margin-bottom: 3rem !important;
+            }
+            
             /* Grid utilities */
             .grid { display: grid !important; }
             .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
@@ -138,13 +240,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .gap-4 { gap: 1rem !important; }
             .gap-3 { gap: 0.75rem !important; }
             .gap-2 { gap: 0.5rem !important; }
-            .gap-x-4 { column-gap: 1rem !important; }
-            .gap-y-2 { row-gap: 0.5rem !important; }
-            
-            /* Table style for skills with underlines */
-            .py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
-            .border-b { border-bottom-width: 1px !important; }
-            .space-y-0 > * + * { margin-top: 0 !important; }
             
             /* Flex utilities */
             .flex { display: flex !important; }
@@ -153,40 +248,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .items-start { align-items: flex-start !important; }
             .justify-between { justify-content: space-between !important; }
             .justify-start { justify-content: flex-start !important; }
-            .gap-2 { gap: 0.5rem !important; }
-            .gap-3 { gap: 0.75rem !important; }
-            .gap-6 { gap: 1.5rem !important; }
-            
-            /* Typography */
-            h1, h2, h3 {
-              font-family: 'Playfair Display', serif !important;
-            }
-            
-            .font-mono {
-              font-family: 'Space Mono', monospace !important;
-            }
-            
-            /* Border styles */
-            .border-b {
-              border-bottom-width: 1px !important;
-            }
-            
-            .border-l {
-              border-left-width: 1px !important;
-            }
-            
-            .border-l-2 {
-              border-left-width: 2px !important;
-            }
-            
-            .border-b-2 {
-              border-bottom-width: 2px !important;
-            }
-            
-            /* Rounded corners */
-            .rounded-lg { border-radius: 0.5rem !important; }
-            .rounded-full { border-radius: 9999px !important; }
-            .rounded { border-radius: 0.25rem !important; }
             
             /* Spacing utilities */
             .space-y-2 > * + * { margin-top: 0.5rem; }
@@ -209,31 +270,22 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .mt-3 { margin-top: 0.75rem; }
             .mt-4 { margin-top: 1rem; }
             .mt-5 { margin-top: 1.25rem; }
-            .mt-6 { margin-top: 1.5rem; }
             
             .p-2 { padding: 0.5rem; }
             .p-3 { padding: 0.75rem; }
             .p-4 { padding: 1rem; }
             .p-6 { padding: 1.5rem; }
             .p-8 { padding: 2rem; }
+            .p-10 { padding: 2.5rem; }
             
             .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
             .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
             .px-4 { padding-left: 1rem; padding-right: 1rem; }
             .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .px-8 { padding-left: 2rem; padding-right: 2rem; }
             
             .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
             .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
             .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-            .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-            .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-            .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-            .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-            
-            .pl-3 { padding-left: 0.75rem; }
-            .pl-4 { padding-left: 1rem; }
-            .pl-5 { padding-left: 1.25rem; }
             
             /* Text sizes */
             .text-xs { font-size: 0.75rem; line-height: 1rem; }
@@ -244,8 +296,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .text-2xl { font-size: 1.5rem; line-height: 2rem; }
             .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
             .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-            .text-5xl { font-size: 3rem; line-height: 1; }
-            .text-6xl { font-size: 3.75rem; line-height: 1; }
             
             /* Font weights */
             .font-light { font-weight: 300; }
@@ -292,6 +342,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               }
               
               /* Force all background colors */
+              .bg-gradient-to-br,
               .bg-\\[\\#2C2118\\],
               .bg-\\[\\#FAF7F2\\],
               .bg-yellow-500,
@@ -304,12 +355,12 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               }
               
               /* Force grid layout */
-              .grid, .md\\:grid-cols-3 {
+              .grid, .grid-cols-12, .md\\:grid-cols-3 {
                 display: grid !important;
               }
               
               /* Prevent page breaks */
-              section, .space-y-5 > div, .space-y-4 > div, .mb-4, .mb-5, .mb-6 {
+              section, .space-y-5 > div, .space-y-4 > div, .mb-4, .mb-5, .mb-6, .mb-8, .mb-10, .mb-12 {
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
               }
@@ -328,15 +379,11 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               .text-base { font-size: 10pt !important; }
               .text-sm { font-size: 9pt !important; }
               .text-xs { font-size: 8pt !important; }
-              
-              /* Optimize spacing */
-              .px-8, .px-12 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
-              .py-10, .py-8 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
             }
             
             @page {
               size: A4;
-              margin: 0;
+              margin: 12mm;
             }
           </style>
         </head>

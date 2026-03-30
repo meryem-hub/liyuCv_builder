@@ -1,4 +1,4 @@
-// components/templates/ComputerScienceGradTemplate.js
+// components/templates/ExecutiveTemplate.js
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
