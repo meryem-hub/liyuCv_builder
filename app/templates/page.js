@@ -6,6 +6,7 @@ import { useResumeStore } from '@/lib/store'
 import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X, Star } from 'lucide-react'
 import { useState } from 'react'
 
+// Updated templates list with White & Black Minimalist
 const templates = [
   {
     id: 'modern',
@@ -26,9 +27,9 @@ const templates = [
   {
     id: 'executive',
     name: 'Executive',
-    description: 'Premium design with profile photo ',
+    description: 'Premium design with profile photo',
     category: 'Premium',
-    icon: User, 
+    icon: User,
     features: ['Profile Photo', 'Premium Design']
   },
   {
@@ -53,7 +54,16 @@ const templates = [
     description: 'Sophisticated design with premium typography',
     category: 'Premium',
     icon: Star,
-    features: ['Elegant Typography','Luxury Design']
+    features: ['Elegant Typography', 'Luxury Design']
+  },
+  // ====================== NEW TEMPLATE ======================
+  {
+    id: 'whiteblack',
+    name: 'White & Black',
+    description: 'Elegant minimalist black & white design perfect for Graphic Designers',
+    category: 'Premium',
+    icon: Palette,
+    features: ['Large Photo Area', 'Minimalist', 'Designer Focused', 'High Impact']
   }
 ]
 
@@ -62,6 +72,7 @@ import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
 import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
+import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'   // ← Import your new template
 
 const templateComponents = {
   modern: ModernTemplate,
@@ -69,6 +80,8 @@ const templateComponents = {
   executive: ExecutiveTemplate,
   creative: CreativeTemplate,
   minimal: MinimalTemplate,
+  whiteblack: WhiteBlackMinimalistTemplate,   // ← Connected here
+  // elegant: ElegantTemplate,   // Uncomment when you create Elegant template
 }
 
 export default function TemplatesPage() {
@@ -149,9 +162,10 @@ export default function TemplatesPage() {
         </div>
       </section>
 
+      {/* Preview Modal */}
       {previewTemplate && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl overflow-hidden">
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl">
             <div className="absolute top-4 right-4 z-10 flex gap-2">
               <button
                 onClick={() => {
@@ -179,12 +193,15 @@ export default function TemplatesPage() {
               <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-bold text-gray-900">
+                    <h3 className="font-bold text-gray-900 text-lg">
                       {templates.find(t => t.id === previewTemplate)?.name} Template
                     </h3>
                     <p className="text-gray-600 text-sm">
                       {templates.find(t => t.id === previewTemplate)?.description}
                     </p>
+                  </div>
+                  <div className="text-xs px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full font-medium">
+                    {templates.find(t => t.id === previewTemplate)?.category}
                   </div>
                 </div>
               </div>
@@ -213,6 +230,7 @@ function TemplateCard({ template, onSelect, onPreview }) {
         transition-all duration-500
         hover:border-yellow-500/50
         hover:shadow-2xl
+        hover:-translate-y-1
       ">
         <div className="p-6 pb-0">
           <div className="flex justify-between items-start">
@@ -222,7 +240,9 @@ function TemplateCard({ template, onSelect, onPreview }) {
                 {template.category}
               </span>
             </div>
-            <Icon className="w-6 h-6 text-yellow-500" />
+            <div className="p-2 bg-gray-800 rounded-xl">
+              <Icon className="w-6 h-6 text-yellow-500" />
+            </div>
           </div>
         </div>
 
@@ -232,12 +252,12 @@ function TemplateCard({ template, onSelect, onPreview }) {
           </p>
         </div>
 
-        <div className="px-6 pb-4">
+        <div className="px-6 pb-6">
           <div className="flex flex-wrap gap-1.5">
             {template.features.map((feature, idx) => (
               <span 
                 key={idx}
-                className="text-xs text-gray-300 bg-gray-800 px-2.5 py-1 rounded-full"
+                className="text-xs text-gray-300 bg-gray-800 px-3 py-1 rounded-full"
               >
                 {feature}
               </span>
@@ -245,16 +265,16 @@ function TemplateCard({ template, onSelect, onPreview }) {
           </div>
         </div>
 
-        <div className="p-6 pt-0 flex gap-3">
+        <div className="p-6 pt-0 flex gap-3 border-t border-gray-800">
           <button
             onClick={handleSelect}
-            className="flex-1 bg-yellow-500 text-black font-semibold py-2.5 rounded-xl hover:bg-yellow-400 transition"
+            className="flex-1 bg-yellow-500 text-black font-semibold py-3 rounded-2xl hover:bg-yellow-400 transition-all active:scale-95"
           >
             Select Template
           </button>
           <button
             onClick={() => onPreview(template.id)}
-            className="px-4 py-2.5 border border-gray-700 rounded-xl text-gray-300 hover:border-yellow-500 hover:text-yellow-500 transition"
+            className="px-5 py-3 border border-gray-700 rounded-2xl text-gray-300 hover:border-yellow-500 hover:text-yellow-500 transition-all"
           >
             <Eye className="w-5 h-5" />
           </button>

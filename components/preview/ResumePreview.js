@@ -1,11 +1,14 @@
 // components/preview/ResumePreview.js
 'use client'
 import { useResumeStore } from '@/lib/store'
+
+// Import all templates including the new one
 import ModernTemplate from '@/components/templates/ModernTemplate'
 import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
 import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
+import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'
 
 export default function ResumePreview() {
   const { resume, currentTemplate } = useResumeStore()
@@ -18,18 +21,20 @@ export default function ResumePreview() {
     )
   }
 
+  // ←←← UPDATED TEMPLATE MAP ←←←
   const templates = {
     modern: ModernTemplate,
     professional: ProfessionalTemplate,
     creative: CreativeTemplate,
     minimal: MinimalTemplate,
-    executive: ExecutiveTemplate
+    executive: ExecutiveTemplate,
+    whiteblack: WhiteBlackMinimalistTemplate,   // ← This was missing!
   }
 
   const TemplateComponent = templates[currentTemplate] || ModernTemplate
 
   return (
-    <div className="w-full resume-preview">
+    <div className="w-full resume-preview bg-white shadow-xl">
       <TemplateComponent resume={resume} />
     </div>
   )

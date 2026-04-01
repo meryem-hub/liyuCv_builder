@@ -81,13 +81,14 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             body {
               font-family: 'Inter', system-ui, -apple-system, sans-serif;
               background: white;
-              padding: 20px;
+              padding: 0;
+              margin: 0;
             }
             
-            /* Resume container - UPDATED for better compatibility */
+            /* Resume container */
             .resume-content {
               width: 100%;
-              margin: 0 auto;
+              margin: 0;
               background: white;
             }
             
@@ -125,7 +126,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .border-\\[\\#E8E0D5\\] { border-color: #E8E0D5 !important; }
             
             /* ========== ELEGANT PROFESSIONAL TEMPLATE STYLES ========== */
-            /* 12-column grid system */
             .grid-cols-12 {
               display: grid !important;
               grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
@@ -139,7 +139,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               grid-column: span 8 / span 8 !important;
             }
             
-            /* Gradient backgrounds */
             .bg-gradient-to-br {
               background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
             }
@@ -153,7 +152,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               --tw-gradient-to: #1f2937 !important;
             }
             
-            /* White background with opacity */
             .bg-white\\/10 {
               background-color: rgba(255, 255, 255, 0.1) !important;
             }
@@ -166,7 +164,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               border-color: rgba(255, 255, 255, 0.4) !important;
             }
             
-            /* Text colors */
             .text-purple-600 {
               color: #9333ea !important;
             }
@@ -175,6 +172,43 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               color: #e5e7eb !important;
             }
             
+            /* ========== WHITE BLACK MINIMALIST TEMPLATE STYLES ========== */
+            /* Grid column spans */
+            .col-span-12 {
+              grid-column: span 12 / span 12 !important;
+            }
+            
+            .lg\\:col-span-8 {
+              grid-column: span 8 / span 8 !important;
+            }
+            
+            .lg\\:col-span-4 {
+              grid-column: span 4 / span 4 !important;
+            }
+            
+            /* Background colors */
+            .bg-black {
+              background-color: #000000 !important;
+            }
+            
+            .bg-zinc-100 {
+              background-color: #f4f4f5 !important;
+            }
+            
+            /* Border colors */
+            .border-gray-200 {
+              border-color: #e5e7eb !important;
+            }
+            
+            .border-gray-300 {
+              border-color: #d1d5db !important;
+            }
+            
+            .border-white\\/30 {
+              border-color: rgba(255, 255, 255, 0.3) !important;
+            }
+            
+            /* Text colors */
             .text-gray-300 {
               color: #d1d5db !important;
             }
@@ -183,48 +217,60 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               color: #9ca3af !important;
             }
             
-            /* Image and sizing */
-            .object-cover {
-              object-fit: cover !important;
+            /* Photo container sizing */
+            .w-48 {
+              width: 12rem !important;
             }
             
-            .overflow-hidden {
-              overflow: hidden !important;
+            .h-60 {
+              height: 15rem !important;
             }
             
-            .w-40 {
-              width: 10rem !important;
+            .w-64 {
+              width: 16rem !important;
             }
             
-            .h-40 {
-              height: 10rem !important;
+            .h-80 {
+              height: 20rem !important;
             }
             
-            .w-full {
-              width: 100% !important;
-            }
-            
-            .h-full {
-              height: 100% !important;
-            }
-            
-            /* Shadow */
-            .shadow-2xl {
-              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-            }
-            
-            /* Border radius */
+            /* Rounded corners */
             .rounded-xl {
               border-radius: 0.75rem !important;
             }
             
-            /* Additional spacing for this template */
-            .mb-10 {
-              margin-bottom: 2.5rem !important;
+            .rounded-lg {
+              border-radius: 0.5rem !important;
             }
             
-            .mb-12 {
-              margin-bottom: 3rem !important;
+            /* Additional spacing */
+            .px-10 {
+              padding-left: 2.5rem !important;
+              padding-right: 2.5rem !important;
+            }
+            
+            .py-8 {
+              padding-top: 2rem !important;
+              padding-bottom: 2rem !important;
+            }
+            
+            .px-12 {
+              padding-left: 3rem !important;
+              padding-right: 3rem !important;
+            }
+            
+            .py-14 {
+              padding-top: 3.5rem !important;
+              padding-bottom: 3.5rem !important;
+            }
+            
+            /* Flex gap */
+            .gap-8 {
+              gap: 2rem !important;
+            }
+            
+            .gap-10 {
+              gap: 2.5rem !important;
             }
             
             /* Grid utilities */
@@ -243,11 +289,14 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             
             /* Flex utilities */
             .flex { display: flex !important; }
+            .flex-col { flex-direction: column !important; }
+            .flex-row { flex-direction: row !important; }
             .flex-wrap { flex-wrap: wrap !important; }
             .items-center { align-items: center !important; }
             .items-start { align-items: flex-start !important; }
             .justify-between { justify-content: space-between !important; }
             .justify-start { justify-content: flex-start !important; }
+            .justify-end { justify-content: flex-end !important; }
             
             /* Spacing utilities */
             .space-y-2 > * + * { margin-top: 0.5rem; }
@@ -256,6 +305,8 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .space-y-5 > * + * { margin-top: 1.25rem; }
             .space-y-6 > * + * { margin-top: 1.5rem; }
             .space-y-8 > * + * { margin-top: 2rem; }
+            .space-y-10 > * + * { margin-top: 2.5rem; }
+            .space-y-14 > * + * { margin-top: 3.5rem; }
             
             .mb-1 { margin-bottom: 0.25rem; }
             .mb-2 { margin-bottom: 0.5rem; }
@@ -264,6 +315,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .mb-5 { margin-bottom: 1.25rem; }
             .mb-6 { margin-bottom: 1.5rem; }
             .mb-8 { margin-bottom: 2rem; }
+            .mb-10 { margin-bottom: 2.5rem; }
             
             .mt-1 { margin-top: 0.25rem; }
             .mt-2 { margin-top: 0.5rem; }
@@ -282,10 +334,15 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
             .px-4 { padding-left: 1rem; padding-right: 1rem; }
             .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .px-8 { padding-left: 2rem; padding-right: 2rem; }
+            .px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
             
             .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
             .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
             .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+            .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+            .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+            .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
             
             /* Text sizes */
             .text-xs { font-size: 0.75rem; line-height: 1rem; }
@@ -296,6 +353,8 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .text-2xl { font-size: 1.5rem; line-height: 2rem; }
             .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
             .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+            .text-5xl { font-size: 3rem; line-height: 1; }
+            .text-6xl { font-size: 3.75rem; line-height: 1; }
             
             /* Font weights */
             .font-light { font-weight: 300; }
@@ -306,6 +365,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             
             /* Text colors */
             .text-white { color: white !important; }
+            .text-black { color: black !important; }
             .text-gray-900 { color: #111827 !important; }
             .text-gray-800 { color: #1f2937 !important; }
             .text-gray-700 { color: #374151 !important; }
@@ -322,10 +382,55 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             .tracking-wider { letter-spacing: 0.05em; }
             .tracking-widest { letter-spacing: 0.1em; }
             .tracking-tight { letter-spacing: -0.025em; }
+            .tracking-tighter { letter-spacing: -0.05em; }
+            
+            /* Border radius */
+            .rounded-full { border-radius: 9999px !important; }
+            .rounded-2xl { border-radius: 1rem !important; }
+            
+            /* Object fit */
+            .object-cover {
+              object-fit: cover !important;
+            }
+            
+            .overflow-hidden {
+              overflow: hidden !important;
+            }
+            
+            /* Cursor */
+            .cursor-pointer {
+              cursor: pointer !important;
+            }
+            
+            /* Transition */
+            .transition-all {
+              transition-property: all !important;
+              transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+              transition-duration: 150ms !important;
+            }
+            
+            .hover\\:border-white:hover {
+              border-color: white !important;
+            }
+            
+            /* Shadow */
+            .shadow-xl {
+              box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+            }
+            
+            .shadow-2xl {
+              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            }
+            
+            /* Z-index */
+            .z-50 {
+              z-index: 50 !important;
+            }
             
             /* Print styles */
             @media print {
               body {
+                margin: 0;
                 padding: 0;
                 background: white;
               }
@@ -334,14 +439,32 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
                 display: none !important;
               }
               
-              .resume-two-column-layout {
+              .resume-content {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+              }
+              
+              /* Force grid layout in print */
+              .grid {
                 display: grid !important;
-                grid-template-columns: 2fr 1fr !important;
-                gap: 24px !important;
-                page-break-inside: avoid !important;
+              }
+              
+              .col-span-12 {
+                grid-column: span 12 / span 12 !important;
+              }
+              
+              .lg\\:col-span-8 {
+                grid-column: span 8 / span 8 !important;
+              }
+              
+              .lg\\:col-span-4 {
+                grid-column: span 4 / span 4 !important;
               }
               
               /* Force all background colors */
+              .bg-black,
               .bg-gradient-to-br,
               .bg-\\[\\#2C2118\\],
               .bg-\\[\\#FAF7F2\\],
@@ -349,29 +472,25 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               .bg-gray-50,
               .bg-gray-100,
               .bg-yellow-100,
-              .bg-amber-50 {
+              .bg-amber-50,
+              .bg-zinc-100 {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
               }
               
-              /* Force grid layout */
-              .grid, .grid-cols-12, .md\\:grid-cols-3 {
-                display: grid !important;
-              }
-              
               /* Prevent page breaks */
-              section, .space-y-5 > div, .space-y-4 > div, .mb-4, .mb-5, .mb-6, .mb-8, .mb-10, .mb-12 {
+              section, .space-y-6 > div, .space-y-5 > div, .space-y-4 > div, .mb-4, .mb-5, .mb-6, .mb-8, .mb-10 {
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
               }
               
               /* Remove shadows */
-              .shadow-2xl, .shadow-lg {
+              .shadow-2xl, .shadow-xl, .shadow-lg {
                 box-shadow: none !important;
               }
               
-              /* Optimize font sizes */
-              .text-4xl, .text-5xl, .text-6xl { font-size: 18pt !important; }
+              /* Optimize font sizes for print */
+              .text-6xl, .text-5xl, .text-4xl { font-size: 18pt !important; }
               .text-3xl { font-size: 16pt !important; }
               .text-2xl { font-size: 14pt !important; }
               .text-xl { font-size: 12pt !important; }
@@ -379,11 +498,17 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               .text-base { font-size: 10pt !important; }
               .text-sm { font-size: 9pt !important; }
               .text-xs { font-size: 8pt !important; }
+              
+              /* Remove extra margins */
+              body, div, .resume-content {
+                margin: 0 !important;
+                padding: 0 !important;
+              }
             }
             
             @page {
               size: A4;
-              margin: 12mm;
+              margin: 0;
             }
           </style>
         </head>
