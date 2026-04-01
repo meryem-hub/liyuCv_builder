@@ -2,6 +2,7 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
+import { Linkedin, Github, Globe, Download, RefreshCw } from 'lucide-react'
 
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
   <div className="text-center mb-6 border-b border-yellow-500 pb-4">
@@ -16,14 +17,15 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
     </div>
     
     {socialMedia && Object.keys(socialMedia).length > 0 && (
-      <div className="flex justify-center flex-wrap gap-3 mt-2 text-xs">
+      <div className="flex justify-center flex-wrap gap-4 mt-3 text-xs">
         {socialMedia.linkedin && (
           <a 
             href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-yellow-700 hover:underline"
+            className="text-yellow-700 hover:text-yellow-600 transition-colors flex items-center gap-1"
           >
+            <Linkedin className="w-3 h-3" />
             LinkedIn
           </a>
         )}
@@ -32,8 +34,9 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             href={socialMedia.github.startsWith('http') ? socialMedia.github : `https://${socialMedia.github}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-yellow-700 hover:underline"
+            className="text-gray-700 hover:text-gray-600 transition-colors flex items-center gap-1"
           >
+            <Github className="w-3 h-3" />
             GitHub
           </a>
         )}
@@ -42,8 +45,9 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
             href={socialMedia.portfolio.startsWith('http') ? socialMedia.portfolio : `https://${socialMedia.portfolio}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-yellow-700 hover:underline"
+            className="text-green-700 hover:text-green-600 transition-colors flex items-center gap-1"
           >
+            <Globe className="w-3 h-3" />
             Portfolio
           </a>
         )}
@@ -52,14 +56,13 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
   </div>
 )
 
-// Professional Summary Component 
 const ProfessionalSummary = ({ summary }) => {
   if (!summary) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Professional Summary
       </h2>
       <div className="p-3 bg-gray-50 rounded">
@@ -69,7 +72,6 @@ const ProfessionalSummary = ({ summary }) => {
   )
 }
 
-// Experience Section 
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
   
@@ -83,7 +85,7 @@ const ExperienceSection = ({ experiences }) => {
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Work Experience
       </h2>
       {experiences.map((exp) => {
@@ -108,14 +110,13 @@ const ExperienceSection = ({ experiences }) => {
   )
 }
 
-// Projects Section 
 const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Projects
       </h2>
       {projects.map((project) => (
@@ -155,14 +156,13 @@ const ProjectsSection = ({ projects }) => {
   )
 }
 
-// Education Section 
 const EducationSection = ({ education }) => {
   if (!education?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Education
       </h2>
       {education.map((edu) => (
@@ -177,14 +177,13 @@ const EducationSection = ({ education }) => {
   )
 }
 
-// Skills Section 
 const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Technical Skills
       </h2>
       <div className="flex flex-wrap gap-1.5">
@@ -201,14 +200,13 @@ const SkillsSection = ({ skills }) => {
   )
 }
 
-// Achievements Section 
 const AchievementsSection = ({ achievements }) => {
   if (!achievements?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Achievements
       </h2>
       {achievements.map((achievement) => (
@@ -222,14 +220,13 @@ const AchievementsSection = ({ achievements }) => {
   )
 }
 
-// Languages Section 
 const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Languages
       </h2>
       <div className="space-y-1.5">
@@ -244,14 +241,13 @@ const LanguagesSection = ({ languages }) => {
   )
 }
 
-// Certifications Section 
 const CertificationsSection = ({ certifications }) => {
   if (!certifications?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Certifications
       </h2>
       <div className="space-y-1.5">
@@ -267,14 +263,13 @@ const CertificationsSection = ({ certifications }) => {
   )
 }
 
-// Interests Section 
 const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
   
   return (
     <section className="mb-5">
       <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
-        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" aria-hidden="true"></div>
+        <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Interests
       </h2>
       <div className="flex flex-wrap gap-1.5">
@@ -291,22 +286,23 @@ const InterestsSection = ({ interests }) => {
   )
 }
 
-// PDF Export Button
 const PDFExportButton = ({ onExport, isExporting }) => (
   <div className="text-right mb-4 print:hidden">
     <button
       onClick={onExport}
       disabled={isExporting}
       className="bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-300 disabled:cursor-not-allowed text-black font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
-      aria-label="Export resume as PDF"
     >
-      <span aria-hidden="true">{isExporting ? '⏳' : '📄'}</span>
+      {isExporting ? (
+        <RefreshCw className="w-4 h-4 animate-spin" />
+      ) : (
+        <Download className="w-4 h-4" />
+      )}
       <span>{isExporting ? 'Generating...' : 'Save as PDF'}</span>
     </button>
   </div>
 )
 
-// Loading Skeleton
 const LoadingSkeleton = () => (
   <div className="bg-white text-gray-800 p-6 font-sans">
     <div className="animate-pulse">
@@ -323,15 +319,14 @@ const LoadingSkeleton = () => (
   </div>
 )
 
-// Error Boundary
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+  static getDerivedStateFromError() {
+    return { hasError: true }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -342,7 +337,7 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div className="bg-white text-gray-800 p-6 font-sans text-center">
-          <div className="text-red-500 text-base mb-2">⚠️ Failed to load resume</div>
+          <div className="text-red-500 text-base mb-2">Failed to load resume</div>
           <p className="text-gray-600 text-xs mb-3">Please refresh the page or try again later.</p>
           <button
             onClick={() => window.location.reload()}
@@ -357,7 +352,6 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Main Component
 export default function ModernTemplate({ resume }) {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
@@ -385,7 +379,6 @@ export default function ModernTemplate({ resume }) {
 
   const handleExportPDF = async () => {
     if (!resumeRef.current) return
-
     const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
     
     setIsExporting(true)
@@ -405,10 +398,10 @@ export default function ModernTemplate({ resume }) {
 
   return (
     <ErrorBoundary>
-      <div className="bg-white text-gray-800 p-4 font-sans">
+      <div className="bg-white text-gray-800 font-sans">
         <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
         
-        <div ref={resumeRef} className="resume-content">
+        <div ref={resumeRef} className="resume-container px-6 md:px-8 py-6">
           <ResumeHeader 
             personalInfo={safeData.personalInfo}
             socialMedia={safeData.socialMedia}
@@ -416,17 +409,15 @@ export default function ModernTemplate({ resume }) {
 
           <ProfessionalSummary summary={safeData.professionalSummary} />
 
-          {/* Two Column Layout - Optimized */}
           <div 
             className="resume-two-column-layout"
             style={{ 
               display: 'grid', 
               gridTemplateColumns: '2fr 1fr', 
-              gap: '20px',
+              gap: '24px',
               width: '100%'
             }}
           >
-            {/* Left Column - Main Content (Experience, Projects, Education, Achievements) */}
             <div style={{ minWidth: 0 }}>
               <ExperienceSection experiences={safeData.experience} />
               <ProjectsSection projects={safeData.projects} />
@@ -434,7 +425,6 @@ export default function ModernTemplate({ resume }) {
               <AchievementsSection achievements={safeData.achievements} />
             </div>
 
-            {/* Right Column - Sidebar (Skills, Certifications, Languages, Interests) */}
             <div style={{ minWidth: 0 }}>
               <SkillsSection skills={safeData.skills} />
               <CertificationsSection certifications={safeData.certifications} />
@@ -446,11 +436,10 @@ export default function ModernTemplate({ resume }) {
       </div>
 
       <style jsx>{`
-        /* Screen styles - Optimized */
         .resume-two-column-layout {
           display: grid;
           grid-template-columns: 2fr 1fr;
-          gap: 1.25rem;
+          gap: 1.5rem;
         }
         
         @media (max-width: 768px) {
@@ -460,7 +449,6 @@ export default function ModernTemplate({ resume }) {
           }
         }
         
-        /* Print styles - Optimized for one page */
         @media print {
           body {
             margin: 0;
@@ -472,33 +460,30 @@ export default function ModernTemplate({ resume }) {
             display: none !important;
           }
           
-          .resume-content {
-            padding: 0;
-            margin: 0;
-            width: 100%;
+          .resume-container {
+            padding-left: 28px !important;
+            padding-right: 28px !important;
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
           }
           
-          /* Force grid layout in print */
           .resume-two-column-layout {
             display: grid !important;
             grid-template-columns: 2fr 1fr !important;
-            gap: 20px !important;
+            gap: 24px !important;
             page-break-inside: avoid !important;
           }
           
-          /* Prevent column breaks */
           .resume-two-column-layout > div {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
           
-          /* Prevent sections from breaking */
           section, .mb-3, .mb-4, .mb-5 {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
           
-          /* Force background colors */
           .bg-yellow-500 {
             background-color: #eab308 !important;
             -webkit-print-color-adjust: exact !important;
@@ -517,27 +502,15 @@ export default function ModernTemplate({ resume }) {
             print-color-adjust: exact !important;
           }
           
-          /* Remove shadows and animations */
           .shadow-lg, .shadow-md, .shadow-sm, .hover\\:scale-105 {
             box-shadow: none !important;
             transform: none !important;
           }
           
-          /* Ensure borders */
           .border-b {
             border-bottom-width: 1px !important;
           }
           
-          /* Optimize spacing for print */
-          .mb-2 { margin-bottom: 0.5rem !important; }
-          .mb-3 { margin-bottom: 0.75rem !important; }
-          .mb-4 { margin-bottom: 1rem !important; }
-          .mb-5 { margin-bottom: 1.25rem !important; }
-          .mt-1 { margin-top: 0.25rem !important; }
-          .p-2 { padding: 0.5rem !important; }
-          .p-3 { padding: 0.75rem !important; }
-          
-          /* Optimize font sizes for print */
           .text-xs { font-size: 9pt !important; }
           .text-sm { font-size: 10pt !important; }
           .text-base { font-size: 11pt !important; }
@@ -547,7 +520,7 @@ export default function ModernTemplate({ resume }) {
         
         @page {
           size: A4;
-          margin: 12mm;
+          margin: 0;
         }
       `}</style>
     </ErrorBoundary>

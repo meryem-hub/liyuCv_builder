@@ -6,7 +6,7 @@ import { useResumeStore } from '@/lib/store'
 import { ArrowLeft, Eye, Check, Crown, Zap, Award, Palette, User, X, Star } from 'lucide-react'
 import { useState } from 'react'
 
-// Updated templates list with White & Black Minimalist
+// Updated templates list without Elegant
 const templates = [
   {
     id: 'modern',
@@ -49,15 +49,6 @@ const templates = [
     features: ['Minimal Layout', 'Clean Design', 'Developer Focused']
   },
   {
-    id: 'elegant',
-    name: 'Elegant',
-    description: 'Sophisticated design with premium typography',
-    category: 'Premium',
-    icon: Star,
-    features: ['Elegant Typography', 'Luxury Design']
-  },
-  // ====================== NEW TEMPLATE ======================
-  {
     id: 'whiteblack',
     name: 'White & Black',
     description: 'Elegant minimalist black & white design perfect for Graphic Designers',
@@ -72,7 +63,7 @@ import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
 import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
-import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'   // ← Import your new template
+import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'
 
 const templateComponents = {
   modern: ModernTemplate,
@@ -80,8 +71,7 @@ const templateComponents = {
   executive: ExecutiveTemplate,
   creative: CreativeTemplate,
   minimal: MinimalTemplate,
-  whiteblack: WhiteBlackMinimalistTemplate,   // ← Connected here
-  // elegant: ElegantTemplate,   // Uncomment when you create Elegant template
+  whiteblack: WhiteBlackMinimalistTemplate,
 }
 
 export default function TemplatesPage() {

@@ -92,19 +92,37 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
               background: white;
             }
             
-            /* ========== MODERN TEMPLATE STYLES ========== */
-            .resume-two-column-layout {
-              display: grid !important;
-              grid-template-columns: 2fr 1fr !important;
-              gap: 24px !important;
-              width: 100% !important;
-            }
-            
-            .bg-yellow-500 { background-color: #eab308 !important; }
-            .bg-gray-50 { background-color: #f9fafb !important; }
-            .bg-gray-100 { background-color: #f3f4f6 !important; }
-            .bg-yellow-100 { background-color: #fef9c3 !important; }
-            .text-yellow-700 { color: #b45309 !important; }
+         /* ========== MODERN TEMPLATE STYLES ========== */
+.resume-two-column-layout {
+  display: grid !important;
+  grid-template-columns: 2fr 1fr !important;
+  gap: 24px !important;
+  width: 100% !important;
+  /* ADD MARGINS HERE */
+  margin-left: 24px !important;
+  margin-right: 24px !important;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .resume-two-column-layout {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+  }
+}
+
+@media print {
+  .resume-two-column-layout {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+}
+
+.bg-yellow-500 { background-color: #eab308 !important; }
+.bg-gray-50 { background-color: #f9fafb !important; }
+.bg-gray-100 { background-color: #f3f4f6 !important; }
+.bg-yellow-100 { background-color: #fef9c3 !important; }
+.text-yellow-700 { color: #b45309 !important; }
             
             /* ========== ELEGANT BROWN TEMPLATE STYLES ========== */
             .bg-\\[\\#2C2118\\] { background-color: #2C2118 !important; }
@@ -508,8 +526,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
             
             @page {
               size: A4;
-              margin: 0;
-            }
+              margin: 12px;   }
           </style>
         </head>
         <body>

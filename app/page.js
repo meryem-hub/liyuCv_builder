@@ -234,7 +234,7 @@ export default function Home() {
 
             {/* Footer Text */}
             <div className="text-center md:text-right">
-              <div className="text-gray-400 text-xs sm:text-sm mb-1 sm:mb-2">© 2025 ልዩCV • Created by Meryem Ebrahim</div>
+              <div className="text-gray-400 text-xs sm:text-sm mb-1 sm:mb-2">© 2026 ልዩCV • Created by Meryem Ebrahim</div>
               <div className="text-yellow-400/60 text-xs">Professional CVs for successful journeys</div>
             </div>
           </div>
