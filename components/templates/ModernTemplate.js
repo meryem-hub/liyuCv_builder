@@ -1,25 +1,24 @@
-// components/templates/ModernTemplate.js
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 import { Linkedin, Github, Globe, Download, RefreshCw } from 'lucide-react'
 
 const ResumeHeader = ({ personalInfo, socialMedia }) => (
-  <div className="text-center mb-6 border-b border-yellow-500 pb-4">
+  <div className="text-center mb-8 border-b border-yellow-500 pb-6">
     <h1 className="text-2xl font-bold text-gray-900">{personalInfo.name}</h1>
     <p className="text-base text-gray-600 mt-1">{personalInfo.title}</p>
-    <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-gray-500">
+    <div className="flex justify-center flex-wrap gap-2 mt-3 text-xs text-gray-500">
       <span>{personalInfo.email}</span>
       <span>•</span>
       <span>{personalInfo.phone}</span>
       <span>•</span>
       <span>{personalInfo.location}</span>
     </div>
-    
+   
     {socialMedia && Object.keys(socialMedia).length > 0 && (
-      <div className="flex justify-center flex-wrap gap-4 mt-3 text-xs">
+      <div className="flex justify-center flex-wrap gap-4 mt-4 text-xs">
         {socialMedia.linkedin && (
-          <a 
+          <a
             href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -30,7 +29,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
           </a>
         )}
         {socialMedia.github && (
-          <a 
+          <a
             href={socialMedia.github.startsWith('http') ? socialMedia.github : `https://${socialMedia.github}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -41,7 +40,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
           </a>
         )}
         {socialMedia.portfolio && (
-          <a 
+          <a
             href={socialMedia.portfolio.startsWith('http') ? socialMedia.portfolio : `https://${socialMedia.portfolio}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -58,14 +57,14 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
 
 const ProfessionalSummary = ({ summary }) => {
   if (!summary) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Professional Summary
       </h2>
-      <div className="p-3 bg-gray-50 rounded">
+      <div className="p-4 bg-gray-50 rounded">
         <p className="text-gray-700 text-xs leading-relaxed whitespace-pre-line">{summary}</p>
       </div>
     </section>
@@ -74,26 +73,26 @@ const ProfessionalSummary = ({ summary }) => {
 
 const ExperienceSection = ({ experiences }) => {
   if (!experiences?.length) return null
-  
+ 
   const formatDateRange = (startDate, endDate) => {
     if (!startDate && !endDate) return null
     if (!endDate || endDate.trim() === '') return startDate
     if (endDate === 'Present') return `${startDate} - Present`
     return `${startDate} - ${endDate}`
   }
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Work Experience
       </h2>
       {experiences.map((exp) => {
         const dateRange = formatDateRange(exp.startDate, exp.endDate)
-        
+       
         return (
-          <div key={exp.id} className="mb-3 p-3 bg-gray-50 rounded">
-            <div className="flex justify-between items-start mb-1 flex-wrap gap-1">
+          <div key={exp.id} className="mb-4 p-4 bg-gray-50 rounded">
+            <div className="flex justify-between items-start mb-2 flex-wrap gap-1">
               <h3 className="font-semibold text-gray-900 text-sm">{exp.position}</h3>
               {dateRange && (
                 <span className="text-gray-500 text-xs bg-yellow-100 px-2 py-0.5 rounded">
@@ -101,7 +100,7 @@ const ExperienceSection = ({ experiences }) => {
                 </span>
               )}
             </div>
-            <p className="text-gray-700 font-medium text-xs mb-1">{exp.company}</p>
+            <p className="text-gray-700 font-medium text-xs mb-1.5">{exp.company}</p>
             <p className="text-gray-600 text-xs leading-relaxed whitespace-pre-line">{exp.description}</p>
           </div>
         )
@@ -112,26 +111,26 @@ const ExperienceSection = ({ experiences }) => {
 
 const ProjectsSection = ({ projects }) => {
   if (!projects?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Projects
       </h2>
       {projects.map((project) => (
-        <div key={project.id} className="mb-3 p-3 bg-gray-50 rounded">
-          <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
+        <div key={project.id} className="mb-4 p-4 bg-gray-50 rounded">
+          <h3 className="font-semibold text-gray-900 text-sm mb-1.5">{project.name}</h3>
           {project.techStack && (
-            <p className="text-gray-600 text-xs mb-1">
+            <p className="text-gray-600 text-xs mb-1.5">
               <span className="font-medium">Tech:</span> {project.techStack}
             </p>
           )}
-          <p className="text-gray-600 text-xs leading-relaxed mb-1">{project.description}</p>
+          <p className="text-gray-600 text-xs leading-relaxed mb-2">{project.description}</p>
           <div className="flex gap-3 text-xs">
             {project.demoLink && (
-              <a 
-                href={project.demoLink} 
+              <a
+                href={project.demoLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-yellow-700 hover:underline"
@@ -140,8 +139,8 @@ const ProjectsSection = ({ projects }) => {
               </a>
             )}
             {project.githubLink && (
-              <a 
-                href={project.githubLink} 
+              <a
+                href={project.githubLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 hover:underline"
@@ -158,19 +157,19 @@ const ProjectsSection = ({ projects }) => {
 
 const EducationSection = ({ education }) => {
   if (!education?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Education
       </h2>
       {education.map((edu) => (
-        <div key={edu.id} className="mb-2 p-3 bg-gray-50 rounded">
+        <div key={edu.id} className="mb-4 p-4 bg-gray-50 rounded">
           <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
-          <p className="text-gray-700 text-xs mt-0.5">{edu.school}</p>
-          <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
-          {edu.gpa && <p className="text-gray-500 text-xs mt-0.5">GPA: {edu.gpa}</p>}
+          <p className="text-gray-700 text-xs mt-1">{edu.school}</p>
+          <p className="text-gray-500 text-xs mt-1">{edu.year}</p>
+          {edu.gpa && <p className="text-gray-500 text-xs mt-1">GPA: {edu.gpa}</p>}
         </div>
       ))}
     </section>
@@ -179,18 +178,18 @@ const EducationSection = ({ education }) => {
 
 const SkillsSection = ({ skills }) => {
   if (!skills?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Technical Skills
       </h2>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {skills.map((skill, index) => (
-          <span 
+          <span
             key={index}
-            className="bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium"
+            className="bg-yellow-500 text-white px-3 py-1 rounded text-xs font-medium"
           >
             {skill}
           </span>
@@ -202,15 +201,15 @@ const SkillsSection = ({ skills }) => {
 
 const AchievementsSection = ({ achievements }) => {
   if (!achievements?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Achievements
       </h2>
       {achievements.map((achievement) => (
-        <div key={achievement.id} className="mb-2 p-2 bg-gray-50 rounded">
+        <div key={achievement.id} className="mb-3 p-3 bg-gray-50 rounded">
           <h3 className="font-semibold text-gray-900 text-xs">{achievement.title}</h3>
           <p className="text-gray-600 text-xs">{achievement.organization}</p>
           <p className="text-gray-500 text-xs">{achievement.year}</p>
@@ -222,16 +221,16 @@ const AchievementsSection = ({ achievements }) => {
 
 const LanguagesSection = ({ languages }) => {
   if (!languages?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Languages
       </h2>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {languages.map((language) => (
-          <div key={language.id} className="p-2 bg-gray-50 rounded">
+          <div key={language.id} className="p-3 bg-gray-50 rounded">
             <span className="font-semibold text-gray-900 text-xs">{language.language}</span>
             <span className="text-gray-600 text-xs ml-1">- {language.proficiency}</span>
           </div>
@@ -243,16 +242,16 @@ const LanguagesSection = ({ languages }) => {
 
 const CertificationsSection = ({ certifications }) => {
   if (!certifications?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Certifications
       </h2>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {certifications.map((cert) => (
-          <div key={cert.id} className="p-2 bg-gray-50 rounded">
+          <div key={cert.id} className="p-3 bg-gray-50 rounded">
             <h3 className="font-semibold text-gray-900 text-xs">{cert.name}</h3>
             <p className="text-gray-600 text-xs">{cert.organization}</p>
             <p className="text-gray-500 text-xs">{cert.year}</p>
@@ -265,18 +264,18 @@ const CertificationsSection = ({ certifications }) => {
 
 const InterestsSection = ({ interests }) => {
   if (!interests?.length) return null
-  
+ 
   return (
-    <section className="mb-5">
-      <h2 className="text-sm font-bold text-gray-900 mb-2 flex items-center uppercase tracking-wide">
+    <section className="mb-7">
+      <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center uppercase tracking-wide">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Interests
       </h2>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {interests.map((interest, index) => (
-          <span 
+          <span
             key={index}
-            className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs"
+            className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs"
           >
             {interest}
           </span>
@@ -324,15 +323,12 @@ class ErrorBoundary extends React.Component {
     super(props)
     this.state = { hasError: false }
   }
-
   static getDerivedStateFromError() {
     return { hasError: true }
   }
-
   componentDidCatch(error, errorInfo) {
     console.error('Resume Error:', error, errorInfo)
   }
-
   render() {
     if (this.state.hasError) {
       return (
@@ -380,7 +376,7 @@ export default function ModernTemplate({ resume }) {
   const handleExportPDF = async () => {
     if (!resumeRef.current) return
     const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
-    
+   
     setIsExporting(true)
     try {
       await exportToPDF(resumeRef.current, fileName)
@@ -400,21 +396,19 @@ export default function ModernTemplate({ resume }) {
     <ErrorBoundary>
       <div className="bg-white text-gray-800 font-sans">
         <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
-        
-        <div ref={resumeRef} className="resume-container px-6 md:px-8 py-6">
-          <ResumeHeader 
+       
+        <div ref={resumeRef} className="resume-container px-8 md:px-10 py-8">
+          <ResumeHeader
             personalInfo={safeData.personalInfo}
             socialMedia={safeData.socialMedia}
           />
-
           <ProfessionalSummary summary={safeData.professionalSummary} />
-
-          <div 
+          <div
             className="resume-two-column-layout"
-            style={{ 
-              display: 'grid', 
-              gridTemplateColumns: '2fr 1fr', 
-              gap: '24px',
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '2fr 1fr',
+              gap: '32px',
               width: '100%'
             }}
           >
@@ -424,7 +418,6 @@ export default function ModernTemplate({ resume }) {
               <EducationSection education={safeData.education} />
               <AchievementsSection achievements={safeData.achievements} />
             </div>
-
             <div style={{ minWidth: 0 }}>
               <SkillsSection skills={safeData.skills} />
               <CertificationsSection certifications={safeData.certifications} />
@@ -439,85 +432,67 @@ export default function ModernTemplate({ resume }) {
         .resume-two-column-layout {
           display: grid;
           grid-template-columns: 2fr 1fr;
-          gap: 1.5rem;
+          gap: 2rem;
         }
-        
+       
         @media (max-width: 768px) {
           .resume-two-column-layout {
             grid-template-columns: 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
           }
         }
-        
+       
         @media print {
           body {
             margin: 0;
             padding: 0;
             background: white;
           }
-          
+         
           .print\\:hidden {
             display: none !important;
           }
-          
+         
           .resume-container {
-            padding-left: 28px !important;
-            padding-right: 28px !important;
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
+            padding-left: 45px !important;
+            padding-right: 45px !important;
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
           }
-          
+         
           .resume-two-column-layout {
-            display: grid !important;
-            grid-template-columns: 2fr 1fr !important;
-            gap: 24px !important;
-            page-break-inside: avoid !important;
+            gap: 32px !important;
           }
-          
-          .resume-two-column-layout > div {
+         
+          section, .mb-4, .mb-7 {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
-          
-          section, .mb-3, .mb-4, .mb-5 {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-          }
-          
+         
           .bg-yellow-500 {
             background-color: #eab308 !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
-          
+         
           .bg-gray-50 {
             background-color: #f9fafb !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
-          
+         
           .bg-yellow-100 {
             background-color: #fef9c3 !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
-          
-          .shadow-lg, .shadow-md, .shadow-sm, .hover\\:scale-105 {
+         
+          .shadow-lg, .hover\\:scale-105 {
             box-shadow: none !important;
             transform: none !important;
           }
-          
-          .border-b {
-            border-bottom-width: 1px !important;
-          }
-          
-          .text-xs { font-size: 9pt !important; }
-          .text-sm { font-size: 10pt !important; }
-          .text-base { font-size: 11pt !important; }
-          .text-lg { font-size: 12pt !important; }
-          .text-2xl { font-size: 16pt !important; }
         }
-        
+       
         @page {
           size: A4;
           margin: 0;
