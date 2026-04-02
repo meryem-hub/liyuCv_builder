@@ -46,15 +46,15 @@ const templates = [
     description: 'Ultra-clean, minimalist design for developers',
     category: 'Tech',
     icon: Crown,
-    features: ['Minimal Layout', 'Clean Design', 'Developer Focused']
+    features: ['Minimal Layout', 'Clean Design']
   },
   {
     id: 'whiteblack',
     name: 'White & Black',
-    description: 'Elegant minimalist black & white design perfect for Graphic Designers',
+    description: 'Elegant minimalist black & white design.',
     category: 'Premium',
     icon: Palette,
-    features: ['Large Photo Area', 'Minimalist', 'Designer Focused', 'High Impact']
+    features: ['Large Photo Area', 'Minimalist', 'Designer Focused']
   }
 ]
 
