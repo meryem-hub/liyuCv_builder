@@ -60,27 +60,51 @@ export default function Sidebar() {
     updateCertifications(newCertifications)
   }
 
-  // Get template info - Updated with whiteblack template
+  // Get template info - Updated with golden / light gray / black theme
   const getTemplateInfo = () => {
     switch(currentTemplate) {
       case 'modern':
-        return { icon: Zap, color: 'from-yellow-400 to-yellow-600', name: 'Modern' }
+        return { 
+          icon: Zap, 
+          color: 'from-amber-400 via-yellow-500 to-amber-600', 
+          name: 'Modern' 
+        }
       case 'executive':
-        return { icon: User, color: 'from-indigo-600 to-purple-700', name: 'Executive' }
+        return { 
+          icon: User, 
+          color: 'from-zinc-900 to-black', 
+          name: 'Executive' 
+        }
       case 'professional':
-        return { icon: Award, color: 'from-blue-500 to-blue-700', name: 'Professional' }
+        return { 
+          icon: Award, 
+          color: 'from-amber-500 to-yellow-600', 
+          name: 'Professional' 
+        }
       case 'creative':
-        return { icon: Palette, color: 'from-purple-500 to-pink-600', name: 'Creative' }
+        return { 
+          icon: Palette, 
+          color: 'from-amber-400 to-orange-500', 
+          name: 'Creative' 
+        }
       case 'minimal':
-        return { icon: Crown, color: 'from-green-500 to-green-700', name: 'Minimal' }
+        return { 
+          icon: Crown, 
+          color: 'from-yellow-400 to-amber-600', 
+          name: 'Minimal' 
+        }
       case 'whiteblack':
         return { 
           icon: Palette, 
-          color: 'from-black to-zinc-800', 
+          color: 'from-zinc-900 to-black', 
           name: 'White & Black Minimalist' 
         }
       default:
-        return { icon: Zap, color: 'from-yellow-400 to-yellow-600', name: 'Modern' }
+        return { 
+          icon: Zap, 
+          color: 'from-amber-400 via-yellow-500 to-amber-600', 
+          name: 'Modern' 
+        }
     }
   }
 
@@ -133,8 +157,8 @@ export default function Sidebar() {
           <h3 className="text-lg font-semibold mb-4 text-gray-300">Current Template</h3>
           <div className="bg-gray-700 p-4 rounded-lg mb-4">
             <div className="flex items-center space-x-3">
-              <div className={`w-10 h-10 bg-gradient-to-br ${templateInfo.color} rounded-lg flex items-center justify-center`}>
-                <TemplateIcon className="w-5 h-5 text-white" />
+              <div className={`w-11 h-11 bg-gradient-to-br ${templateInfo.color} rounded-xl flex items-center justify-center shadow-md ring-1 ring-white/20`}>
+                <TemplateIcon className="w-6 h-6 text-white" />
               </div>
               <div>
                 <div className="text-white font-medium">{templateInfo.name}</div>
