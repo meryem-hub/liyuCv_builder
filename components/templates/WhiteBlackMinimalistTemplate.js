@@ -8,26 +8,19 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
   const [isExporting, setIsExporting] = useState(false)
   const [photo, setPhoto] = useState(null)
 
-  const safeData = {
-    personalInfo: {
-      name: resume?.personalInfo?.name || 'YOUR NAME',
-      title: resume?.personalInfo?.title || 'Graphic Designer',
-      email: resume?.personalInfo?.email || 'your.email@example.com',
-      phone: resume?.personalInfo?.phone || '+123 456 7890',
-      location: resume?.personalInfo?.location || 'City, Country',
-      ...resume?.personalInfo
-    },
-    professionalSummary: resume?.professionalSummary || 'Creative and detail-oriented Graphic Designer with a passion for visual storytelling, branding, and digital design.',
-    experience: resume?.experience || [],
-    education: resume?.education || [],
-    skills: resume?.skills || [],
-    projects: resume?.projects || [],
-    certifications: resume?.certifications || [],
-  }
+  const {
+    personalInfo = {},
+    professionalSummary = '',
+    experience = [],
+    education = [],
+    skills = [],
+    projects = [],
+    certifications = []
+  } = resume
 
   const handleExportPDF = async () => {
     if (!resumeRef.current) return
-    const fileName = `resume-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`
+    const fileName = `resume-${personalInfo?.name?.replace(/\s+/g, '-') || 'resume'}.pdf`
     
     setIsExporting(true)
     try {
@@ -65,24 +58,24 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
       <div ref={resumeRef} className="resume-content w-full bg-white">
         {/* Header with Photo - SIDE BY SIDE LAYOUT */}
         <div className="bg-black text-white px-10 py-8">
-          <div className="flex flex-row items-center justify-between gap-8">
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: '32px' }}>
             {/* Left side - Name and Title */}
-            <div className="flex-1">
-              <h1 className="text-5xl font-bold tracking-tighter leading-none">
-                {safeData.personalInfo.name}
+            <div style={{ flex: 1 }}>
+              <h1 style={{ fontSize: '48px', fontWeight: 'bold', letterSpacing: '-0.025em', lineHeight: 1 }}>
+                {personalInfo.name || 'YOUR NAME'}
               </h1>
-              <p className="text-2xl text-gray-300 mt-2 font-light">
-                {safeData.personalInfo.title}
+              <p style={{ fontSize: '24px', color: '#d1d5db', marginTop: '8px', fontWeight: 300 }}>
+                {personalInfo.title || 'Professional Title'}
               </p>
             </div>
 
             {/* Right side - Clickable Photo Placeholder */}
-            <label className="w-40 h-48 border-4 border-white/30 hover:border-white transition-all cursor-pointer flex-shrink-0 overflow-hidden rounded-xl relative group shadow-xl">
+            <label style={{ width: '160px', height: '192px', border: '4px solid rgba(255,255,255,0.3)', cursor: 'pointer', flexShrink: 0, overflow: 'hidden', borderRadius: '12px', position: 'relative', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handlePhotoUpload}
-                className="hidden"
+                style={{ display: 'none' }}
               />
               
               {photo ? (
@@ -90,14 +83,12 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
                   src={photo}
                   alt="Profile Photo"
                   fill
-                  className="object-cover"
+                  style={{ objectFit: 'cover' }}
                 />
               ) : (
-                <div className="w-full h-full bg-zinc-900 flex flex-col items-center justify-center text-center p-4">
-                  <div className="text-4xl mb-2 opacity-70">📸</div>
-                  <p className="text-[10px] uppercase tracking-[1px] font-medium text-gray-400 group-hover:text-white">
-                    ADD PHOTO
-                  </p>
+                <div style={{ width: '100%', height: '100%', backgroundColor: '#18181b', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '16px' }}>
+                  <div style={{ fontSize: '36px', marginBottom: '8px', opacity: 0.7 }}>📸</div>
+                  <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 500, color: '#9ca3af' }}>ADD PHOTO</p>
                 </div>
               )}
             </label>
@@ -105,108 +96,117 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
         </div>
 
         {/* Contact Bar */}
-        <div className="bg-zinc-100 px-10 py-3 text-sm text-gray-600 flex flex-wrap gap-x-8 gap-y-2 border-b border-gray-200">
-          <span>{safeData.personalInfo.phone}</span>
-          <span>{safeData.personalInfo.email}</span>
-          <span>{safeData.personalInfo.location}</span>
+        <div style={{ backgroundColor: '#f4f4f5', padding: '12px 40px', fontSize: '14px', color: '#4b5563', display: 'flex', flexWrap: 'wrap', gap: '32px', borderBottom: '1px solid #e5e7eb' }}>
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.location && <span>{personalInfo.location}</span>}
         </div>
 
-        {/* Main Content - FIXED TWO-COLUMN GRID */}
-        <div className="px-10 py-8">
-          <div className="grid grid-cols-12 gap-8">
-            {/* Left Column - 8 columns */}
-            <div className="col-span-12 lg:col-span-8 space-y-8">
-              <section>
-                <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-3 text-black border-b border-gray-200 pb-2">PROFILE</h2>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {safeData.professionalSummary}
-                </p>
-              </section>
+        {/* Main Content - FIXED 2-COLUMN USING FLEXBOX */}
+        <div style={{ padding: '32px 40px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '32px' }}>
+            
+            {/* Left Column - 2/3 width */}
+            <div style={{ width: '66.66%' }}>
+              {/* Profile Section */}
+              {professionalSummary && (
+                <div style={{ marginBottom: '32px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>PROFILE</h2>
+                  <p style={{ color: '#4b5563', fontSize: '14px', lineHeight: 1.6 }}>
+                    {professionalSummary}
+                  </p>
+                </div>
+              )}
 
-              {safeData.experience.length > 0 && (
-                <section>
-                  <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-4 text-black border-b border-gray-200 pb-2">EXPERIENCE</h2>
-                  <div className="space-y-6">
-                    {safeData.experience.map((exp) => (
+              {/* Experience Section */}
+              {experience.length > 0 && (
+                <div style={{ marginBottom: '32px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>EXPERIENCE</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    {experience.map((exp) => (
                       <div key={exp.id}>
-                        <div className="flex flex-wrap justify-between items-baseline gap-2">
-                          <h3 className="font-semibold text-base text-gray-900">{exp.position}</h3>
-                          <span className="text-xs text-gray-500">
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', gap: '8px' }}>
+                          <h3 style={{ fontWeight: 600, fontSize: '16px', color: '#111827' }}>{exp.position}</h3>
+                          <span style={{ fontSize: '12px', color: '#6b7280' }}>
                             {exp.startDate} — {exp.endDate || 'Present'}
                           </span>
                         </div>
-                        <p className="text-gray-600 text-sm font-medium mt-1">{exp.company}</p>
-                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
+                        <p style={{ color: '#4b5563', fontSize: '14px', fontWeight: 500, marginTop: '4px' }}>{exp.company}</p>
+                        <p style={{ color: '#6b7280', fontSize: '14px', marginTop: '8px', lineHeight: 1.5 }}>
                           {exp.description}
                         </p>
                       </div>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
 
-              {safeData.projects.length > 0 && (
-                <section>
-                  <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-4 text-black border-b border-gray-200 pb-2">SELECTED PROJECTS</h2>
-                  <div className="space-y-5">
-                    {safeData.projects.map((project) => (
+              {/* Projects Section */}
+              {projects.length > 0 && (
+                <div>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>SELECTED PROJECTS</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {projects.map((project) => (
                       <div key={project.id}>
-                        <h3 className="font-semibold text-base text-gray-900">{project.name}</h3>
+                        <h3 style={{ fontWeight: 600, fontSize: '16px', color: '#111827' }}>{project.name}</h3>
                         {project.techStack && (
-                          <p className="text-gray-500 text-xs mt-1">{project.techStack}</p>
+                          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '4px' }}>{project.techStack}</p>
                         )}
-                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
+                        <p style={{ color: '#6b7280', fontSize: '14px', marginTop: '8px', lineHeight: 1.5 }}>
                           {project.description}
                         </p>
                       </div>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
             </div>
 
-            {/* Right Column - 4 columns */}
-            <div className="col-span-12 lg:col-span-4 space-y-8">
-              {safeData.education.length > 0 && (
-                <section>
-                  <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-3 text-black border-b border-gray-200 pb-2">EDUCATION</h2>
-                  <div className="space-y-4">
-                    {safeData.education.map((edu) => (
+            {/* Right Column - 1/3 width */}
+            <div style={{ width: '33.33%' }}>
+              {/* Education Section */}
+              {education.length > 0 && (
+                <div style={{ marginBottom: '32px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>EDUCATION</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {education.map((edu) => (
                       <div key={edu.id}>
-                        <h3 className="font-semibold text-sm text-gray-900">{edu.degree}</h3>
-                        <p className="text-gray-600 text-xs mt-0.5">{edu.school}</p>
-                        <p className="text-xs text-gray-400 mt-1">{edu.year}</p>
+                        <h3 style={{ fontWeight: 600, fontSize: '14px', color: '#111827' }}>{edu.degree}</h3>
+                        <p style={{ color: '#6b7280', fontSize: '12px', marginTop: '2px' }}>{edu.school}</p>
+                        <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '4px' }}>{edu.year}</p>
                       </div>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
 
-              {safeData.skills.length > 0 && (
-                <section>
-                  <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-3 text-black border-b border-gray-200 pb-2">SKILLS</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {safeData.skills.map((skill, i) => (
-                      <span key={i} className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-full">
+              {/* Skills Section */}
+              {skills.length > 0 && (
+                <div style={{ marginBottom: '32px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>SKILLS</h2>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {skills.map((skill, i) => (
+                      <span key={i} style={{ fontSize: '14px', color: '#4b5563', backgroundColor: '#f3f4f6', padding: '4px 12px', borderRadius: '9999px' }}>
                         {skill}
                       </span>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
 
-              {safeData.certifications.length > 0 && (
-                <section>
-                  <h2 className="uppercase text-[11px] font-bold tracking-[2px] mb-3 text-black border-b border-gray-200 pb-2">CERTIFICATIONS</h2>
-                  <div className="space-y-3">
-                    {safeData.certifications.map((cert) => (
+              {/* Certifications Section */}
+              {certifications.length > 0 && (
+                <div>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>CERTIFICATIONS</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {certifications.map((cert) => (
                       <div key={cert.id}>
-                        <p className="font-medium text-sm text-gray-900">{cert.name}</p>
-                        <p className="text-gray-500 text-xs">{cert.organization} • {cert.year}</p>
+                        <p style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}>{cert.name}</p>
+                        <p style={{ color: '#6b7280', fontSize: '12px' }}>{cert.organization} • {cert.year}</p>
                       </div>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
             </div>
           </div>
@@ -238,78 +238,17 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
             width: 100%;
           }
           
-          /* Force side-by-side layout in print */
-          .flex-row {
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-          }
-          
-          .flex-1 {
-            flex: 1 !important;
-          }
-          
-          /* Force grid layout in print */
-          .grid {
-            display: grid !important;
-          }
-          
-          .col-span-12 {
-            grid-column: span 12 / span 12 !important;
-          }
-          
-          .lg\\:col-span-8 {
-            grid-column: span 8 / span 8 !important;
-          }
-          
-          .lg\\:col-span-4 {
-            grid-column: span 4 / span 4 !important;
-          }
-          
-          /* Force background colors */
+          /* Force background colors in print */
           .bg-black {
             background-color: black !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
           
-          .bg-zinc-100 {
-            background-color: #f4f4f5 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          .bg-gray-100 {
-            background-color: #f3f4f6 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          /* Force image container size in print */
-          .w-40 {
-            width: 10rem !important;
-          }
-          
-          .h-48 {
-            height: 12rem !important;
-          }
-          
-          /* Prevent page breaks */
-          section, .space-y-6 > div, .space-y-5 > div, .space-y-4 > div {
+          /* Prevent page breaks inside sections */
+          div[style*="marginBottom"] {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
-          }
-          
-          /* Remove shadows */
-          .shadow-xl, .shadow-2xl {
-            box-shadow: none !important;
-          }
-          
-          /* Remove extra margins */
-          body, div, .resume-content {
-            margin: 0 !important;
-            padding: 0 !important;
           }
         }
         
