@@ -2,12 +2,12 @@
 'use client'
 import { useResumeStore } from '@/lib/store'
 
-// Import all templates including the new one
+// Import all templates
 import ModernTemplate from '@/components/templates/ModernTemplate'
 import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
+import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'  // Now shows Lia Rojas data
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
-import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'
 
 export default function ResumePreview() {
@@ -21,14 +21,13 @@ export default function ResumePreview() {
     )
   }
 
-  // ←←← UPDATED TEMPLATE MAP ←←←
   const templates = {
     modern: ModernTemplate,
     professional: ProfessionalTemplate,
+    executive: ExecutiveTemplate,  
     creative: CreativeTemplate,
     minimal: MinimalTemplate,
-    executive: ExecutiveTemplate,
-    whiteblack: WhiteBlackMinimalistTemplate,   // ← This was missing!
+    whiteblack: WhiteBlackMinimalistTemplate,
   }
 
   const TemplateComponent = templates[currentTemplate] || ModernTemplate

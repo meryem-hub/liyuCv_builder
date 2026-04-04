@@ -91,7 +91,7 @@ const html = `
         }
         
         .resume-container {
-          max-width: 1100px;
+          max-width: 1200px;
           margin: 0 auto;
           background: white;
           padding: 0;

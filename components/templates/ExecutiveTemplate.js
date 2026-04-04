@@ -1,10 +1,9 @@
-// components/templates/ExecutiveTemplate.js
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 
 const PDFExportButton = ({ onExport, isExporting }) => (
-  <div className="text-right mb-6 print:hidden">
+  <div className="text-right mb-4 print:hidden">
     <button
       onClick={onExport}
       disabled={isExporting}
@@ -23,92 +22,31 @@ const ExecutiveTemplate = ({ resume }) => {
 
   const safeData = {
     personalInfo: {
-      firstName: resume?.personalInfo?.firstName || 'Your',
-      lastName: resume?.personalInfo?.lastName || 'Name',
-      title: resume?.personalInfo?.title || 'Computer Science Graduate',
-      email: resume?.personalInfo?.email || 'your.name@email.com',
-      phone: resume?.personalInfo?.phone || '+1 (555) 123-4567',
-      location: resume?.personalInfo?.location || 'San Francisco, CA',
-      linkedin: resume?.personalInfo?.linkedin || 'linkedin.com/in/yourname',
-      github: resume?.personalInfo?.github || 'github.com/yourname',
+      firstName: resume?.personalInfo?.firstName || '',
+      lastName: resume?.personalInfo?.lastName || '',
+      name: resume?.personalInfo?.name || '',
+      title: resume?.personalInfo?.title || '',
+      email: resume?.personalInfo?.email || '',
+      phone: resume?.personalInfo?.phone || '',
+      location: resume?.personalInfo?.location || '',
+      linkedin: resume?.personalInfo?.linkedin || '',
+      github: resume?.personalInfo?.github || '',
+      website: resume?.personalInfo?.website || '',
       ...resume?.personalInfo
     },
-    about: resume?.professionalSummary || 'Recent Computer Science graduate with strong foundation in software development, algorithms, and full-stack web technologies. Passionate about building scalable applications and solving complex problems through elegant code. Seeking opportunities to contribute to innovative projects and grow as a software engineer.',
-    experience: resume?.experience || [
-      {
-        id: '1',
-        position: 'Software Engineering Intern',
-        company: 'Tech Solutions Inc.',
-        startDate: '2023',
-        endDate: '2024',
-        description: 'Developed and maintained full-stack web applications using React and Node.js. Collaborated with senior engineers to implement new features and optimize database queries, reducing API response time by 25%. Participated in agile development processes and code reviews.'
-      },
-      {
-        id: '2',
-        position: 'Research Assistant',
-        company: 'University AI Lab',
-        startDate: '2023',
-        endDate: '2024',
-        description: 'Conducted research on machine learning algorithms for natural language processing. Implemented neural network models using TensorFlow and PyTorch. Published research findings in university journal and presented at undergraduate research symposium.'
-      },
-      {
-        id: '3',
-        position: 'Teaching Assistant',
-        company: 'Computer Science Department',
-        startDate: '2022',
-        endDate: '2023',
-        description: 'Assisted professor in teaching Data Structures and Algorithms course. Conducted weekly lab sessions for 40+ students. Graded assignments and provided constructive feedback to help students understand complex concepts.'
-      }
-    ],
-    education: resume?.education || [
-      {
-        id: '1',
-        degree: 'Bachelor of Science in Computer Science',
-        school: 'University of Technology',
-        year: '2021 — 2025',
-        gpa: '3.85',
-        honors: 'Cum Laude, Dean\'s List'
-      }
-    ],
-    skills: resume?.skills || [
-      'JavaScript/TypeScript',
-      'React.js',
-      'Node.js',
-      'Python',
-      'Java',
-      'SQL',
-      'Git/GitHub',
-      'REST APIs',
-      'Data Structures',
-      'Algorithms',
-      'MongoDB',
-      'Docker'
-    ],
-    projects: resume?.projects || [
-      {
-        id: '1',
-        name: 'E-Commerce Platform',
-        description: 'Built a full-stack e-commerce application with user authentication, product management, and payment integration using MERN stack. Implemented responsive design and optimized database queries for better performance.',
-        tags: ['React', 'Node.js', 'MongoDB', 'Express']
-      },
-      {
-        id: '2',
-        name: 'AI Image Classifier',
-        description: 'Developed a convolutional neural network for image classification achieving 92% accuracy on CIFAR-10 dataset. Created a web interface using Flask for real-time predictions.',
-        tags: ['Python', 'TensorFlow', 'Flask', 'CNN']
-      },
-      {
-        id: '3',
-        name: 'Task Management Mobile App',
-        description: 'Created cross-platform mobile app for task management with real-time updates, push notifications, and cloud synchronization using React Native and Firebase.',
-        tags: ['React Native', 'Firebase', 'Redux']
-      }
-    ]
+    professionalSummary: resume?.professionalSummary || '',
+    experience: resume?.experience || [],
+    education: resume?.education || [],
+    skills: resume?.skills || [],
+    projects: resume?.projects || [],
+    certifications: resume?.certifications || [],
+    languages: resume?.languages || [],
+    interests: resume?.interests || []
   }
 
   const handleExportPDF = async () => {
     if (!resumeRef.current) return
-    const fileName = `${safeData.personalInfo.firstName}-${safeData.personalInfo.lastName}-resume.pdf`
+    const fileName = `${safeData.personalInfo.firstName || 'resume'}-${safeData.personalInfo.lastName || 'export'}-resume.pdf`
     setIsExporting(true)
     try {
       await exportToPDF(resumeRef.current, fileName)
@@ -127,77 +65,77 @@ const ExecutiveTemplate = ({ resume }) => {
     return `${startDate} — ${endDate}`
   }
 
-  // Split skills into two columns
   const midPoint = Math.ceil(safeData.skills.length / 2)
   const leftSkills = safeData.skills.slice(0, midPoint)
   const rightSkills = safeData.skills.slice(midPoint)
 
   if (!resume) {
-    return (
-      <div className="bg-[#FAF7F2] min-h-screen p-8">
-        <div className="animate-pulse max-w-5xl mx-auto">
-          <div className="h-32 bg-[#E8E0D5] rounded-2xl mb-8"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="h-64 bg-[#E8E0D5] rounded-2xl"></div>
-            <div className="h-64 bg-[#E8E0D5] rounded-2xl"></div>
-          </div>
-        </div>
-      </div>
-    )
+    return <div className="bg-[#FAF7F2] min-h-screen p-8">Loading resume...</div>
   }
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen p-6">
+    <div className="bg-white min-h-screen font-sans">
       <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
-      
-      <div ref={resumeRef} className="resume-content max-w-5xl mx-auto">
+
+      <div 
+        ref={resumeRef} 
+        className="resume-content max-w-5xl mx-auto px-6 py-5 bg-[#FAF7F2]"
+      >
         
-        {/* Header Section */}
-        <div className="mb-8">
-          <h1 className="text-5xl md:text-6xl font-light tracking-tight text-[#2C2C2C] leading-[1.1] mb-2">
-            {safeData.personalInfo.firstName}<br />
+        {/* Header - Very tight */}
+        <div className="mb-5">
+          <h1 className="text-5xl font-light tracking-tight text-[#2C2C2C] leading-none">
+            <span className="font-light">{safeData.personalInfo.firstName} </span>
             <span className="font-bold text-[#C47D4A]">{safeData.personalInfo.lastName}</span>
           </h1>
-          <div className="flex items-center gap-3 mt-3">
+          <div className="flex items-center gap-3 mt-2.5">
             <div className="w-10 h-px bg-[#C47D4A]"></div>
             <p className="text-xs uppercase tracking-[2px] text-[#6B5A4B] font-light">{safeData.personalInfo.title}</p>
           </div>
         </div>
 
-        {/* Contact Information Row */}
-        <div className="flex flex-wrap justify-start gap-6 mb-8 text-xs text-[#4A3B2E] border-b border-[#E8E0D5] pb-4">
-          <span>{safeData.personalInfo.email}</span>
-          <span>{safeData.personalInfo.phone}</span>
-          <span>{safeData.personalInfo.location}</span>
-          <span>{safeData.personalInfo.linkedin}</span>
-          <span>{safeData.personalInfo.github}</span>
+        {/* Contact Row - Tightened */}
+        <div className="flex flex-wrap justify-start gap-6 mb-5 text-xs text-[#4A3B2E] border-b border-[#E8E0D5] pb-3">
+          {safeData.personalInfo.email && <span>{safeData.personalInfo.email}</span>}
+          {safeData.personalInfo.phone && <span>{safeData.personalInfo.phone}</span>}
+          {safeData.personalInfo.location && <span>{safeData.personalInfo.location}</span>}
+          {safeData.personalInfo.linkedin && <span>{safeData.personalInfo.linkedin}</span>}
+          {safeData.personalInfo.github && <span>{safeData.personalInfo.github}</span>}
         </div>
 
-        {/* About Section */}
-        {safeData.about && (
-          <div className="mb-8">
-            <h2 className="text-[11px] font-bold text-[#C47D4A] mb-3 tracking-[2px] uppercase">About</h2>
-            <p className="text-sm text-[#3A2E24] leading-relaxed">{safeData.about}</p>
+        {/* About */}
+        {safeData.professionalSummary && (
+          <div className="mb-5">
+            <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2 tracking-[2px] uppercase">About</h2>
+            <p className="text-sm text-[#3A2E24] leading-relaxed">{safeData.professionalSummary}</p>
           </div>
         )}
 
-        {/* TWO-COLUMN LAYOUT */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
+        {/* Two-column layout */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: '2fr 1fr', 
+          gap: '24px' 
+        }}>
           
-          {/* Left Column - Experience & Projects */}
+          {/* Left Column */}
           <div style={{ minWidth: 0 }}>
-            {/* Experience */}
             {safeData.experience?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Experience</h2>
-                <div className="space-y-5">
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Experience</h2>
+                <div className="space-y-4">
                   {safeData.experience.map((exp) => (
-                    <div key={exp.id} style={{ paddingLeft: '16px', borderLeft: '1px solid #E8E0D5' }}>
+                    <div 
+                      key={exp.id} 
+                      style={{ paddingLeft: '16px', borderLeft: '1px solid #E8E0D5' }}
+                    >
                       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
                         <h3 className="font-semibold text-base text-[#2C2C2C]">{exp.position}</h3>
-                        <span className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>{formatDateRange(exp.startDate, exp.endDate)}</span>
+                        <span className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>
+                          {formatDateRange(exp.startDate, exp.endDate)}
+                        </span>
                       </div>
-                      <p className="text-sm text-[#6B5A4B] mb-2">{exp.company}</p>
+                      <p className="text-sm text-[#6B5A4B] mb-1">{exp.company}</p>
                       <p className="text-sm text-[#4A3B2E] leading-relaxed">{exp.description}</p>
                     </div>
                   ))}
@@ -205,20 +143,21 @@ const ExecutiveTemplate = ({ resume }) => {
               </section>
             )}
 
-            {/* Projects */}
             {safeData.projects?.length > 0 && (
-              <section>
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Projects</h2>
-                <div className="space-y-5">
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Projects</h2>
+                <div className="space-y-4">
                   {safeData.projects.map((project) => (
                     <div key={project.id}>
                       <h3 className="font-semibold text-base text-[#2C2C2C] mb-1">{project.name}</h3>
                       <p className="text-sm text-[#4A3B2E] leading-relaxed mb-2">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags?.map((tag, i) => (
-                          <span key={i} className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>/{tag}</span>
-                        ))}
-                      </div>
+                      {project.tags && project.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag, i) => (
+                            <span key={i} className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>/{tag}</span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -226,14 +165,12 @@ const ExecutiveTemplate = ({ resume }) => {
             )}
           </div>
 
-          {/* Right Column - Education & Skills 2-COLUMN TABLE */}
+          {/* Right Column */}
           <div>
-            
-            {/* Education */}
             {safeData.education?.length > 0 && (
-              <section className="mb-6">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Education</h2>
-                <div className="space-y-3">
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Education</h2>
+                <div className="space-y-4">
                   {safeData.education.map((edu) => (
                     <div key={edu.id}>
                       <h3 className="font-semibold text-sm text-[#2C2C2C]">{edu.degree}</h3>
@@ -247,21 +184,19 @@ const ExecutiveTemplate = ({ resume }) => {
               </section>
             )}
 
-            {/* Skills - 2 COLUMN TABLE WITH UNDERLINES - USING INLINE STYLES */}
             {safeData.skills?.length > 0 && (
-              <section>
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Technical Skills</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                  {/* Left Column */}
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Technical Skills</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
                   <div>
                     {leftSkills.map((skill, idx) => (
                       <div 
                         key={idx} 
                         style={{ 
-                          paddingTop: '8px', 
-                          paddingBottom: '8px', 
+                          paddingTop: '5px', 
+                          paddingBottom: '5px', 
                           borderBottom: '1px solid #E8E0D5',
-                          fontSize: '14px',
+                          fontSize: '13px',
                           color: '#4A3B2E'
                         }}
                       >
@@ -269,16 +204,15 @@ const ExecutiveTemplate = ({ resume }) => {
                       </div>
                     ))}
                   </div>
-                  {/* Right Column */}
                   <div>
                     {rightSkills.map((skill, idx) => (
                       <div 
                         key={idx} 
                         style={{ 
-                          paddingTop: '8px', 
-                          paddingBottom: '8px', 
+                          paddingTop: '5px', 
+                          paddingBottom: '5px', 
                           borderBottom: '1px solid #E8E0D5',
-                          fontSize: '14px',
+                          fontSize: '13px',
                           color: '#4A3B2E'
                         }}
                       >
@@ -289,15 +223,53 @@ const ExecutiveTemplate = ({ resume }) => {
                 </div>
               </section>
             )}
+
+            {safeData.certifications?.length > 0 && (
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Certifications</h2>
+                <div className="space-y-3">
+                  {safeData.certifications.map((cert) => (
+                    <div key={cert.id}>
+                      <p className="font-medium text-sm text-[#2C2C2C]">{cert.name}</p>
+                      <p className="text-xs text-[#6B5A4B]">{cert.organization}</p>
+                      {cert.year && <p className="text-[11px] text-[#8B735A]">{cert.year}</p>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {safeData.languages?.length > 0 && (
+              <section className="mb-5">
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Languages</h2>
+                <div className="space-y-2">
+                  {safeData.languages.map((lang) => (
+                    <div key={lang.id} className="flex justify-between items-center">
+                      <span className="text-sm text-[#2C2C2C]">{lang.language}</span>
+                      {lang.proficiency && <span className="text-xs text-[#8B735A]">{lang.proficiency}</span>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {safeData.interests?.length > 0 && (
+              <section>
+                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-2.5 tracking-[2px] uppercase">Interests</h2>
+                <div className="flex flex-wrap gap-2">
+                  {safeData.interests.map((interest, idx) => (
+                    <span key={idx} className="text-sm text-[#4A3B2E]">• {interest}</span>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Mono:wght@400;700&display=swap');
-        
         .resume-content {
-          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          font-family: 'Inter', system-ui, sans-serif;
         }
         
         @media print {
@@ -307,29 +279,27 @@ const ExecutiveTemplate = ({ resume }) => {
             background: white;
           }
           
-          .print\\:hidden {
-            display: none !important;
+          .resume-content {
+            padding-left: 25px !important;
+            padding-right: 25px !important;
+            padding-top: 25px !important;
+            padding-bottom: 25px !important;
           }
           
-          .bg-\\[\\#FAF7F2\\] {
-            background-color: #FAF7F2 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          .text-\\[\\#C47D4A\\] {
-            color: #C47D4A !important;
-          }
-          
-          section, .space-y-5 > div, .space-y-4 > div {
+          section, .mb-5, .mb-4 {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+          }
+          
+          p, li, .text-xs {
+            orphans: 3;
+            widows: 3;
           }
         }
         
         @page {
           size: A4;
-          margin: 12mm;
+          margin: 0;
         }
       `}</style>
     </div>
