@@ -36,7 +36,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
       z-index: 9999;
     `
     loadingDiv.innerHTML = `
-      <div style="background: white; padding: 30px; border-radius: 12px; text-align: center;">
+      <div style="background: white; padding: 20px; border-radius: 12px; text-align: center;">
         <div style="font-size: 24px; margin-bottom: 10px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #eab308; margin: 0 auto;">
             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
@@ -67,7 +67,6 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
 
     const cleanedHTML = cloneContainer.innerHTML
     document.body.removeChild(cloneContainer)
-// app/utils/exportPDF.js - Update your HTML template
 
 const html = `
   <!DOCTYPE html>
@@ -98,7 +97,6 @@ const html = `
           padding: 0;
         }
         
-        /* CRITICAL FIX: Allow breaking anywhere but keep items together */
         .resume-two-column-layout {
           display: grid !important;
           grid-template-columns: 2fr 1fr !important;
@@ -108,14 +106,12 @@ const html = `
           page-break-inside: auto !important;
         }
         
-        /* Keep each experience item together */
         .experience-item {
           break-inside: avoid-page !important;
           page-break-inside: avoid !important;
           margin-bottom: 1rem;
         }
         
-        /* Keep each project item together */
         .project-item {
           break-inside: avoid-page !important;
           page-break-inside: avoid !important;
@@ -171,7 +167,6 @@ const html = `
             widows: 3;
           }
         }
-        /* Add to your PDF HTML template */
 p, .text-xs, .leading-relaxed {
   orphans: 4 !important;
   widows: 4 !important;
@@ -186,7 +181,7 @@ p, .text-xs, .leading-relaxed {
 }
         @page {
           size: A4;
-          margin: 12mm;
+          margin: 6px;
         }
       </style>
     </head>
