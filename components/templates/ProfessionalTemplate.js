@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
 import { 
   Linkedin, 
@@ -77,7 +77,7 @@ const ProfessionalTemplate = ({ resume }) => {
   }
 
   const AccentLine = () => (
-    <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-3" />
+    <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-2" />
   )
 
   const renderSocialLinks = () => {
@@ -93,20 +93,14 @@ const ProfessionalTemplate = ({ resume }) => {
 
   const socialLinks = renderSocialLinks()
 
-
-
-return (
+  return (
     <div className="bg-white min-h-screen font-serif">
       <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
       
       <div ref={resumeRef} className="resume-content bg-white">
         
-        {/* PAGE 1 CONTENT */}
         <div className="pdf-page">
-          {/* Header */}
-          <header className="bg-[#2C2118] text-white py-5 px-7 relative overflow-hidden">
-            
-            
+          <header className="bg-[#2C2118] text-white py-4 px-7">
             <div className="text-center">
               <h1 className="text-3xl font-bold tracking-tight text-white mb-0.5">
                 {safeData.personalInfo.name}
@@ -116,7 +110,8 @@ return (
               </p>
             </div>
 
-            <div className="flex justify-center flex-wrap gap-2.5 mt-3 text-xs text-amber-100">
+            {/* Contact info - reduced space */}
+            <div className="flex justify-center flex-wrap gap-2 mt-2 text-xs text-amber-100">
               <span className="flex items-center gap-1"><Mail size={11} />{safeData.personalInfo.email}</span>
               <span>•</span>
               <span className="flex items-center gap-1"><Phone size={11} />{safeData.personalInfo.phone}</span>
@@ -133,27 +128,23 @@ return (
 
           <div className="px-6 py-4 bg-white">
             
-            {/* Professional Summary */}
             {safeData.professionalSummary && (
               <section className="mb-4">
-                <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">ABOUT ME</h2>
+                <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">ABOUT ME</h2>
                 <p className="text-gray-700 leading-relaxed text-xs">
                   {safeData.professionalSummary}
                 </p>
-                <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-3" />
+                <AccentLine />
               </section>
             )}
-
-            {/* Force page break before experience if needed - THIS IS KEY */}
-            <div className="page-break-if-needed"></div>
 
             <div className="flex gap-5 resume-two-column-layout">
               
               {/* Left Column */}
               <div className="flex-1 min-w-0">
                 {safeData.experience?.length > 0 && (
-                  <section className="mb-3 experience-section">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">EXPERIENCE</h2>
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">EXPERIENCE</h2>
                     <div className="space-y-3">
                       {safeData.experience.map((exp, idx) => (
                         <div key={exp.id || idx} className="experience-item border-l-2 border-amber-300 pl-3">
@@ -163,7 +154,7 @@ return (
                               {formatDateRange(exp.startDate, exp.endDate)}
                             </span>
                           </div>
-                          <p className="text-amber-800 font-medium text-xs mb-0.5">{exp.company}</p>
+                          <p className="text-amber-800 font-medium text-0.5xl mb-0.5">{exp.company}</p>
                           <p className="text-gray-600 text-xs leading-relaxed">{exp.description}</p>
                         </div>
                       ))}
@@ -173,8 +164,8 @@ return (
 
                 {safeData.projects?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">SELECTED PROJECTS</h2>
-                    <div className="space-y-2.5">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">SELECTED PROJECTS</h2>
+                    <div className="space-y-2">
                       {safeData.projects.map((project, idx) => (
                         <div key={project.id || idx} className="project-item bg-gray-50 p-2.5 rounded">
                           <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
@@ -194,10 +185,10 @@ return (
 
                 {safeData.education?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">EDUCATION</h2>
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">EDUCATION</h2>
                     <div className="space-y-2">
                       {safeData.education.map((edu, idx) => (
-                        <div key={edu.id || idx} className="education-item bg-gray-50 p-2.5 rounded">
+                        <div key={edu.id || idx} className="education-item bg-gray-50 p-2 rounded">
                           <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
                           <p className="text-amber-800 text-xs mt-0.5">{edu.school}</p>
                           <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
@@ -209,11 +200,11 @@ return (
                 )}
               </div>
 
-              {/* Right Column - Skills always on first page */}
+              {/* Right Column */}
               <div className="w-72 shrink-0 min-w-0">
                 {safeData.skills?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">SKILLS</h2>
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">SKILLS</h2>
                     <div className="flex flex-wrap gap-1.5">
                       {safeData.skills.map((skill, idx) => (
                         <span key={idx} className="inline-block bg-[#2C2118] text-white text-xs px-3 py-1 rounded-full">
@@ -226,8 +217,8 @@ return (
 
                 {safeData.certifications?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">CERTIFICATIONS</h2>
-                    <div className="space-y-2">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">CERTIFICATIONS</h2>
+                    <div className="space-y-1.5">
                       {safeData.certifications.map((cert, idx) => (
                         <div key={cert.id || idx} className="cert-item bg-gray-50 p-2 rounded">
                           <p className="font-medium text-gray-900 text-xs">{cert.name}</p>
@@ -241,7 +232,7 @@ return (
 
                 {safeData.languages?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">LANGUAGES</h2>
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">LANGUAGES</h2>
                     <div className="space-y-1">
                       {safeData.languages.map((lang, idx) => (
                         <div key={lang.id || idx} className="language-item flex justify-between items-center p-2 bg-gray-50 rounded">
@@ -255,7 +246,7 @@ return (
 
                 {safeData.interests?.length > 0 && (
                   <section className="mb-3">
-                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">INTERESTS</h2>
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1">INTERESTS</h2>
                     <div className="flex flex-wrap gap-1.5">
                       {safeData.interests.map((interest, idx) => (
                         <span key={idx} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
@@ -269,77 +260,65 @@ return (
             </div>
           </div>
         </div>
-
       </div>
 
-
-<style jsx>{`
-  .resume-content {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  
-  .resume-two-column-layout {
-    display: grid !important;
-    grid-template-columns: 2fr 1fr !important;
-    gap: 28px !important;
-    break-inside: auto !important;  /* Allow breaking */
-    page-break-inside: auto !important;
-  }
-  
-  .experience-item,
-  .project-item,
-  .education-item,
-  .cert-item,
-  .language-item,
-  .skill-badge {
-    break-inside: avoid-page !important;
-    page-break-inside: avoid !important;
-  }
-  
-  h2 {
-    break-after: avoid-page !important;
-    page-break-after: avoid !important;
-  }
-  
-  header {
-    break-inside: avoid-page !important;
-    page-break-inside: avoid !important;
-  }
-  
-  /* About me section - stays together */
-  .about-section {
-    break-inside: avoid-page !important;
-    page-break-inside: avoid !important;
-  }
-  
-  section {
-    break-inside: auto;
-    page-break-inside: auto;
-  }
-  
-  @media print {
-    body {
-      margin: 0;
-      padding: 0;
-    }
-    
-    p, li, .text-xs {
-      orphans: 3;
-      widows: 3;
-    }
-    
-    .bg-gray-50, .rounded, .border-l-2 {
-      break-inside: avoid-page;
-      page-break-inside: avoid;
-    }
-  }
-  
-  @page {
-    size: A4;
-    margin: 10mm;
-  }
-`}</style>
+      <style jsx>{`
+        .resume-content {
+          font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .resume-two-column-layout {
+          display: grid !important;
+          grid-template-columns: 2fr 1fr !important;
+          gap: 22px !important;
+        }
+        
+        .experience-item,
+        .project-item,
+        .education-item,
+        .cert-item,
+        .language-item {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+        }
+        
+        h2 {
+          break-after: avoid-page !important;
+          page-break-after: avoid !important;
+        }
+        
+        header {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+        }
+        
+        @media print {
+          body {
+            margin: 0;
+            padding: 0;
+          }
+          
+          .pdf-page {
+            padding: 0 !important;
+          }
+          
+          .resume-two-column-layout {
+            gap: 22px !important;
+          }
+          
+          p, li, .text-xs {
+            orphans: 3;
+            widows: 3;
+          }
+        }
+        
+        @page {
+          size: A4;
+          margin: 8mm;
+        }
+      `}</style>
     </div>
-  )}
+  )
+}
 
 export default ProfessionalTemplate
