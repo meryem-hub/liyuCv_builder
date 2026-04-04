@@ -88,104 +88,58 @@ const html = `
           background: white;
           padding: 0;
           margin: 0;
+          width: 1100px !important;
         }
         
         .resume-container {
-          max-width: 1100px;
+          width: 1100px !important;
           margin: 0 auto;
           background: white;
           padding: 0;
         }
         
+        /* FORCE two-column layout */
         .resume-two-column-layout {
           display: grid !important;
           grid-template-columns: 2fr 1fr !important;
           gap: 28px !important;
           width: 100% !important;
-          break-inside: auto !important;
-          page-break-inside: auto !important;
         }
         
-        .experience-item {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1rem;
+        /* Ensure left and right columns display properly */
+        .resume-two-column-layout > div:first-child {
+          display: block !important;
+          width: 100% !important;
         }
         
-        .project-item {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1rem;
+        .resume-two-column-layout > div:last-child {
+          display: block !important;
+          width: 100% !important;
         }
         
-        /* Keep each education item together */
-        .education-item {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1rem;
+        /* Prevent any flex or block fallbacks */
+        .resume-two-column-layout {
+          display: grid !important;
+          grid-template-columns: 2fr 1fr !important;
+          -webkit-columns: auto !important;
+          columns: auto !important;
         }
         
-        /* Header stays together */
-        header {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1rem;
-        }
-        
-        /* About section stays together */
-        .about-section {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-        }
-        
-        /* Right column items stay together */
-        .skills-section,
-        .certifications-section,
-        .languages-section,
-        .interests-section {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1.5rem;
-        }
-        
-        /* Individual skill badges */
-        .skill-badge {
-          break-inside: avoid !important;
-          page-break-inside: avoid !important;
-          display: inline-block;
+        @page {
+          size: A4;
+          margin: 0px;
         }
         
         @media print {
-          body {
-            margin: 0;
-            padding: 0;
+          .resume-two-column-layout {
+            display: grid !important;
+            grid-template-columns: 2fr 1fr !important;
+            gap: 28px !important;
           }
-          
-          /* Prevent orphaned lines */
-          p {
-            orphans: 3;
-            widows: 3;
-          }
-        }
-p, .text-xs, .leading-relaxed {
-  orphans: 4 !important;
-  widows: 4 !important;
-  break-inside: avoid !important;
-  page-break-inside: avoid !important;
-}
-
-/* Prevent any line from being orphaned */
-* {
-  orphans: 4;
-  widows: 4;
-}
-        @page {
-          size: A4;
-          margin: 6px;
         }
       </style>
     </head>
-    <body>
+    <body style="width: 1100px; margin: 0 auto;">
       <div class="resume-container">
         ${cleanedHTML}
       </div>

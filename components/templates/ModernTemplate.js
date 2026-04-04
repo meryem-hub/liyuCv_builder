@@ -9,7 +9,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
     
     <p className="text-sm text-gray-600 mt-0.5">{personalInfo.title}</p>
     
-    <div className="flex justify-center flex-wrap gap-2 mt-1 text-xs text-gray-500">
+    <div className="flex justify-center flex-wrap gap-2 mt-1 text-0.5xs text-gray-500">
       <span>{personalInfo.email}</span>
       <span>•</span>
       <span>{personalInfo.phone}</span>
@@ -18,7 +18,7 @@ const ResumeHeader = ({ personalInfo, socialMedia }) => (
     </div>
 
     {socialMedia && Object.keys(socialMedia).length > 0 && (
-      <div className="flex justify-center flex-wrap gap-4 mt-3 text-xs">
+      <div className="flex justify-center flex-wrap gap-4 mt-3 text-0.5xs">
         {socialMedia.linkedin && (
           <a
             href={socialMedia.linkedin.startsWith('http') ? socialMedia.linkedin : `https://${socialMedia.linkedin}`}
@@ -62,12 +62,12 @@ const ProfessionalSummary = ({ summary }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-1 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-1 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Professional Summary
       </h2>
       <div className="p-2.5 bg-gray-50 rounded">
-        <p className="text-gray-700 text-xs leading-relaxed whitespace-pre-line">{summary}</p>
+        <p className="text-gray-700 text-0.5xs leading-relaxed whitespace-pre-line">{summary}</p>
       </div>
     </section>
   )
@@ -85,7 +85,7 @@ const ExperienceSection = ({ experiences }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Work Experience
       </h2>
@@ -97,13 +97,13 @@ const ExperienceSection = ({ experiences }) => {
             <div className="flex justify-between items-start mb-1 flex-wrap gap-1">
               <h3 className="font-semibold text-gray-900 text-sm">{exp.position}</h3>
               {dateRange && (
-                <span className="text-gray-500 text-xs bg-yellow-100 px-2 py-0.5 rounded">
+                <span className="text-gray-500 text-0.5xs bg-yellow-100 px-2 py-0.5 rounded">
                   {dateRange}
                 </span>
               )}
             </div>
-            <p className="text-gray-700 font-medium text-xs mb-1">{exp.company}</p>
-            <p className="text-gray-600 text-xs leading-relaxed whitespace-pre-line">{exp.description}</p>
+            <p className="text-gray-700 font-medium text-0.5xs mb-1">{exp.company}</p>
+            <p className="text-gray-600 text-0.5xs leading-relaxed whitespace-pre-line">{exp.description}</p>
           </div>
         )
       })}
@@ -116,7 +116,7 @@ const ProjectsSection = ({ projects }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Projects
       </h2>
@@ -124,12 +124,12 @@ const ProjectsSection = ({ projects }) => {
         <div key={project.id} className="mb-3 p-2.5 bg-gray-50 rounded">
           <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
           {project.techStack && (
-            <p className="text-gray-600 text-xs mb-1">
+            <p className="text-gray-600 text-0.5xs mb-1">
               <span className="font-medium">Tech:</span> {project.techStack}
             </p>
           )}
-          <p className="text-gray-600 text-xs leading-relaxed mb-1.5">{project.description}</p>
-          <div className="flex gap-3 text-xs">
+          <p className="text-gray-600 text-0.5xs leading-relaxed mb-1.5">{project.description}</p>
+          <div className="flex gap-3 text-0.5xs">
             {project.demoLink && (
               <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="text-yellow-700 hover:underline">
                 Live Demo
@@ -152,16 +152,16 @@ const EducationSection = ({ education }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Education
       </h2>
       {education.map((edu) => (
         <div key={edu.id} className="mb-3 p-2.5 bg-gray-50 rounded">
           <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
-          <p className="text-gray-700 text-xs mt-0.5">{edu.school}</p>
-          <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
-          {edu.gpa && <p className="text-gray-500 text-xs mt-0.5">GPA: {edu.gpa}</p>}
+          <p className="text-gray-700 text-0.5xs mt-0.5">{edu.school}</p>
+          <p className="text-gray-500 text-0.5xs mt-0.5">{edu.year}</p>
+          {edu.gpa && <p className="text-gray-500 text-0.5xs mt-0.5">GPA: {edu.gpa}</p>}
         </div>
       ))}
     </section>
@@ -173,7 +173,7 @@ const SkillsSection = ({ skills }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Technical Skills
       </h2>
@@ -181,7 +181,7 @@ const SkillsSection = ({ skills }) => {
         {skills.map((skill, index) => (
           <span
             key={index}
-            className="bg-yellow-500 text-white px-3 py-1 rounded text-xs font-medium"
+            className="bg-yellow-500 px-3 py-1 rounded text-0.5xs font-medium"
           >
             {skill}
           </span>
@@ -196,15 +196,15 @@ const AchievementsSection = ({ achievements }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Achievements
       </h2>
       {achievements.map((achievement) => (
         <div key={achievement.id} className="mb-2.5 p-2 bg-gray-50 rounded">
-          <h3 className="font-semibold text-gray-900 text-xs">{achievement.title}</h3>
-          <p className="text-gray-600 text-xs">{achievement.organization}</p>
-          <p className="text-gray-500 text-xs">{achievement.year}</p>
+          <h3 className="font-semibold text-gray-900 text-0.5xs">{achievement.title}</h3>
+          <p className="text-gray-600 text-0.5xs">{achievement.organization}</p>
+          <p className="text-gray-500 text-0.5xs">{achievement.year}</p>
         </div>
       ))}
     </section>
@@ -216,15 +216,15 @@ const LanguagesSection = ({ languages }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Languages
       </h2>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {languages.map((language) => (
-          <div key={language.id} className="p-2 bg-gray-50 rounded">
-            <span className="font-semibold text-gray-900 text-xs">{language.language}</span>
-            <span className="text-gray-600 text-xs ml-1">- {language.proficiency}</span>
+          <div key={language.id} className="p-2.5 bg-gray-50 rounded">
+            <span className="font-semibold text-gray-900 text-0.5xs">{language.language}</span>
+            <span className="text-gray-600 text-0.5xs ml-1">- {language.proficiency}</span>
           </div>
         ))}
       </div>
@@ -237,16 +237,16 @@ const CertificationsSection = ({ certifications }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Certifications
       </h2>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {certifications.map((cert) => (
-          <div key={cert.id} className="p-2 bg-gray-50 rounded">
-            <h3 className="font-semibold text-gray-900 text-xs">{cert.name}</h3>
-            <p className="text-gray-600 text-xs">{cert.organization}</p>
-            <p className="text-gray-500 text-xs">{cert.year}</p>
+          <div key={cert.id} className="p-2.5 bg-gray-50 rounded">
+            <h3 className="font-semibold text-gray-900 text-0.5xs">{cert.name}</h3>
+            <p className="text-gray-600 text-0.5xs">{cert.organization}</p>
+            <p className="text-gray-500 text-0.5xs">{cert.year}</p>
           </div>
         ))}
       </div>
@@ -259,18 +259,18 @@ const InterestsSection = ({ interests }) => {
 
   return (
     <section className="mb-4">
-      <h2 className="text-xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
+      <h2 className="text-0.5xs font-bold text-gray-900 mb-2 flex items-center uppercase tracking-widest">
         <div className="w-1 h-3 bg-yellow-500 mr-2 rounded-full" />
         Interests
       </h2>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="space-y-2">
         {interests.map((interest, index) => (
-          <span
+          <div
             key={index}
-            className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs"
+            className="bg-gray-100 text-gray-700 px-3 py-2 rounded text-0.5xs"
           >
             {interest}
-          </span>
+          </div>
         ))}
       </div>
     </section>
@@ -326,7 +326,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="bg-white text-gray-800 p-6 font-sans text-center">
           <div className="text-red-500 text-base mb-2">Failed to load resume</div>
-          <p className="text-gray-600 text-xs mb-3">Please refresh the page or try again later.</p>
+          <p className="text-gray-600 text-0.5xs mb-3">Please refresh the page or try again later.</p>
           <button
             onClick={() => window.location.reload()}
             className="bg-yellow-500 text-black px-3 py-1 rounded-lg hover:bg-yellow-400 transition text-sm"
@@ -340,7 +340,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default function ElegantBrownMinimalTemplate({ resume }) {
+export default function ModernTemplate({ resume }) {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
 
@@ -387,9 +387,10 @@ export default function ElegantBrownMinimalTemplate({ resume }) {
   return (
     <ErrorBoundary>
       <div className="bg-white text-gray-800 font-sans">
-        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
 
         <div ref={resumeRef} className="resume-container px-7 py-5 md:px-9">
+                  <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+
           <ResumeHeader
             personalInfo={safeData.personalInfo}
             socialMedia={safeData.socialMedia}

@@ -14,12 +14,12 @@ const templates = [
     description: 'Clean, contemporary design with yellow accents',
     category: 'Popular',
     icon: Zap,
-    features: ['Modern Layout', 'Mobile Optimized']
+    features: ['Modern Layout', 'Popular Design']
   },
   {
     id: 'professional',
     name: 'Professional',
-    description: 'Corporate design perfect for Software Engineer',
+    description: 'Corporate design perfect for Developers',
     category: 'Software',
     icon: Award,
     features: ['Professional Layout', 'Formal Design']
@@ -27,10 +27,11 @@ const templates = [
   {
     id: 'executive',
     name: 'Executive',
-    description: 'Premium design with profile photo',
-    category: 'Premium',
+    description: 'Elegant minimalist design. ',
+    category: 'Elegant',
+        features: [ 'Minimalist'],
+
     icon: User,
-    features: ['Profile Photo', 'Premium Design']
   },
   {
     id: 'creative',
@@ -38,23 +39,24 @@ const templates = [
     description: 'Modern gradient-based design for creatives',
     category: 'Design',
     icon: Palette,
-    features: ['Creative Layout', 'Gradient Design', 'Visual Appeal']
+    features: ['Creative Layout', 'Gradient Design']
   },
   {
     id: 'minimal',
     name: 'Minimal',
-    description: 'Ultra-clean, minimalist design for developers',
-    category: 'Tech',
+    description: 'Ultra-clean, minimalist design.',
+    category: 'HR',
     icon: Crown,
     features: ['Minimal Layout', 'Clean Design']
   },
   {
     id: 'whiteblack',
     name: 'White & Black',
-    description: 'Elegant minimalist black & white design.',
+    description: 'Premium design with profile photo',
     category: 'Premium',
     icon: Palette,
-    features: ['Large Photo Area', 'Minimalist', 'Designer Focused']
+        features: ['Profile Photo', 'Premium Design']
+
   }
 ]
 
