@@ -1,4 +1,3 @@
-// components/templates/ElegantBrownMinimalTemplate.js
 'use client'
 import React, { useRef, useState, useEffect } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
@@ -106,7 +105,7 @@ return (
         <div className="pdf-page">
           {/* Header */}
           <header className="bg-[#2C2118] text-white py-5 px-7 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full -translate-y-1/3 translate-x-1/3" />
+            
             
             <div className="text-center">
               <h1 className="text-3xl font-bold tracking-tight text-white mb-0.5">
@@ -271,19 +270,14 @@ return (
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="h-1 bg-gradient-to-r from-[#2C2118] via-amber-700 to-amber-500" />
       </div>
 
-   // components/templates/ElegantBrownMinimalTemplate.js
-// Replace the style section at the bottom with this:
 
 <style jsx>{`
   .resume-content {
     font-family: 'Inter', system-ui, sans-serif;
   }
   
-  /* CRITICAL: Allow the two-column layout to break across pages */
   .resume-two-column-layout {
     display: grid !important;
     grid-template-columns: 2fr 1fr !important;
@@ -292,7 +286,6 @@ return (
     page-break-inside: auto !important;
   }
   
-  /* Individual items stay together */
   .experience-item,
   .project-item,
   .education-item,
@@ -303,13 +296,11 @@ return (
     page-break-inside: avoid !important;
   }
   
-  /* Headers should stay with their first item */
   h2 {
     break-after: avoid-page !important;
     page-break-after: avoid !important;
   }
   
-  /* Header section - must stay together */
   header {
     break-inside: avoid-page !important;
     page-break-inside: avoid !important;
@@ -321,7 +312,6 @@ return (
     page-break-inside: avoid !important;
   }
   
-  /* Allow sections to break naturally */
   section {
     break-inside: auto;
     page-break-inside: auto;
@@ -333,13 +323,11 @@ return (
       padding: 0;
     }
     
-    /* Keep at least 2 lines together */
     p, li, .text-xs {
       orphans: 3;
       widows: 3;
     }
     
-    /* Prevent awkward breaks inside cards */
     .bg-gray-50, .rounded, .border-l-2 {
       break-inside: avoid-page;
       page-break-inside: avoid;
