@@ -25,19 +25,21 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
       <div>
         <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">CONTACT</h3>
         <div className="space-y-4 text-sm text-gray-700">
-          <p>{personalInfo.email}</p>
-          <p>{personalInfo.phone}</p>
-          <p>{personalInfo.location}</p>
+          {personalInfo.email && <p>{personalInfo.email}</p>}
+          {personalInfo.phone && <p>{personalInfo.phone}</p>}
+          {personalInfo.location && <p>{personalInfo.location}</p>}
         </div>
       </div>
 
       {/* Social Links */}
-      {socialMedia && Object.keys(socialMedia).length > 0 && (
+      {socialMedia && Object.keys(socialMedia).some(key => socialMedia[key]) && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">LINKS</h3>
           <div className="flex flex-col gap-2 text-yellow-600 text-sm">
-            {socialMedia.linkedin && <a href={socialMedia.linkedin} target="_blank" className="hover:underline">LinkedIn</a>}
-            {socialMedia.portfolio && <a href={socialMedia.portfolio} target="_blank" className="hover:underline">Portfolio</a>}
+            {socialMedia.linkedin && <a href={socialMedia.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>}
+            {socialMedia.github && <a href={socialMedia.github} target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>}
+            {socialMedia.portfolio && <a href={socialMedia.portfolio} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>}
+            {socialMedia.twitter && <a href={socialMedia.twitter} target="_blank" rel="noopener noreferrer" className="hover:underline">Twitter</a>}
           </div>
         </div>
       )}
@@ -56,7 +58,7 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
         </div>
       )}
 
-      {/* Certifications - Placed above Languages */}
+      {/* Certifications */}
       {certifications?.length > 0 && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">CERTIFICATIONS</h3>
@@ -107,7 +109,7 @@ const TimelineItem = ({ exp }) => {
       <div className="absolute left-0 top-2 w-10 h-10 bg-white border-4 border-yellow-400 rounded-full flex items-center justify-center">
         <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>
       </div>
-      <div className="flex justify-between items-baseline">
+      <div className="flex justify-between items-baseline flex-wrap gap-2">
         <h3 className="font-semibold text-xl text-gray-900">{exp.position}</h3>
         <span className="text-sm bg-yellow-100 text-yellow-700 px-5 py-1 rounded-3xl font-medium whitespace-nowrap">
           {formatDateRange(exp.startDate, exp.endDate)}
@@ -138,29 +140,20 @@ const ProjectsCard = ({ projects }) => (
 export default function CreativeTemplate({ resume }) {
   const resumeRef = useRef(null);
   const [isExporting, setIsExporting] = useState(false);
-
-  const safeData = {
-    personalInfo: {
-      name: resume?.personalInfo?.name || 'Your Name',
-      title: resume?.personalInfo?.title || 'Product Manager',
-      email: resume?.personalInfo?.email || '',
-      phone: resume?.personalInfo?.phone || '',
-      location: resume?.personalInfo?.location || '',
-      photo: resume?.personalInfo?.photo || '',
-      ...resume?.personalInfo
-    },
-    professionalSummary: resume?.professionalSummary || '',
-    experience: resume?.experience || [],
-    projects: resume?.projects || [],
-    skills: resume?.skills || [],
-    languages: resume?.languages || [],
-    certifications: resume?.certifications || [],
-    socialMedia: resume?.socialMedia || {}
-  };
+  
+  // Extract data from resume prop
+  const personalInfo = resume?.personalInfo || {};
+  const professionalSummary = resume?.professionalSummary || '';
+  const experience = resume?.experience || [];
+  const projects = resume?.projects || [];
+  const skills = resume?.skills || [];
+  const languages = resume?.languages || [];
+  const certifications = resume?.certifications || [];
+  const socialMedia = resume?.socialMedia || {};
 
   const handleExport = async () => {
     if (!resumeRef.current) return;
-    const fileName = `PM-${safeData.personalInfo.name.replace(/\s+/g, '-')}.pdf`;
+    const fileName = `${personalInfo.name?.replace(/\s+/g, '-') || 'resume'}-resume.pdf`;
     setIsExporting(true);
     try {
       await exportToPDF(resumeRef.current, fileName);
@@ -185,42 +178,42 @@ export default function CreativeTemplate({ resume }) {
       </div>
 
       <div ref={resumeRef} className="mx-auto bg-white shadow-2xl overflow-hidden print:max-w-none print:shadow-none print:rounded-none">
-        <HeaderBar name={safeData.personalInfo.name} title={safeData.personalInfo.title} />
+        <HeaderBar name={personalInfo.name} title={personalInfo.title} />
         
         <div className="grid grid-cols-12 print:grid-cols-12">
           <div className="col-span-4 print:col-span-4">
             <Sidebar
-              personalInfo={safeData.personalInfo}
-              skills={safeData.skills}
-              languages={safeData.languages}
-              certifications={safeData.certifications}
-              socialMedia={safeData.socialMedia}
+              personalInfo={personalInfo}
+              skills={skills}
+              languages={languages}
+              certifications={certifications}
+              socialMedia={socialMedia}
             />
           </div>
 
           <div className="col-span-8 p-9 print:p-10 print:col-span-8">
-            {safeData.professionalSummary && (
+            {professionalSummary && (
               <div className="mb-1">
                 <h2 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-4">PROFESSIONAL SUMMARY</h2>
                 <p className="text-gray-700 text-[15.2px] leading-relaxed">
-                  {safeData.professionalSummary}
+                  {professionalSummary}
                 </p>
               </div>
             )}
 
-            {safeData.experience.length > 0 && (
+            {experience.length > 0 && (
               <div className="mb-14">
                 <h2 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-6">EXPERIENCE</h2>
-                {safeData.experience.map((exp, i) => (
-                  <TimelineItem key={i} exp={exp} />
+                {experience.map((exp) => (
+                  <TimelineItem key={exp.id} exp={exp} />
                 ))}
               </div>
             )}
 
-            {safeData.projects.length > 0 && (
+            {projects.length > 0 && (
               <div>
                 <h2 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-6">KEY PROJECTS</h2>
-                <ProjectsCard projects={safeData.projects} />
+                <ProjectsCard projects={projects} />
               </div>
             )}
           </div>
@@ -229,10 +222,20 @@ export default function CreativeTemplate({ resume }) {
 
       <style jsx global>{`
         @media print {
-          @page { size: A4 portrait; margin: 0 !important; }
-          .p-12 { padding: 42px 48px 50px 0 !important; }
-          .bg-gray-100, .bg-yellow-400, .border-yellow-400, .bg-yellow-100 {
+          @page { 
+            size: A4 portrait; 
+            margin: 0 !important; 
+          }
+          .bg-gray-100, 
+          .bg-yellow-400, 
+          .border-yellow-400, 
+          .bg-yellow-100 {
             -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          body {
+            margin: 0;
+            padding: 0;
           }
         }
       `}</style>

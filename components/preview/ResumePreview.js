@@ -5,7 +5,7 @@ import { useResumeStore } from '@/lib/store'
 // Import all templates
 import ModernTemplate from '@/components/templates/ModernTemplate'
 import ProfessionalTemplate from '@/components/templates/ProfessionalTemplate'
-import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'  // Now shows Lia Rojas data
+import ExecutiveTemplate from '@/components/templates/ExecutiveTemplate'
 import CreativeTemplate from '@/components/templates/CreativeTemplate'
 import MinimalTemplate from '@/components/templates/MinimalTemplate'
 import WhiteBlackMinimalistTemplate from '@/components/templates/WhiteBlackMinimalistTemplate'
