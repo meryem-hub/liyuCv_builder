@@ -303,47 +303,54 @@ export default function Sidebar() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
-                <input
-                  type="text"
-                  placeholder="Start Date"
-                  value={exp.startDate}
-                  onChange={(e) => {
-                    const newExp = [...resume.experience]
-                    newExp[index].startDate = e.target.value
-                    updateExperience(newExp)
-                  }}
-                  className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
-                />
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="End Date"
-                    value={exp.endDate === "Present" ? "" : exp.endDate || ""}
-                    onChange={(e) => {
-                      const newExp = [...resume.experience]
-                      newExp[index].endDate = e.target.value
-                      updateExperience(newExp)
-                    }}
-                    disabled={exp.endDate === "Present"}
-                    className={`flex-1 p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm ${
-                      exp.endDate === "Present" ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  />
-                  <button
-                    onClick={() => {
-                      const newExp = [...resume.experience]
-                      newExp[index].endDate = exp.endDate === "Present" ? "" : "Present"
-                      updateExperience(newExp)
-                    }}
-                    className={`relative w-9 h-5 flex items-center rounded-full transition ${
-                      exp.endDate === "Present" ? "bg-yellow-500" : "bg-gray-500"
-                    }`}
-                  >
-                    <span className={`absolute left-1 w-3 h-3 bg-white rounded-full transition-transform ${exp.endDate === "Present" ? "translate-x-4" : ""}`} />
-                  </button>
-                </div>
-              </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+  {/* Start Date */}
+  <input
+    type="text"
+    placeholder="Start Date"
+    value={exp.startDate || ''}
+    onChange={(e) => {
+      const newExp = [...resume.experience]
+      newExp[index].startDate = e.target.value
+      updateExperience(newExp)
+    }}
+    className="p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+  />
+  
+  {/* End Date with Toggle - Fixed Width */}
+  <div className="flex items-center gap-2">
+    <input
+      type="text"
+      placeholder="End Date (optional)"
+      value={exp.endDate === "Present" ? "Present" : exp.endDate || ''}
+      onChange={(e) => {
+        const newExp = [...resume.experience]
+        const value = e.target.value
+        if (value.toLowerCase() === 'present') {
+          newExp[index].endDate = "Present"
+        } else {
+          newExp[index].endDate = value
+        }
+        updateExperience(newExp)
+      }}
+      className="w-full p-2 bg-gray-600 border border-gray-500 rounded text-white placeholder-gray-400 text-sm"
+      style={{ minWidth: 0 }}
+    />
+    
+    {/* Current Job Toggle Button */}
+    <button
+      type="button"
+      onClick={() => {
+        const newExp = [...resume.experience]
+        newExp[index].endDate = newExp[index].endDate === "Present" ? "" : "Present"
+        updateExperience(newExp)
+      }}
+      className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-sm whitespace-nowrap flex-shrink-0"
+    >
+      {exp.endDate === "Present" ? "✓ Current" : "Current"}
+    </button>
+  </div>
+</div>
 
               <textarea
                 placeholder="Experience description"

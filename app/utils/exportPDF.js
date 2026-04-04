@@ -67,78 +67,136 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
 
     const cleanedHTML = cloneContainer.innerHTML
     document.body.removeChild(cloneContainer)
+// app/utils/exportPDF.js - Update your HTML template
 
-    const html = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Resume</title>
-         
-          <script src="https://cdn.tailwindcss.com"></script>
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-         
-          <style>
-            * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-            }
-           
-            body {
-              font-family: 'Inter', system-ui, sans-serif;
-              background: white;
-              margin: 0;
-              padding: 0;
-            }
-           
-            .resume-container {
-              width: 100%;
-              padding: 32px 36px;
-              background: white;
-            }
-           
-            .resume-two-column-layout {
-              display: grid !important;
-              grid-template-columns: 2fr 1fr !important;
-              gap: 28px !important;
-              width: 100% !important;
-            }
-           
-            .bg-yellow-500 { background-color: #eab308 !important; }
-            .bg-gray-50 { background-color: #f9fafb !important; }
-            .bg-yellow-100 { background-color: #fef9c3 !important; }
-           
-            @media print {
-              body {
-                margin: 0;
-                padding: 0;
-                background: white;
-              }
-             
-              .resume-container {
-                padding: 10px 10px !important;   
-              }
-             
-              .resume-two-column-layout {
-                gap: 28px !important;
-              }
-            }
-           
-            @page {
-              size: A4;
-              margin: 0;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="resume-container">
-            ${cleanedHTML}
-          </div>
-        </body>
-      </html>
-    `
+const html = `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Resume</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: 'Inter', sans-serif;
+          background: white;
+          padding: 0;
+          margin: 0;
+        }
+        
+        .resume-container {
+          max-width: 1100px;
+          margin: 0 auto;
+          background: white;
+          padding: 0;
+        }
+        
+        /* CRITICAL FIX: Allow breaking anywhere but keep items together */
+        .resume-two-column-layout {
+          display: grid !important;
+          grid-template-columns: 2fr 1fr !important;
+          gap: 28px !important;
+          width: 100% !important;
+          break-inside: auto !important;
+          page-break-inside: auto !important;
+        }
+        
+        /* Keep each experience item together */
+        .experience-item {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+          margin-bottom: 1rem;
+        }
+        
+        /* Keep each project item together */
+        .project-item {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+          margin-bottom: 1rem;
+        }
+        
+        /* Keep each education item together */
+        .education-item {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+          margin-bottom: 1rem;
+        }
+        
+        /* Header stays together */
+        header {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+          margin-bottom: 1rem;
+        }
+        
+        /* About section stays together */
+        .about-section {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+        }
+        
+        /* Right column items stay together */
+        .skills-section,
+        .certifications-section,
+        .languages-section,
+        .interests-section {
+          break-inside: avoid-page !important;
+          page-break-inside: avoid !important;
+          margin-bottom: 1.5rem;
+        }
+        
+        /* Individual skill badges */
+        .skill-badge {
+          break-inside: avoid !important;
+          page-break-inside: avoid !important;
+          display: inline-block;
+        }
+        
+        @media print {
+          body {
+            margin: 0;
+            padding: 0;
+          }
+          
+          /* Prevent orphaned lines */
+          p {
+            orphans: 3;
+            widows: 3;
+          }
+        }
+        /* Add to your PDF HTML template */
+p, .text-xs, .leading-relaxed {
+  orphans: 4 !important;
+  widows: 4 !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Prevent any line from being orphaned */
+* {
+  orphans: 4;
+  widows: 4;
+}
+        @page {
+          size: A4;
+          margin: 12mm;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="resume-container">
+        ${cleanedHTML}
+      </div>
+    </body>
+  </html>
+`;
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 60000)

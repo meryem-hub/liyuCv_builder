@@ -17,7 +17,6 @@ export async function POST(req) {
 
     console.log('Launching browser...')
     
-    // Launch browser with optimized settings
     browser = await puppeteer.launch({
       headless: 'new',
       args: [
@@ -25,44 +24,40 @@ export async function POST(req) {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
         '--disable-accelerated-2d-canvas',
-        '--disable-gpu',
-        '--window-size=1200,800'
+        '--disable-gpu'
       ],
-      timeout: 60000
+      timeout: 30000
     })
 
     const page = await browser.newPage()
     
-    // Set viewport to desktop size
     await page.setViewport({
       width: 1200,
       height: 800,
       deviceScaleFactor: 1
     })
 
+    // CRITICAL FIX: Use 'domcontentloaded' instead of 'networkidle0'
     console.log('Setting content...')
-    
-    // Set content with simpler wait condition
     await page.setContent(html, {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000
+      waitUntil: 'domcontentloaded', // Changed from 'networkidle0'
+      timeout: 10000 // Shorter timeout
     })
 
-    // Wait a bit for styles to apply
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // Simple wait for rendering (no font loading issues)
+    await new Promise(resolve => setTimeout(resolve, 500))
 
     console.log('Generating PDF...')
     
-    // Generate PDF with optimized settings
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
-      preferCSSPageSize: false,
+      preferCSSPageSize: true,
       margin: {
-        top: '15mm',
-        bottom: '15mm',
-        left: '15mm',
-        right: '15mm',
+        top: '12mm',
+        bottom: '12mm',
+        left: '12mm',
+        right: '12mm',
       },
       scale: 1,
       displayHeaderFooter: false,
@@ -75,13 +70,11 @@ export async function POST(req) {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename=resume.pdf',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
       },
     })
 
   } catch (error) {
     console.error('PDF Generation Error:', error)
-    
     return NextResponse.json(
       { error: error.message || 'Failed to generate PDF' },
       { status: 500 }
@@ -89,7 +82,6 @@ export async function POST(req) {
   } finally {
     if (browser) {
       await browser.close()
-      console.log('Browser closed')
     }
   }
 }

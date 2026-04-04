@@ -1,7 +1,16 @@
 // components/templates/ElegantBrownMinimalTemplate.js
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
+import { 
+  Linkedin, 
+  Globe, 
+  Github, 
+  Mail, 
+  Phone, 
+  MapPin,
+  ExternalLink 
+} from 'lucide-react'
 
 const PDFExportButton = ({ onExport, isExporting }) => (
   <div className="text-right mb-4 print:hidden">
@@ -39,7 +48,11 @@ const ProfessionalTemplate = ({ resume }) => {
     languages: resume?.languages || [],
     certifications: resume?.certifications || [],
     interests: resume?.interests || [],
-    socialMedia: resume?.socialMedia || {}
+    socialMedia: resume?.socialMedia || {
+      linkedin: '',
+      github: '',
+      portfolio: ''
+    }
   }
 
   const handleExportPDF = async () => {
@@ -65,342 +78,280 @@ const ProfessionalTemplate = ({ resume }) => {
   }
 
   const AccentLine = () => (
-    <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-5" />
+    <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-3" />
   )
 
-  if (!resume) {
-    return (
-      <div className="bg-white text-gray-800 p-6 font-sans">
-        <div className="animate-pulse">
-
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2 space-y-3">
-              <div className="h-24 bg-gray-200 rounded"></div>
-              <div className="h-24 bg-gray-200 rounded"></div>
-            </div>
-            <div className="h-32 bg-gray-200 rounded"></div>
-          </div>
-        </div>
-      </div>
-    )
+  const renderSocialLinks = () => {
+    const links = []
+    if (safeData.socialMedia.linkedin) links.push(<a key="linkedin" href={safeData.socialMedia.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1"><Linkedin size={11} /><span>LinkedIn</span></a>)
+    if (safeData.socialMedia.portfolio) links.push(<a key="portfolio" href={safeData.socialMedia.portfolio} target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1"><Globe size={11} /><span>Portfolio</span></a>)
+    if (safeData.personalInfo.website && !safeData.socialMedia.portfolio) links.push(<a key="website" href={safeData.personalInfo.website} target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1"><Globe size={11} /><span>Website</span></a>)
+    if (safeData.socialMedia.github) links.push(<a key="github" href={safeData.socialMedia.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1"><Github size={11} /><span>GitHub</span></a>)
+    return links
   }
 
-  return (
-    <div className="bg-white min-h-screen font-serif p-4">
+  if (!resume) return <div className="bg-white text-gray-800 p-6 font-sans">Loading resume...</div>
+
+  const socialLinks = renderSocialLinks()
+
+
+
+return (
+    <div className="bg-white min-h-screen font-serif">
       <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
       
-      <div ref={resumeRef} className="resume-content  mx-auto bg-white shadow-2xl overflow-hidden">
+      <div ref={resumeRef} className="resume-content bg-white">
         
-        {/* Header - Dark Brown with Gold Accent */}
-        <header className="bg-[#2C2118] text-white py-8 px-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full -translate-y-1/3 translate-x-1/3" />
-          
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
-              {safeData.personalInfo.name}
-            </h1>
-            <p className="text-amber-300 text-base font-light tracking-widest">
-              {safeData.personalInfo.title}
-            </p>
-          </div>
-
-          {/* Contact Info */}
-          <div className="flex justify-center flex-wrap gap-4 mt-5 text-xs text-amber-100">
-            <span>{safeData.personalInfo.email}</span>
-            <span>•</span>
-            <span>{safeData.personalInfo.phone}</span>
-            <span>•</span>
-            <span>{safeData.personalInfo.location}</span>
-            {safeData.personalInfo.website && (
-              <>
-                <span>•</span>
-                <a href={safeData.personalInfo.website} target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
-                  Portfolio
-                </a>
-              </>
-            )}
-          </div>
-        </header>
-
-        <div className="px-8 py-6 bg-white">
-          
-          {/* Professional Summary */}
-          {safeData.professionalSummary && (
-            <section className="mb-6">
-              <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-2">ABOUT ME</h2>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                {safeData.professionalSummary}
-              </p>
-              <AccentLine />
-            </section>
-          )}
-
-          <div className="resume-two-column-layout" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', width: '100%' }}>
+        {/* PAGE 1 CONTENT */}
+        <div className="pdf-page">
+          {/* Header */}
+          <header className="bg-[#2C2118] text-white py-5 px-7 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full -translate-y-1/3 translate-x-1/3" />
             
-            {/* Left Column - Main Content */}
-            <div style={{ minWidth: 0 }}>
-              
-              {/* Experience */}
-              {safeData.experience?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">EXPERIENCE</h2>
-                  <div className="space-y-4">
-                    {safeData.experience.map((exp, idx) => (
-                      <div key={exp.id || idx} className="border-l-2 border-amber-300 pl-3">
-                        <div className="flex justify-between items-start flex-wrap gap-1 mb-1">
-                          <h3 className="font-semibold text-sm text-gray-900">{exp.position}</h3>
-                          <span className="text-xs text-amber-700 font-medium bg-amber-50 px-2 py-0.5 rounded">
-                            {formatDateRange(exp.startDate, exp.endDate)}
-                          </span>
-                        </div>
-                        <p className="text-amber-800 font-medium text-xs mb-1.5">{exp.company}</p>
-                        <p className="text-gray-600 text-xs leading-relaxed">{exp.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Projects */}
-              {safeData.projects?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">SELECTED PROJECTS</h2>
-                  <div className="space-y-3">
-                    {safeData.projects.map((project, idx) => (
-                      <div key={project.id || idx} className="bg-gray-50 p-3 rounded">
-                        <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
-                        {project.techStack && (
-                          <p className="text-amber-700 text-xs mb-1.5">• {project.techStack}</p>
-                        )}
-                        <p className="text-gray-600 text-xs leading-relaxed mb-1.5">{project.description}</p>
-                        {(project.demoLink || project.githubLink) && (
-                          <div className="flex gap-3 text-xs">
-                            {project.demoLink && (
-                              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline">
-                                Live Demo →
-                              </a>
-                            )}
-                            {project.githubLink && (
-                              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline">
-                                GitHub →
-                              </a>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Education */}
-              {safeData.education?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">EDUCATION</h2>
-                  <div className="space-y-2">
-                    {safeData.education.map((edu, idx) => (
-                      <div key={edu.id || idx} className="bg-gray-50 p-3 rounded">
-                        <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
-                        <p className="text-amber-800 text-xs mt-0.5">{edu.school}</p>
-                        <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
-                        {edu.gpa && <p className="text-xs text-gray-500 mt-0.5">GPA: {edu.gpa}</p>}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
+            <div className="text-center">
+              <h1 className="text-3xl font-bold tracking-tight text-white mb-0.5">
+                {safeData.personalInfo.name}
+              </h1>
+              <p className="text-amber-300 text-[15px] font-light tracking-widest">
+                {safeData.personalInfo.title}
+              </p>
             </div>
 
-            {/* Right Column - Sidebar */}
-            <div style={{ minWidth: 0 }}>
+            <div className="flex justify-center flex-wrap gap-2.5 mt-3 text-xs text-amber-100">
+              <span className="flex items-center gap-1"><Mail size={11} />{safeData.personalInfo.email}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1"><Phone size={11} />{safeData.personalInfo.phone}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1"><MapPin size={11} />{safeData.personalInfo.location}</span>
+              {socialLinks.length > 0 && socialLinks.map((link, index) => (
+                <React.Fragment key={index}>
+                  <span>•</span>
+                  {link}
+                </React.Fragment>
+              ))}
+            </div>
+          </header>
+
+          <div className="px-6 py-4 bg-white">
+            
+            {/* Professional Summary */}
+            {safeData.professionalSummary && (
+              <section className="mb-4">
+                <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">ABOUT ME</h2>
+                <p className="text-gray-700 leading-relaxed text-xs">
+                  {safeData.professionalSummary}
+                </p>
+                <div className="h-px bg-gradient-to-r from-amber-800 via-amber-600 to-amber-400 my-3" />
+              </section>
+            )}
+
+            {/* Force page break before experience if needed - THIS IS KEY */}
+            <div className="page-break-if-needed"></div>
+
+            <div className="flex gap-5 resume-two-column-layout">
               
-              {/* Skills */}
-              {safeData.skills?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">SKILLS</h2>
-                  <div className="flex flex-wrap gap-1.5">
-                    {safeData.skills.map((skill, idx) => (
-                      <span 
-                        key={idx}
-                        className="inline-block bg-[#2C2118] text-white text-xs px-3 py-1 rounded-full"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              )}
+              {/* Left Column */}
+              <div className="flex-1 min-w-0">
+                {safeData.experience?.length > 0 && (
+                  <section className="mb-3 experience-section">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">EXPERIENCE</h2>
+                    <div className="space-y-3">
+                      {safeData.experience.map((exp, idx) => (
+                        <div key={exp.id || idx} className="experience-item border-l-2 border-amber-300 pl-3">
+                          <div className="flex justify-between items-start flex-wrap gap-1 mb-1">
+                            <h3 className="font-semibold text-sm text-gray-900">{exp.position}</h3>
+                            <span className="text-xs text-amber-700 font-medium bg-amber-50 px-2 py-0.5 rounded">
+                              {formatDateRange(exp.startDate, exp.endDate)}
+                            </span>
+                          </div>
+                          <p className="text-amber-800 font-medium text-xs mb-0.5">{exp.company}</p>
+                          <p className="text-gray-600 text-xs leading-relaxed">{exp.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-              {/* Certifications */}
-              {safeData.certifications?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">CERTIFICATIONS</h2>
-                  <div className="space-y-2">
-                    {safeData.certifications.map((cert, idx) => (
-                      <div key={cert.id || idx} className="bg-gray-50 p-2 rounded">
-                        <p className="font-medium text-gray-900 text-xs">{cert.name}</p>
-                        <p className="text-amber-700 text-xs mt-0.5">{cert.organization}</p>
-                        <p className="text-gray-500 text-xs mt-0.5">{cert.year}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
+                {safeData.projects?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">SELECTED PROJECTS</h2>
+                    <div className="space-y-2.5">
+                      {safeData.projects.map((project, idx) => (
+                        <div key={project.id || idx} className="project-item bg-gray-50 p-2.5 rounded">
+                          <h3 className="font-semibold text-gray-900 text-sm mb-1">{project.name}</h3>
+                          {project.techStack && <p className="text-amber-700 text-xs mb-0.5">• {project.techStack}</p>}
+                          <p className="text-gray-600 text-xs leading-relaxed mb-1">{project.description}</p>
+                          {(project.demoLink || project.githubLink) && (
+                            <div className="flex gap-3 text-xs">
+                              {project.demoLink && <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline flex items-center gap-1"><ExternalLink size={10} />Live Demo →</a>}
+                              {project.githubLink && <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline flex items-center gap-1"><Github size={10} />GitHub →</a>}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-              {/* Languages */}
-              {safeData.languages?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">LANGUAGES</h2>
-                  <div className="space-y-1.5">
-                    {safeData.languages.map((lang, idx) => (
-                      <div key={lang.id || idx} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                        <span className="font-medium text-gray-800 text-xs">{lang.language}</span>
-                        <span className="text-amber-700 text-xs">{lang.proficiency}</span>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
+                {safeData.education?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">EDUCATION</h2>
+                    <div className="space-y-2">
+                      {safeData.education.map((edu, idx) => (
+                        <div key={edu.id || idx} className="education-item bg-gray-50 p-2.5 rounded">
+                          <h3 className="font-semibold text-gray-900 text-sm">{edu.degree}</h3>
+                          <p className="text-amber-800 text-xs mt-0.5">{edu.school}</p>
+                          <p className="text-gray-500 text-xs mt-0.5">{edu.year}</p>
+                          {edu.gpa && <p className="text-xs text-gray-500 mt-0.5">GPA: {edu.gpa}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </div>
 
-              {/* Interests */}
-              {safeData.interests?.length > 0 && (
-                <section className="mb-5">
-                  <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-3">INTERESTS</h2>
-                  <div className="flex flex-wrap gap-1.5">
-                    {safeData.interests.map((interest, idx) => (
-                      <span 
-                        key={idx}
-                        className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs"
-                      >
-                        {interest}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              )}
+              {/* Right Column - Skills always on first page */}
+              <div className="w-72 shrink-0 min-w-0">
+                {safeData.skills?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">SKILLS</h2>
+                    <div className="flex flex-wrap gap-1.5">
+                      {safeData.skills.map((skill, idx) => (
+                        <span key={idx} className="inline-block bg-[#2C2118] text-white text-xs px-3 py-1 rounded-full">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {safeData.certifications?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">CERTIFICATIONS</h2>
+                    <div className="space-y-2">
+                      {safeData.certifications.map((cert, idx) => (
+                        <div key={cert.id || idx} className="cert-item bg-gray-50 p-2 rounded">
+                          <p className="font-medium text-gray-900 text-xs">{cert.name}</p>
+                          <p className="text-amber-700 text-xs mt-0.5">{cert.organization}</p>
+                          <p className="text-gray-500 text-xs mt-0.5">{cert.year}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {safeData.languages?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">LANGUAGES</h2>
+                    <div className="space-y-1">
+                      {safeData.languages.map((lang, idx) => (
+                        <div key={lang.id || idx} className="language-item flex justify-between items-center p-2 bg-gray-50 rounded">
+                          <span className="font-medium text-gray-800 text-xs">{lang.language}</span>
+                          <span className="text-amber-700 text-xs">{lang.proficiency}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {safeData.interests?.length > 0 && (
+                  <section className="mb-3">
+                    <h2 className="text-[#2C2118] text-xs font-bold tracking-[3px] mb-1.5">INTERESTS</h2>
+                    <div className="flex flex-wrap gap-1.5">
+                      {safeData.interests.map((interest, idx) => (
+                        <span key={idx} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                          {interest}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Footer Accent */}
+        {/* Footer */}
         <div className="h-1 bg-gradient-to-r from-[#2C2118] via-amber-700 to-amber-500" />
       </div>
 
-      <style jsx>{`
-        .resume-content {
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-        
-        h1, h2, h3 {
-          font-family: 'Playfair Display', serif;
-        }
-        
-        /* Print styles - Critical for PDF */
-        @media print {
-          body {
-            margin: 0;
-            padding: 0;
-            background: white;
-          }
-          
-          .print\\:hidden {
-            display: none !important;
-          }
-          
-          .resume-content {
-            box-shadow: none;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-          }
-          
-          /* Force grid layout in print */
-          .resume-two-column-layout {
-            display: grid !important;
-            grid-template-columns: 2fr 1fr !important;
-            gap: 24px !important;
-            page-break-inside: avoid !important;
-          }
-          
-          /* Prevent page breaks */
-          section, .space-y-4 > div, .space-y-3 > div, .space-y-2 > div {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-          }
-          
-          /* Force background colors */
-          .bg-\\[\\#2C2118\\] {
-            background-color: #2C2118 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          .bg-amber-50 {
-            background-color: #fffbeb !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          .bg-gray-50 {
-            background-color: #f9fafb !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          
-          .text-amber-700 {
-            color: #b45309 !important;
-          }
-          
-          .text-amber-300 {
-            color: #fcd34d !important;
-          }
-          
-          /* Remove shadows */
-          .shadow-2xl, .shadow-lg {
-            box-shadow: none !important;
-          }
-          
-          /* Optimize spacing for print */
-          .px-8 {
-            padding-left: 0.75rem !important;
-            padding-right: 0.75rem !important;
-          }
-          
-          .py-8 {
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-          }
-          
-          .py-6 {
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-          }
-          
-          /* Optimize font sizes for print */
-          .text-3xl {
-            font-size: 16pt !important;
-          }
-          
-          .text-base {
-            font-size: 11pt !important;
-          }
-          
-          .text-sm {
-            font-size: 10pt !important;
-          }
-          
-          .text-xs {
-            font-size: 9pt !important;
-          }
-        }
-        
-        @page {
-          size: A4;
-          margin: 12mm;
-        }
-      `}</style>
+   // components/templates/ElegantBrownMinimalTemplate.js
+// Replace the style section at the bottom with this:
+
+<style jsx>{`
+  .resume-content {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  /* CRITICAL: Allow the two-column layout to break across pages */
+  .resume-two-column-layout {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 28px !important;
+    break-inside: auto !important;  /* Allow breaking */
+    page-break-inside: auto !important;
+  }
+  
+  /* Individual items stay together */
+  .experience-item,
+  .project-item,
+  .education-item,
+  .cert-item,
+  .language-item,
+  .skill-badge {
+    break-inside: avoid-page !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Headers should stay with their first item */
+  h2 {
+    break-after: avoid-page !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* Header section - must stay together */
+  header {
+    break-inside: avoid-page !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* About me section - stays together */
+  .about-section {
+    break-inside: avoid-page !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Allow sections to break naturally */
+  section {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+  
+  @media print {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Keep at least 2 lines together */
+    p, li, .text-xs {
+      orphans: 3;
+      widows: 3;
+    }
+    
+    /* Prevent awkward breaks inside cards */
+    .bg-gray-50, .rounded, .border-l-2 {
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+  }
+  
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+`}</style>
     </div>
-  )
-}
+  )}
 
 export default ProfessionalTemplate
