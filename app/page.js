@@ -60,7 +60,7 @@ export default function Home() {
   <div className="text-center">
     <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
       <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-      <span>5+</span>
+      <span>3+</span>
     </div>
     <div className="text-gray-400 text-xs sm:text-sm">Hours Saved</div>
   </div>
@@ -68,7 +68,7 @@ export default function Home() {
   <div className="text-center">
     <div className="text-2xl sm:text-3xl font-bold text-yellow-400 flex items-center justify-center space-x-2">
       <Star className="w-6 h-6 sm:w-8 sm:h-8" />
-      <span>5</span>
+      <span>5+</span>
     </div>
     <div className="text-gray-400 text-xs sm:text-sm">Templates</div>
   </div>
