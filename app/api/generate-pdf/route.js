@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 import puppeteer from 'puppeteer-core'
-import chromium from '@sparticuz/chromium-min'
+import chromium from '@sparticuz/chromium'  
 import { NextResponse } from 'next/server'
 
 export async function POST(req) {
@@ -21,13 +21,11 @@ export async function POST(req) {
 
     console.log('Launching browser on Vercel...')
     
-    const REMOTE_CHROMIUM_URL = process.env.CHROMIUM_REMOTE_EXEC_PATH || 
-      'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
-    
+    // Regular version bundles Chromium - no URL needed
     browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(REMOTE_CHROMIUM_URL),
+      executablePath: await chromium.executablePath(),
       headless: chromium.headless,
       timeout: 60000
     })
@@ -42,11 +40,10 @@ export async function POST(req) {
 
     console.log('Setting content...')
     await page.setContent(html, {
-      waitUntil: 'networkidle0',
+      waitUntil: 'domcontentloaded',
       timeout: 15000
     })
 
-    // Wait for rendering
     await new Promise(resolve => setTimeout(resolve, 1000))
 
     console.log('Generating PDF...')
@@ -93,11 +90,4 @@ export async function POST(req) {
       }
     }
   }
-}
-
-export async function GET() {
-  return NextResponse.json({ 
-    status: 'ready',
-    message: 'PDF generation API is ready. Send POST request with HTML body.'
-  })
 }
