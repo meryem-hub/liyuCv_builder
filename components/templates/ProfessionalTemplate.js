@@ -18,7 +18,7 @@ const PDFExportButton = ({ onExport, isExporting }) => (
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-[#ffd9b9] hover:bg-amber-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-1sm"
+      className="bg-[#835128] hover:bg-amber-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-1sm"
       aria-label="Export resume as PDF"
     >
       {isExporting ? (
