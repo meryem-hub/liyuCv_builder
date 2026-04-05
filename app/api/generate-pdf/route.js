@@ -37,14 +37,12 @@ export async function POST(req) {
       deviceScaleFactor: 1
     })
 
-    // CRITICAL FIX: Use 'domcontentloaded' instead of 'networkidle0'
     console.log('Setting content...')
     await page.setContent(html, {
-      waitUntil: 'domcontentloaded', // Changed from 'networkidle0'
-      timeout: 10000 // Shorter timeout
+      waitUntil: 'domcontentloaded',
+      timeout: 10000
     })
 
-    // Simple wait for rendering (no font loading issues)
     await new Promise(resolve => setTimeout(resolve, 500))
 
     console.log('Generating PDF...')
@@ -84,4 +82,11 @@ export async function POST(req) {
       await browser.close()
     }
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ 
+    status: 'ok', 
+    message: 'PDF generation API is ready. Send POST request with HTML body.'
+  })
 }
