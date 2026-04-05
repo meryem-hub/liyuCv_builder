@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 import puppeteer from 'puppeteer-core'
-import chromium from '@sparticuz/chromium-min' 
+import chromium from '@sparticuz/chromium-min'
 import { NextResponse } from 'next/server'
 
 export async function POST(req) {
@@ -21,12 +21,10 @@ export async function POST(req) {
 
     console.log('Launching browser on Vercel...')
     
-    const REMOTE_CHROMIUM_URL = 'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
-    
     browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(REMOTE_CHROMIUM_URL),
+      executablePath: await chromium.executablePath(),
       headless: chromium.headless,
       timeout: 60000
     })
@@ -39,16 +37,13 @@ export async function POST(req) {
       deviceScaleFactor: 1
     })
 
-    console.log('Setting content...')
     await page.setContent(html, {
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'networkidle0',
       timeout: 15000
     })
 
     await new Promise(resolve => setTimeout(resolve, 1000))
 
-    console.log('Generating PDF...')
-    
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
@@ -59,12 +54,8 @@ export async function POST(req) {
         left: '10mm',
         right: '10mm',
       },
-      scale: 1,
-      displayHeaderFooter: false,
     })
 
-    console.log('PDF generated successfully, size:', pdf.length)
-    
     await browser.close()
     
     return new NextResponse(pdf, {
@@ -72,7 +63,6 @@ export async function POST(req) {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename=resume.pdf',
-        'Cache-Control': 'no-cache',
       },
     })
 
@@ -83,19 +73,13 @@ export async function POST(req) {
       { status: 500 }
     )
   } finally {
-    if (browser) {
-      try {
-        await browser.close()
-      } catch (e) {
-        console.error('Error closing browser:', e)
-      }
-    }
+    if (browser) await browser.close()
   }
 }
 
 export async function GET() {
   return NextResponse.json({ 
     status: 'ready',
-    message: 'PDF generation API is ready. Send POST request with HTML body.'
+    message: 'PDF generation API is ready'
   })
 }
