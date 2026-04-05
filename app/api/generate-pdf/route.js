@@ -14,14 +14,20 @@ export async function POST(req) {
 
     if (!html) {
       return NextResponse.json(
-        { message: 'HTML is required' },
+        { error: 'HTML is required' },
         { status: 400 }
       )
     }
 
     console.log('Launching browser on Vercel...')
     
-    // Launch with chromium optimized for Vercel
+    // CRITICAL FIX: Provide the explicit path to chromium binary
+    // The binary is located in node_modules/@sparticuz/chromium/bin
+    // Using a remote tarball URL is more reliable on Vercel
+    const executablePath = await chromium.executablePath(
+      'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
+    )
+    
     browser = await puppeteer.launch({
       args: [
         ...chromium.args,
@@ -29,12 +35,13 @@ export async function POST(req) {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--disable-web-security'
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process'
       ],
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
+      executablePath: executablePath,
       headless: chromium.headless,
-      timeout: 30000
+      timeout: 60000
     })
 
     const page = await browser.newPage()
@@ -48,10 +55,11 @@ export async function POST(req) {
     console.log('Setting content...')
     await page.setContent(html, {
       waitUntil: 'domcontentloaded',
-      timeout: 10000
+      timeout: 15000
     })
 
-    await new Promise(resolve => setTimeout(resolve, 500))
+    // Wait for rendering
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
     console.log('Generating PDF...')
     
@@ -60,22 +68,25 @@ export async function POST(req) {
       printBackground: true,
       preferCSSPageSize: true,
       margin: {
-        top: '12mm',
-        bottom: '12mm',
-        left: '12mm',
-        right: '12mm',
+        top: '10mm',
+        bottom: '10mm',
+        left: '10mm',
+        right: '10mm',
       },
       scale: 1,
       displayHeaderFooter: false,
     })
 
-    console.log('PDF generated successfully')
+    console.log('PDF generated successfully, size:', pdf.length)
+    
+    await browser.close()
     
     return new NextResponse(pdf, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename=resume.pdf',
+        'Cache-Control': 'no-cache',
       },
     })
 
@@ -87,7 +98,11 @@ export async function POST(req) {
     )
   } finally {
     if (browser) {
-      await browser.close()
+      try {
+        await browser.close()
+      } catch (e) {
+        console.error('Error closing browser:', e)
+      }
     }
   }
 }
@@ -95,6 +110,6 @@ export async function POST(req) {
 export async function GET() {
   return NextResponse.json({ 
     status: 'ready',
-    message: 'PDF generation API is ready'
+    message: 'PDF generation API is ready. Send POST request with HTML body.'
   })
 }
