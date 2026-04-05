@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 import puppeteer from 'puppeteer-core'
-import chromium from '@sparticuz/chromium'
+import chromium from '@sparticuz/chromium-min'
 import { NextResponse } from 'next/server'
 
 export async function POST(req) {
@@ -21,7 +21,8 @@ export async function POST(req) {
 
     console.log('Launching browser on Vercel...')
     
-    const REMOTE_CHROMIUM_URL = 'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
+    const REMOTE_CHROMIUM_URL = process.env.CHROMIUM_REMOTE_EXEC_PATH || 
+      'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
     
     browser = await puppeteer.launch({
       args: chromium.args,
@@ -41,7 +42,7 @@ export async function POST(req) {
 
     console.log('Setting content...')
     await page.setContent(html, {
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'networkidle0',
       timeout: 15000
     })
 
