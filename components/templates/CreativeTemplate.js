@@ -121,7 +121,7 @@ const TimelineItem = ({ exp }) => {
 const ProjectsCard = ({ projects }) => (
   <div className="grid grid-cols-1 gap-6">
     {projects.map((project) => (
-      <div key={project.id} className="bg-white border border-gray-800 p-7 rounded-3xl overflow-hidden print:p-5">
+      <div key={project.id} className="bg-white border border-gray-800 p-3 rounded-3xl overflow-hidden print:p-5">
         <h3 className="font-semibold text-lg break-words print:text-base text-black">{project.name}</h3>
         {project.techStack && (
           <p className="text-xs text-gray-400 mt-1 tracking-widest break-words">{project.techStack}</p>
