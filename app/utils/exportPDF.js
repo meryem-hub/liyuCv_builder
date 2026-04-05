@@ -1,5 +1,5 @@
 // utils/exportPDF.js
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import jsPDF from 'jspdf';
 
 export const exportToPDF = async (element, fileName = 'resume.pdf') => {
@@ -56,6 +56,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
     `
     document.body.appendChild(loadingDiv)
 
+    // This captures EXACTLY what you see in preview
     const canvas = await html2canvas(element, {
       scale: 2,
       backgroundColor: '#ffffff',
@@ -72,7 +73,7 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
     
     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
     pdf.save(fileName)
-
+    
     loadingDiv.remove()
    
   } catch (error) {
