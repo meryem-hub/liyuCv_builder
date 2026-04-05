@@ -232,39 +232,42 @@ export default function Sidebar() {
         </div>
 
         {/* Social Media */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 text-gray-300">Social Media</h3>
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="LinkedIn URL"
-              value={resume.socialMedia?.linkedin || ''}
-              onChange={(e) => updateSocialMedia({ linkedin: e.target.value })}
-              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
-            />
-            <input
-              type="text"
-              placeholder="GitHub URL"
-              value={resume.socialMedia?.github || ''}
-              onChange={(e) => updateSocialMedia({ github: e.target.value })}
-              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
-            />
-            <input
-              type="text"
-              placeholder="Portfolio Website"
-              value={resume.socialMedia?.portfolio || ''}
-              onChange={(e) => updateSocialMedia({ portfolio: e.target.value })}
-              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
-            />
-            <input
-              type="text"
-              placeholder="X URL"
-              value={resume.socialMedia?.X || ''}
-              onChange={(e) => updateSocialMedia({ X: e.target.value })}
-              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
-            />
-          </div>
-        </div>
+    <div className="mb-8">
+  <h3 className="text-lg font-semibold mb-4 text-gray-300">Social Media</h3>
+  <div className="space-y-4">
+    <input
+      type="text"
+      placeholder="LinkedIn URL"
+      value={resume.socialMedia?.linkedin || ''}
+      onChange={(e) => updateSocialMedia({ linkedin: e.target.value })}
+      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+    />
+    <input
+      type="text"
+      placeholder="GitHub URL"
+      value={resume.socialMedia?.github || ''}
+      onChange={(e) => updateSocialMedia({ github: e.target.value })}
+      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+    />
+    <input
+      type="text"
+      placeholder="Portfolio Website URL"
+      value={resume.socialMedia?.portfolio || ''}
+      onChange={(e) => updateSocialMedia({ portfolio: e.target.value })}
+      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+    />
+    <input
+      type="text"
+      placeholder="X (Twitter) URL"
+      value={resume.socialMedia?.X || ''}
+      onChange={(e) => updateSocialMedia({ X: e.target.value })}
+      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 text-sm"
+    />
+  </div>
+  <p className="text-xs text-gray-400 mt-2">
+    Add your professional links. They will appear in the contact bar of your resume.
+  </p>
+</div>
 
         {/* Experience */}
         <div className="mb-8">

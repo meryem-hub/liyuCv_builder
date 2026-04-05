@@ -125,8 +125,9 @@ const ProfessionalTemplate = ({ resume }) => {
 <div ref={resumeRef} className="resume-container px-7 pb-5 md:px-9" style={{ paddingTop: 0 }}>
 
         <header className="bg-[#2C2118] text-white  md:-mx-9 px-7 py-10">
+        <div className="print:hidden absolute top-4 right-4 z-10">
                   <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
-
+</div>
           <div className="text-center">
             <h1 className="text-5xl font-bold tracking-tight text-white mb-0.5">
               {safeData.personalInfo.name}

@@ -389,8 +389,10 @@ export default function ModernTemplate({ resume }) {
       <div className="bg-white text-gray-800 font-sans">
 
         <div ref={resumeRef} className="resume-container px-7 py-5 md:px-9">
-                  <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+                  <div className="print:hidden absolute top-4 right-4 z-10">
 
+                  <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+</div>
           <ResumeHeader
             personalInfo={safeData.personalInfo}
             socialMedia={safeData.socialMedia}

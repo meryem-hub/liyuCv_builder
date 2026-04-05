@@ -91,10 +91,11 @@ const ExecutiveTemplate = ({ resume }) => {
 
   return (
     <div className="bg-[#FAF7F2] font-sans print:bg-[#FAF7F2]">
-      <div ref={resumeRef} className="resume-container px-7 py-5 md:px-9 print:min-h-screen print:h-full" style={{ maxWidth: '1100px', margin: '0 auto', background: '#FAF7F2' }}>
-        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+      <div ref={resumeRef} className="resume-container px-7 py-5 md:px-9 print:min-h-screen print:h-full" style={{  margin: '0 auto', background: '#FAF7F2' }}>
+                <div className="print:hidden absolute top-4 right-4 z-10">
 
-        {/* Header Section with Beautiful Title Style */}
+        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+</div>
         <div className="text-center mb-6">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-px bg-[#C47D4A]"></div>
