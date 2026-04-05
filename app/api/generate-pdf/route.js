@@ -21,25 +21,12 @@ export async function POST(req) {
 
     console.log('Launching browser on Vercel...')
     
-    // CRITICAL FIX: Provide the explicit path to chromium binary
-    // The binary is located in node_modules/@sparticuz/chromium/bin
-    // Using a remote tarball URL is more reliable on Vercel
-    const executablePath = await chromium.executablePath(
-      'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
-    )
+    const REMOTE_CHROMIUM_URL = 'https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.tar'
     
     browser = await puppeteer.launch({
-      args: [
-        ...chromium.args,
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--disable-web-security',
-        '--disable-features=IsolateOrigins,site-per-process'
-      ],
+      args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: executablePath,
+      executablePath: await chromium.executablePath(REMOTE_CHROMIUM_URL),
       headless: chromium.headless,
       timeout: 60000
     })
