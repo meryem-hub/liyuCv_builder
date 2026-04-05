@@ -1,3 +1,7 @@
+// utils/exportPDF.js
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 export const exportToPDF = async (element, fileName = 'resume.pdf') => {
   if (!element) {
     console.error('No element provided for PDF export')
@@ -52,127 +56,24 @@ export const exportToPDF = async (element, fileName = 'resume.pdf') => {
     `
     document.body.appendChild(loadingDiv)
 
-    const cloneContainer = document.createElement('div')
-    cloneContainer.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      width: 1100px;
-      background: white;
-    `
-   
-    const cloneElement = element.cloneNode(true)
-    cloneContainer.appendChild(cloneElement)
-    document.body.appendChild(cloneContainer)
-
-    const cleanedHTML = cloneContainer.innerHTML
-    document.body.removeChild(cloneContainer)
-
-const html = `
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Resume</title>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-      <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-        
-        body {
-          font-family: 'Inter', sans-serif;
-          background: white;
-          padding: 0;
-          margin: 0;
-          width: 1100px !important;
-        }
-        
-        .resume-container {
-          width: 1100px !important;
-          margin: 0 auto;
-          background: white;
-          padding: 0;
-        }
-        
-        /* FORCE two-column layout */
-        .resume-two-column-layout {
-          display: grid !important;
-          grid-template-columns: 2fr 1fr !important;
-          gap: 28px !important;
-          width: 100% !important;
-        }
-        
-        /* Ensure left and right columns display properly */
-        .resume-two-column-layout > div:first-child {
-          display: block !important;
-          width: 100% !important;
-        }
-        
-        .resume-two-column-layout > div:last-child {
-          display: block !important;
-          width: 100% !important;
-        }
-        
-        /* Prevent any flex or block fallbacks */
-        .resume-two-column-layout {
-          display: grid !important;
-          grid-template-columns: 2fr 1fr !important;
-          -webkit-columns: auto !important;
-          columns: auto !important;
-        }
-        
-        @page {
-          size: A4;
-          margin: 0px;
-        }
-        
-        @media print {
-          .resume-two-column-layout {
-            display: grid !important;
-            grid-template-columns: 2fr 1fr !important;
-            gap: 28px !important;
-          }
-        }
-      </style>
-    </head>
-    <body style="width: 1100px; margin: 0 auto;">
-      <div class="resume-container">
-        ${cleanedHTML}
-      </div>
-    </body>
-  </html>
-`;
-
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 60000)
-
-    const response = await fetch('/api/generate-pdf', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ html }),
-      signal: controller.signal
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: false,
+      logging: false,
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight,
     })
-   
-    clearTimeout(timeoutId)
-   
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.error || `PDF generation failed (${response.status})`)
-    }
-   
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
+
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const imgWidth = 210
+    const imgHeight = (canvas.height * imgWidth) / canvas.width
+    
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+    pdf.save(fileName)
+
+    loadingDiv.remove()
    
   } catch (error) {
     console.error('PDF Export Error:', error)
