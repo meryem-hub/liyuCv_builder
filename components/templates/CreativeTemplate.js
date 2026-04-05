@@ -76,7 +76,7 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
           <div className="space-y-3 text-sm">
             {languages.map((lang, i) => (
               <div key={i} className="flex justify-between flex-wrap gap-2">
-                <span className="font-medium break-words">{lang.language}</span>
+                <span className="text-gray-500 font-medium break-words">{lang.language}</span>
                 <span className="text-gray-500">{lang.proficiency}</span>
               </div>
             ))}
@@ -121,8 +121,8 @@ const TimelineItem = ({ exp }) => {
 const ProjectsCard = ({ projects }) => (
   <div className="grid grid-cols-1 gap-6">
     {projects.map((project) => (
-      <div key={project.id} className="bg-white border border-gray-100 p-7 rounded-3xl overflow-hidden print:p-5">
-        <h3 className="font-semibold text-lg break-words print:text-base">{project.name}</h3>
+      <div key={project.id} className="bg-white border border-gray-800 p-7 rounded-3xl overflow-hidden print:p-5">
+        <h3 className="font-semibold text-lg break-words print:text-base text-black">{project.name}</h3>
         {project.techStack && (
           <p className="text-xs text-gray-400 mt-1 tracking-widest break-words">{project.techStack}</p>
         )}
@@ -277,7 +277,7 @@ export default function CreativeTemplate({ resume }) {
   p, h1, h2, h3, h4, span, a, div {
     word-wrap: break-word !important;
     word-break: break-word !important;
-    white-space: normal !important;
+    white-space: normalf !important;
   }
   
   .flex {
