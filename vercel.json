@@ -1,11 +1,7 @@
 {
   "functions": {
     "app/api/generate-pdf/route.js": {
-      "maxDuration": 30,
-      "memory": 1024,
       "runtime": "nodejs18.x"
     }
-  },
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next"
+  }
 }
