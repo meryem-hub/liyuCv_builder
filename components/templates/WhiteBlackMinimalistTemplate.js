@@ -194,7 +194,7 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
               {/* Profile Section */}
               {professionalSummary && (
                 <div style={{ marginBottom: '32px' }}>
-                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' ,color:'black'}}>
                     <User size={14} /> PROFILE
                   </h2>
                   <p style={{ color: '#4b5563', fontSize: '14px', lineHeight: 1.6 }}>
@@ -231,7 +231,7 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
               {/* Projects Section */}
               {projects.length > 0 && (
                 <div>
-                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px',color:'black' }}>
                     <FolderOpen size={14} /> SELECTED PROJECTS
                   </h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -258,7 +258,7 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
               {/* Education Section */}
               {education.length > 0 && (
                 <div style={{ marginBottom: '32px' }}>
-                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px', color: 'black' }}>
                     <GraduationCap size={14} /> EDUCATION
                   </h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -276,7 +276,7 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
               {/* Skills Section */}
               {skills.length > 0 && (
                 <div style={{ marginBottom: '32px' }}>
-                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' ,color:'black' }}>
                     <Code size={14} /> SKILLS
                   </h2>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -292,7 +292,7 @@ const WhiteBlackMinimalistTemplate = ({ resume }) => {
               {/* Certifications Section */}
               {certifications.length > 0 && (
                 <div>
-                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px',color:'black' }}>
                     <Award size={14} /> CERTIFICATIONS
                   </h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
