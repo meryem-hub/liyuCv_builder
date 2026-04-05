@@ -1,4 +1,7 @@
 // app/api/generate-pdf/route.js
+export const runtime = 'nodejs'  
+export const dynamic = 'force-dynamic' 
+
 import puppeteer from 'puppeteer'
 import { NextResponse } from 'next/server'
 
@@ -86,7 +89,7 @@ export async function POST(req) {
 
 export async function GET() {
   return NextResponse.json({ 
-    status: 'ok', 
-    message: 'PDF generation API is ready. Send POST request with HTML body.'
+    status: 'ready',
+    message: 'PDF generation API is ready'
   })
 }
