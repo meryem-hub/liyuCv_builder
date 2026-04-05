@@ -1,7 +1,9 @@
-export const runtime = 'nodejs'  
-export const dynamic = 'force-dynamic' 
+// app/api/generate-pdf/route.js
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 import { NextResponse } from 'next/server'
 
 export async function POST(req) {
@@ -17,17 +19,21 @@ export async function POST(req) {
       )
     }
 
-    console.log('Launching browser...')
+    console.log('Launching browser on Vercel...')
     
+    // Launch with chromium optimized for Vercel
     browser = await puppeteer.launch({
-      headless: 'new',
       args: [
+        ...chromium.args,
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--disable-gpu'
+        '--disable-gpu',
+        '--disable-web-security'
       ],
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
       timeout: 30000
     })
 
