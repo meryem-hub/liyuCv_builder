@@ -1,10 +1,11 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
+import { Download, RefreshCw } from 'lucide-react'
 
 const HeaderBar = ({ name, title }) => (
-  <div className="bg-gray-900 text-white py-6 px-10 flex items-center justify-between">
-    <div>
+  <div className="bg-gray-900 text-white py-6 pr-10 flex items-center justify-between print:bg-gray-900">
+    <div className="pl-10">
       <h1 className="text-4xl font-bold tracking-[-1px]">{name}</h1>
       <p className="text-2xl text-yellow-400 font-light mt-1">{title || 'Product Manager'}</p>
     </div>
@@ -12,16 +13,14 @@ const HeaderBar = ({ name, title }) => (
 )
 
 const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia }) => (
-  <div className="bg-gray-100 h-full p-9 flex flex-col">
-    {/* Photo */}
+  <div className="p-9 flex flex-col h-full">
     {personalInfo.photo && (
       <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden border-8 border-yellow-400 shadow-xl">
         <img src={personalInfo.photo} alt={personalInfo.name} className="w-full h-full object-cover" />
       </div>
     )}
 
-    <div className="mt-1 space-y-9">
-      {/* Contact */}
+    <div className="mt-8 space-y-9 flex-1">
       <div>
         <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">CONTACT</h3>
         <div className="space-y-4 text-sm text-gray-700">
@@ -31,7 +30,6 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
         </div>
       </div>
 
-      {/* Social Links */}
       {socialMedia && Object.keys(socialMedia).some(key => socialMedia[key]) && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">LINKS</h3>
@@ -44,7 +42,6 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
         </div>
       )}
 
-      {/* Skills */}
       {skills?.length > 0 && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">SKILLS</h3>
@@ -58,7 +55,6 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
         </div>
       )}
 
-      {/* Certifications */}
       {certifications?.length > 0 && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">CERTIFICATIONS</h3>
@@ -74,7 +70,6 @@ const Sidebar = ({ personalInfo, skills, languages, certifications, socialMedia 
         </div>
       )}
 
-      {/* Languages */}
       {languages?.length > 0 && (
         <div>
           <h3 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-3">LANGUAGES</h3>
@@ -141,7 +136,6 @@ export default function CreativeTemplate({ resume }) {
   const resumeRef = useRef(null);
   const [isExporting, setIsExporting] = useState(false);
   
-  // Extract data from resume prop
   const personalInfo = resume?.personalInfo || {};
   const professionalSummary = resume?.professionalSummary || '';
   const experience = resume?.experience || [];
@@ -166,22 +160,40 @@ export default function CreativeTemplate({ resume }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 print:bg-white print:py-0 print:overflow-hidden">
-      <div className="print:hidden text-right mb-8 max-w-6xl mx-auto px-6">
-        <button
-          onClick={handleExport}
-          disabled={isExporting}
-          className="bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-black font-semibold px-8 py-3 rounded-3xl shadow-lg transition-all"
-        >
-          {isExporting ? 'Generating PDF…' : 'Export as PDF'}
-        </button>
-      </div>
-
-      <div ref={resumeRef} className="mx-auto bg-white shadow-2xl overflow-hidden print:max-w-none print:shadow-none print:rounded-none">
+    <div className="bg-gray-100 min-h-screen">
+      <div 
+        ref={resumeRef} 
+        className="mx-auto bg-white shadow-2xl overflow-hidden print:max-w-none print:shadow-none print:rounded-none"
+        style={{ maxWidth: '1100px' }}
+      >
+        {/* Export Button */}
+        <div className="print:hidden absolute top-4 right-4 z-10">
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-black font-semibold px-4 py-1.5 rounded-lg shadow-lg transition-all duration-300 flex items-center space-x-2 text-sm"
+          >
+            {isExporting ? (
+              <>
+                <RefreshCw size={16} className="animate-spin" />
+                <span>Generating...</span>
+              </>
+            ) : (
+              <>
+                <Download size={16} />
+                <span>Save as PDF</span>
+              </>
+            )}
+          </button>
+        </div>
+        
         <HeaderBar name={personalInfo.name} title={personalInfo.title} />
         
-        <div className="grid grid-cols-12 print:grid-cols-12">
-          <div className="col-span-4 print:col-span-4">
+        {/* Main Layout - Fixed Full Height Grey Sidebar */}
+        <div className="flex min-h-[calc(100vh-140px)] print:min-h-[calc(100vh-100px)]">
+          
+          {/* Grey Sidebar - Full Height */}
+          <div className="w-[340px] flex-shrink-0 bg-gray-100 print:w-[340px]">
             <Sidebar
               personalInfo={personalInfo}
               skills={skills}
@@ -191,9 +203,10 @@ export default function CreativeTemplate({ resume }) {
             />
           </div>
 
-          <div className="col-span-8 p-9 print:p-10 print:col-span-8">
+          {/* White Content Area */}
+          <div className="flex-1 p-10 print:p-10 bg-white">
             {professionalSummary && (
-              <div className="mb-1">
+              <div className="mb-8">
                 <h2 className="uppercase text-xs font-bold tracking-widest text-gray-500 mb-4">PROFESSIONAL SUMMARY</h2>
                 <p className="text-gray-700 text-[15.2px] leading-relaxed">
                   {professionalSummary}
@@ -221,21 +234,38 @@ export default function CreativeTemplate({ resume }) {
       </div>
 
       <style jsx global>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+          animation: spin 1s linear infinite;
+        }
+
         @media print {
           @page { 
             size: A4 portrait; 
             margin: 0 !important; 
           }
-          .bg-gray-100, 
-          .bg-yellow-400, 
-          .border-yellow-400, 
-          .bg-yellow-100 {
+          
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100% !important;
+            min-height: 100% !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
-          body {
-            margin: 0;
-            padding: 0;
+
+          .flex {
+            min-height: 100% !important;
+          }
+
+          .bg-gray-100 {
+            background-color: #f3f4f6 !important;
+            min-height: 100% !important;
+            height: 100% !important;
           }
         }
       `}</style>

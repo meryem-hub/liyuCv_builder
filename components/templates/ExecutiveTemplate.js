@@ -1,16 +1,21 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { exportToPDF } from '../../app/utils/exportPDF'
+import { Download, RefreshCw, Mail, Phone, MapPin, Linkedin, Github, Award, BookOpen, Globe, Star, GraduationCap, Calendar, MapPin as MapPinIcon, ExternalLink } from 'lucide-react'
 
 const PDFExportButton = ({ onExport, isExporting }) => (
-  <div className="text-right mb-6 print:hidden">
+  <div className="text-right mb-4 print:hidden">
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-[#C47D4A] hover:bg-[#B06A3A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium px-6 py-2.5 rounded-full shadow-lg transition-all duration-200 flex items-center space-x-2 ml-auto text-sm tracking-wide"
+      className="bg-[#C47D4A] hover:bg-[#B06A3A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-sm"
       aria-label="Export resume as PDF"
     >
-      <span aria-hidden="true">{isExporting ? '⏳' : '📄'}</span>
+      {isExporting ? (
+        <RefreshCw size={16} className="animate-spin" />
+      ) : (
+        <Download size={16} />
+      )}
       <span>{isExporting ? 'Generating...' : 'Save as PDF'}</span>
     </button>
   </div>
@@ -20,7 +25,6 @@ const ExecutiveTemplate = ({ resume }) => {
   const resumeRef = useRef(null)
   const [isExporting, setIsExporting] = useState(false)
 
-  // No hardcoded values - just use what comes from props
   const safeData = {
     personalInfo: {
       firstName: resume?.personalInfo?.firstName || '',
@@ -71,7 +75,6 @@ const ExecutiveTemplate = ({ resume }) => {
     return `${startDate} — ${endDate}`
   }
 
-  // Split skills into two columns
   const midPoint = Math.ceil(safeData.skills.length / 2)
   const leftSkills = safeData.skills.slice(0, midPoint)
   const rightSkills = safeData.skills.slice(midPoint)
@@ -80,84 +83,147 @@ const ExecutiveTemplate = ({ resume }) => {
     return (
       <div className="bg-[#FAF7F2] min-h-screen p-8">
         <div className="animate-pulse max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </div>
       </div>
     )
   }
 
   return (
-      
-      <div ref={resumeRef} className="resume-content max-w-5xl mx-auto p-8 bg-[#FAF7F2]">
-              <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+    <div className="bg-[#FAF7F2] font-sans print:bg-[#FAF7F2]">
+      <div ref={resumeRef} className="resume-container px-7 py-5 md:px-9 print:min-h-screen print:h-full" style={{ maxWidth: '1100px', margin: '0 auto', background: '#FAF7F2' }}>
+        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
 
-        {/* Header Section */}
-        <div className="mb-8">
-          <h1 className="text-5xl md:text-6xl font-light tracking-tight text-[#2C2C2C] leading-[1.2] mb-2">
-            <span className="font-light">{safeData.personalInfo.firstName} </span>
-            <span className="font-bold text-[#C47D4A]">{safeData.personalInfo.lastName}</span>
+        {/* Header Section with Beautiful Title Style */}
+        <div className="text-center mb-6">
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-px bg-[#C47D4A]"></div>
+            <div className="w-2 h-2 rounded-full bg-[#C47D4A] mx-2"></div>
+            <div className="w-16 h-px bg-[#C47D4A]"></div>
+          </div>
+          
+          <h1 className="text-6xl font-bold text-[#2C2C2C] tracking-tight mt-0 mb-2">
+            <span className="font-light hover:text-[#C47D4A] transition-colors duration-300">{safeData.personalInfo.firstName} </span>
+            <span className="font-bold bg-gradient-to-r from-[#C47D4A] to-[#E8A87C] bg-clip-text text-transparent">{safeData.personalInfo.lastName}</span>
           </h1>
-          <div className="flex items-center gap-3 mt-3">
-            <div className="w-10 h-px bg-[#C47D4A]"></div>
-            <p className="text-xs uppercase tracking-[2px] text-[#6B5A4B] font-light">{safeData.personalInfo.title}</p>
+          
+          <div className="relative inline-block mt-2">
+            <p className="text-sm font-medium text-[#6B5A4B] tracking-wide px-4 py-1">
+              {safeData.personalInfo.title}
+            </p>
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C47D4A] to-transparent"></div>
+          </div>
+          
+          {/* Contact Information Row with Clickable Links */}
+          <div className="flex justify-center flex-wrap gap-4 mt-4 text-xs">
+            {safeData.personalInfo.email && (
+              <a href={`mailto:${safeData.personalInfo.email}`} className="flex items-center gap-1.5 text-[#4A3B2E] hover:text-[#C47D4A] transition-colors duration-200 group">
+                <Mail size={12} className="group-hover:scale-110 transition-transform" />
+                <span>{safeData.personalInfo.email}</span>
+              </a>
+            )}
+            
+            {safeData.personalInfo.phone && (
+              <a href={`tel:${safeData.personalInfo.phone}`} className="flex items-center gap-1.5 text-[#4A3B2E] hover:text-[#C47D4A] transition-colors duration-200 group">
+                <Phone size={12} className="group-hover:scale-110 transition-transform" />
+                <span>{safeData.personalInfo.phone}</span>
+              </a>
+            )}
+            
+            {safeData.personalInfo.location && (
+              <span className="flex items-center gap-1.5 text-[#4A3B2E]">
+                <MapPinIcon size={12} />
+                <span>{safeData.personalInfo.location}</span>
+              </span>
+            )}
+            
+            {safeData.personalInfo.linkedin && (
+              <a href={safeData.personalInfo.linkedin.startsWith('http') ? safeData.personalInfo.linkedin : `https://${safeData.personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[#4A3B2E] hover:text-[#C47D4A] transition-colors duration-200 group">
+                <Linkedin size={12} className="group-hover:scale-110 transition-transform" />
+                <span>LinkedIn</span>
+                <ExternalLink size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            )}
+            
+            {safeData.personalInfo.github && (
+              <a href={safeData.personalInfo.github.startsWith('http') ? safeData.personalInfo.github : `https://${safeData.personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[#4A3B2E] hover:text-[#C47D4A] transition-colors duration-200 group">
+                <Github size={12} className="group-hover:scale-110 transition-transform" />
+                <span>GitHub</span>
+                <ExternalLink size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            )}
           </div>
         </div>
 
-        {/* Contact Information Row */}
-        <div className="flex flex-wrap justify-start gap-6 mb-8 text-xs text-[#4A3B2E] border-b border-[#E8E0D5] pb-4">
-          {safeData.personalInfo.email && <span>{safeData.personalInfo.email}</span>}
-          {safeData.personalInfo.phone && <span>{safeData.personalInfo.phone}</span>}
-          {safeData.personalInfo.location && <span>{safeData.personalInfo.location}</span>}
-          {safeData.personalInfo.linkedin && <span>{safeData.personalInfo.linkedin}</span>}
-          {safeData.personalInfo.github && <span>{safeData.personalInfo.github}</span>}
-        </div>
-
-        {/* About Section */}
+        {/* About Section - FIXED FOR PRINT */}
         {safeData.professionalSummary && (
-          <div className="mb-8">
-            <h2 className="text-[11px] font-bold text-[#C47D4A] mb-3 tracking-[2px] uppercase">About</h2>
-            <p className="text-sm text-[#3A2E24] leading-relaxed">{safeData.professionalSummary}</p>
-          </div>
+          <section className="mb-6">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#C47D4A]"></div>
+              <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C47D4A]"></span>
+                About
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C47D4A]"></span>
+              </h2>
+              <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#C47D4A]"></div>
+            </div>
+            <div className="p-4 rounded-lg border border-[#E8E0D5] print:border-gray-300" style={{ backgroundColor: '#FAF7F2' }}>
+              <p className="text-gray-700 text-xs leading-relaxed text-center print:text-black">{safeData.professionalSummary}</p>
+            </div>
+          </section>
         )}
 
         {/* TWO-COLUMN LAYOUT */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
+        <div className="resume-two-column-layout" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', width: '100%' }}>
           
-          {/* Left Column - Experience & Projects */}
+          {/* Left Column */}
           <div style={{ minWidth: 0 }}>
-            {/* Experience */}
+            {/* Experience - SIMPLE STYLE */}
             {safeData.experience?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Experience</h2>
-                <div className="space-y-6">
+              <section className="mb-4">
+                <h2 className="text-xs font-bold text-[#C47D4A] mb-2 flex items-center uppercase tracking-widest">
+                  <div className="w-1 h-3 bg-[#C47D4A] mr-2 rounded-full" />
+                  Experience
+                </h2>
+                <div className="space-y-3">
                   {safeData.experience.map((exp) => (
-                    <div key={exp.id} className="experience-item" style={{ paddingLeft: '16px', borderLeft: '1px solid #E8E0D5' }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
-                        <h3 className="font-semibold text-base text-[#2C2C2C]">{exp.position}</h3>
-                        <span className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>{formatDateRange(exp.startDate, exp.endDate)}</span>
+                    <div key={exp.id} className="p-2.5 rounded border-b border-dashed border-[#E8E0D5]">
+                      <div className="flex justify-between items-start mb-1 flex-wrap gap-1">
+                        <h3 className="font-serif font-bold text-[#2C2C2C] text-base italic tracking-wide border-l-3 border-[#C47D4A] pl-2">
+                          {exp.position}
+                        </h3>
+                        <span className="text-gray-500 text-xs px-2 py-0.5 rounded-full bg-white shadow-sm flex items-center gap-1">
+                          <Calendar size={10} /> {formatDateRange(exp.startDate, exp.endDate)}
+                        </span>
                       </div>
-                      <p className="text-sm text-[#6B5A4B] mb-2">{exp.company}</p>
-                      <p className="text-sm text-[#4A3B2E] leading-relaxed">{exp.description}</p>
+                      <p className="text-gray-700 font-medium text-xs mb-1">{exp.company}</p>
+                      <p className="text-gray-600 text-xs leading-relaxed">{exp.description}</p>
                     </div>
                   ))}
                 </div>
               </section>
             )}
 
-            {/* Projects */}
+            {/* Projects - BEAUTIFUL STYLE */}
             {safeData.projects?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Projects</h2>
-                <div className="space-y-6">
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase">Projects</h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
+                <div className="space-y-3">
                   {safeData.projects.map((project) => (
-                    <div key={project.id} className="project-item">
-                      <h3 className="font-semibold text-base text-[#2C2C2C] mb-1">{project.name}</h3>
-                      <p className="text-sm text-[#4A3B2E] leading-relaxed mb-2">{project.description}</p>
+                    <div key={project.id} className="p-3 rounded-lg bg-[#FFF8F0] border border-[#E8E0D5] hover:shadow-md transition-all duration-300">
+                      <h3 className="font-bold text-[#C47D4A] text-sm mb-1 flex items-center gap-2">
+                        <Star size={12} className="fill-[#C47D4A]" />
+                        {project.name}
+                      </h3>
+                      <p className="text-gray-600 text-xs leading-relaxed mb-2">{project.description}</p>
                       {project.tags && project.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5 mt-2">
                           {project.tags.map((tag, i) => (
-                            <span key={i} className="text-[11px] text-[#8B735A]" style={{ fontFamily: 'monospace' }}>/{tag}</span>
+                            <span key={i} className="text-xs text-[#C47D4A] font-mono bg-white/80 px-2 py-0.5 rounded-full border border-[#E8E0D5]">#{tag}</span>
                           ))}
                         </div>
                       )}
@@ -168,80 +234,86 @@ const ExecutiveTemplate = ({ resume }) => {
             )}
           </div>
 
-          {/* Right Column - Education & Skills & Certifications */}
-          <div>
-            
+          {/* Right Column - BEAUTIFUL STYLE */}
+          <div style={{ minWidth: 0 }}>
             {/* Education */}
             {safeData.education?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Education</h2>
-                <div className="space-y-4">
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-1">
+                    <GraduationCap size={12} /> Education
+                  </h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
+                <div className="space-y-3">
                   {safeData.education.map((edu) => (
-                    <div key={edu.id} className="education-item">
-                      <h3 className="font-semibold text-sm text-[#2C2C2C]">{edu.degree}</h3>
-                      <p className="text-sm text-[#6B5A4B]">{edu.school}</p>
-                      <p className="text-[11px] text-[#8B735A] mt-0.5" style={{ fontFamily: 'monospace' }}>{edu.year}</p>
-                      {edu.gpa && <p className="text-[11px] text-[#8B735A] mt-0.5">GPA: {edu.gpa}</p>}
-                      {edu.honors && <p className="text-[11px] text-[#8B735A]">{edu.honors}</p>}
+                    <div key={edu.id} className="p-3 rounded-lg bg-white/50 border border-[#E8E0D5] hover:bg-white transition-all duration-300">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-[#C47D4A]/10 flex items-center justify-center">
+                            <GraduationCap size={14} className="text-[#C47D4A]" />
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-[#2C2C2C] text-sm">{edu.degree}</h3>
+                          <p className="text-gray-700 text-xs mt-1 flex items-center gap-1">
+                            <BookOpen size={10} className="text-[#C47D4A]" /> {edu.school}
+                          </p>
+                          <p className="text-gray-500 text-xs mt-1 flex items-center gap-1">
+                            <Calendar size={10} className="text-[#C47D4A]" /> {edu.year}
+                          </p>
+                          {edu.gpa && (
+                            <p className="text-gray-500 text-xs mt-1 flex items-center gap-1">
+                              <Award size={10} className="text-[#C47D4A]" /> GPA: {edu.gpa}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
               </section>
             )}
 
-            {/* Skills - 2 COLUMN */}
+            {/* Skills */}
             {safeData.skills?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Technical Skills</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                  <div>
-                    {leftSkills.map((skill, idx) => (
-                      <div 
-                        key={idx} 
-                        className="skill-item"
-                        style={{ 
-                          paddingTop: '8px', 
-                          paddingBottom: '8px', 
-                          borderBottom: '1px solid #E8E0D5',
-                          fontSize: '13px',
-                          color: '#4A3B2E'
-                        }}
-                      >
-                        {skill}
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    {rightSkills.map((skill, idx) => (
-                      <div 
-                        key={idx} 
-                        className="skill-item"
-                        style={{ 
-                          paddingTop: '8px', 
-                          paddingBottom: '8px', 
-                          borderBottom: '1px solid #E8E0D5',
-                          fontSize: '13px',
-                          color: '#4A3B2E'
-                        }}
-                      >
-                        {skill}
-                      </div>
-                    ))}
-                  </div>
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-1">
+                    <Globe size={12} /> Skills
+                  </h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {safeData.skills.map((skill, index) => (
+                    <span key={index} className="bg-gradient-to-r from-[#C47D4A] to-[#E8A87C] text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-sm hover:shadow-md transition-all duration-300">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </section>
             )}
 
             {/* Certifications */}
             {safeData.certifications?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Certifications</h2>
-                <div className="space-y-3">
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-1">
+                    <Award size={12} /> Certifications
+                  </h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
+                <div className="space-y-2">
                   {safeData.certifications.map((cert) => (
-                    <div key={cert.id} className="cert-item">
-                      <p className="font-medium text-sm text-[#2C2C2C]">{cert.name}</p>
-                      <p className="text-xs text-[#6B5A4B]">{cert.organization}</p>
-                      {cert.year && <p className="text-[11px] text-[#8B735A]">{cert.year}</p>}
+                    <div key={cert.id} className="p-2.5 rounded-lg bg-white/50 border border-[#E8E0D5] hover:bg-white transition-all duration-300">
+                      <p className="font-medium text-gray-900 text-xs flex items-center gap-2">
+                        <Award size={10} className="text-[#C47D4A]" /> {cert.name}
+                      </p>
+                      <p className="text-gray-600 text-xs ml-5">{cert.organization}</p>
+                      {cert.year && <p className="text-gray-500 text-xs ml-5">{cert.year}</p>}
                     </div>
                   ))}
                 </div>
@@ -250,15 +322,21 @@ const ExecutiveTemplate = ({ resume }) => {
 
             {/* Languages */}
             {safeData.languages?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Languages</h2>
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-1">
+                    <Globe size={12} /> Languages
+                  </h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
                 <div className="space-y-2">
                   {safeData.languages.map((lang) => (
-                    <div key={lang.id} className="language-item">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-[#2C2C2C]">{lang.language}</span>
-                        {lang.proficiency && <span className="text-xs text-[#8B735A]">{lang.proficiency}</span>}
-                      </div>
+                    <div key={lang.id} className="p-2.5 rounded-lg bg-white/50 border border-[#E8E0D5] flex justify-between items-center hover:bg-white transition-all duration-300">
+                      <span className="font-semibold text-gray-900 text-xs flex items-center gap-2">
+                        <Globe size={10} className="text-[#C47D4A]" /> {lang.language}
+                      </span>
+                      {lang.proficiency && <span className="text-gray-600 text-xs bg-[#FAF7F2] px-2 py-0.5 rounded-full">{lang.proficiency}</span>}
                     </div>
                   ))}
                 </div>
@@ -267,75 +345,132 @@ const ExecutiveTemplate = ({ resume }) => {
 
             {/* Interests */}
             {safeData.interests?.length > 0 && (
-              <section className="mb-8">
-                <h2 className="text-[11px] font-bold text-[#C47D4A] mb-4 tracking-[2px] uppercase">Interests</h2>
+              <section className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-px bg-[#C47D4A]"></div>
+                  <h2 className="text-xs font-bold text-[#C47D4A] tracking-[3px] uppercase flex items-center gap-1">
+                    <Star size={12} /> Interests
+                  </h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-[#C47D4A] to-transparent"></div>
+                </div>
                 <div className="flex flex-wrap gap-2">
-                  {safeData.interests.map((interest, idx) => (
-                    <span key={idx} className="text-sm text-[#4A3B2E]">• {interest}</span>
+                  {safeData.interests.map((interest, index) => (
+                    <span key={index} className="text-gray-700 text-xs px-3 py-1.5 rounded-full bg-white/50 border border-[#E8E0D5] hover:bg-white hover:border-[#C47D4A] transition-all duration-300">
+                      {interest}
+                    </span>
                   ))}
                 </div>
               </section>
             )}
           </div>
         </div>
+      </div>
 
       <style jsx>{`
-        .resume-content {
-          font-family: 'Inter', system-ui, sans-serif;
+        .resume-container {
+          max-width: 1100px;
+          margin: 0 auto;
+          background: #FAF7F2;
         }
         
-        /* Keep two-column layout stable */
         .resume-two-column-layout {
-          display: grid !important;
-          grid-template-columns: 2fr 1fr !important;
-          gap: 40px !important;
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+          .resume-two-column-layout {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+          }
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
         
-        /* ONLY keep individual items together - NOT sections */
-        .experience-item,
-        .project-item,
-        .education-item,
-        .cert-item,
-        .language-item,
-        .skill-item {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
-          margin-bottom: 1rem;
+        .animate-spin {
+          animation: spin 1s linear infinite;
         }
-        
-        /* Keep header together */
-        .resume-content > div:first-child {
-          break-inside: avoid-page !important;
-          page-break-inside: avoid !important;
+
+        .border-l-3 {
+          border-left-width: 3px;
         }
-        
-        /* Keep headings with their content */
-        h2 {
-          break-after: avoid-page !important;
-          page-break-after: avoid !important;
-        }
-        
+
         @media print {
-          body {
+          html, body {
             margin: 0;
             padding: 0;
-            background: white;
+            height: 100%;
+            background: #FAF7F2 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
-          .resume-content {
-            padding: 20px !important;
+          .print\\:hidden {
+            display: none !important;
+          }
+
+          .resume-container {
+            padding-left: 25px !important;
+            padding-right: 25px !important;
+            padding-top: 28px !important;
+            padding-bottom: 28px !important;
+            min-height: 100% !important;
+            height: 100% !important;
+            background: #FAF7F2 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .resume-two-column-layout {
+            gap: 20px !important;
+          }
+
+          section, .mb-6, .mb-4, .mb-3 {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+
+          .bg-\\[\\#C47D4A\\] {
+            background-color: #C47D4A !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
-          /* Prevent orphaned lines */
-          p, .text-xs, .text-sm, li {
-            orphans: 4 !important;
-            widows: 4 !important;
+          .bg-white, .bg-\\[\\#FFF8F0\\] {
+            background-color: white !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          
+          /* Fix for About section text in print */
+          .rounded-lg {
+            background-color: #FAF7F2 !important;
+            border: 1px solid #E8E0D5 !important;
+          }
+          
+          section p {
+            color: #2C2C2C !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+          }
+          
+          a {
+            text-decoration: none !important;
           }
         }
-        
+
         @page {
           size: A4;
-          margin: 8mm;
+          margin: 0;
         }
       `}</style>
     </div>

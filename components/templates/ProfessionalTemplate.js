@@ -18,7 +18,7 @@ const PDFExportButton = ({ onExport, isExporting }) => (
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-[#2C2118] hover:bg-amber-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-1sm"
+      className="bg-[#ffd9b9] hover:bg-amber-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-bold px-4 py-1.5 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2 ml-auto text-1sm"
       aria-label="Export resume as PDF"
     >
       {isExporting ? (
@@ -123,14 +123,15 @@ const ProfessionalTemplate = ({ resume }) => {
   return (
     <div className="min-h-screen font-serif">
 <div ref={resumeRef} className="resume-container px-7 pb-5 md:px-9" style={{ paddingTop: 0 }}>
-        <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
 
-        <header className="bg-[#2C2118] text-white -mx-7 md:-mx-9 px-7 py-10">
+        <header className="bg-[#2C2118] text-white  md:-mx-9 px-7 py-10">
+                  <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
+
           <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-white mb-0.5">
+            <h1 className="text-5xl font-bold tracking-tight text-white mb-0.5">
               {safeData.personalInfo.name}
             </h1>
-            <p className="text-amber-300 text-[15px] font-light tracking-widest">
+            <p className="text-amber-300 text-[20px] font-light tracking-widest">
               {safeData.personalInfo.title}
             </p>
           </div>
