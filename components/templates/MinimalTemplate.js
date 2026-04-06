@@ -10,16 +10,16 @@ const PDFExportButton = ({ onExport, isExporting }) => (
     <button
       onClick={onExport}
       disabled={isExporting}
-      className="bg-gray-900 border-2 border-white hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium px-5 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 ml-auto text-xs"
+      className="bg-gray-900 border-2 border-white hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium px-3 sm:px-5 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 ml-auto text-xs"
     >
       {isExporting ? (
         <>
-          <RefreshCw size={16} className="animate-spin" />
+          <RefreshCw size={14} className="animate-spin" />
           <span>Generating...</span>
         </>
       ) : (
         <>
-          <Download size={16} />
+          <Download size={14} />
           <span>Save as PDF</span>
         </>
       )}
@@ -40,7 +40,7 @@ export default function MinimalTemplate({ resume }) {
     languages = [],
     certifications = [],
     projects = []
-  } = resume
+  } = resume || {}
 
   const hasPhoto = !!personalInfo?.photo
 
@@ -64,13 +64,15 @@ export default function MinimalTemplate({ resume }) {
         ref={resumeRef} 
         className="mx-auto bg-white shadow-2xl overflow-hidden print:max-w-none print:shadow-none print:rounded-none"
       >
-        <div className="print:hidden absolute top-4 right-4 z-10">
+        {/* PDF Export Button - Sticky on mobile */}
+        <div className="print:hidden sticky top-0 z-10 bg-white/95 backdrop-blur-sm py-2 px-3 flex justify-end">
           <PDFExportButton onExport={handleExportPDF} isExporting={isExporting} />
         </div>
         
-        <div className="flex print:flex">          
-          <div className="sidebar-first-page w-[380px] flex-shrink-0 bg-gray-100 print:w-[380px] print:bg-gray-100" style={{ height: '1554px' }}>
-            {/* Sidebar Content */}
+        {/* Main Layout - Column on mobile, Row on desktop */}
+        <div className="flex flex-col md:flex-row print:flex print:flex-row">          
+          {/* Sidebar - Full width on mobile */}
+          <div className="w-full md:w-[380px] flex-shrink-0 bg-gray-100 print:w-[380px] print:bg-gray-100">
             <div style={{ 
               backgroundColor: '#1e293b',
               backgroundImage: 'linear-gradient(to bottom right, #1e293b, #1f2937)',
@@ -92,7 +94,7 @@ export default function MinimalTemplate({ resume }) {
                   }}>
                     <Image
                       src={personalInfo.photo}
-                      alt={personalInfo.name}
+                      alt={personalInfo.name || 'Profile'}
                       width={96}
                       height={96}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -100,44 +102,44 @@ export default function MinimalTemplate({ resume }) {
                   </div>
                 )}
 
-                <h1 style={{ fontSize: '35px', fontWeight: 'bold', margin: 0 }}>
+                <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0, wordBreak: 'break-word' }}>
                   {personalInfo.name || 'Professional Name'}
                 </h1>
-                <p style={{ fontSize: '15px', color: '#e5e7eb', marginTop: '4px' }}>
+                <p style={{ fontSize: '14px', color: '#e5e7eb', marginTop: '4px', wordBreak: 'break-word' }}>
                   {personalInfo.title || 'Professional Title'}
                 </p>
               </div>
 
               {/* Contact */}
               <div style={{ marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '18px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Contact</h3>
-                <div style={{ fontSize: '15px' }}>
-                  {personalInfo.phone && <p style={{ color: '#e5e7eb', margin: '4px 0' }}>{personalInfo.phone}</p>}
+                <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Contact</h3>
+                <div style={{ fontSize: '14px' }}>
+                  {personalInfo.phone && <p style={{ color: '#e5e7eb', margin: '4px 0', wordBreak: 'break-word' }}>{personalInfo.phone}</p>}
                   {personalInfo.email && <p style={{ color: '#e5e7eb', margin: '4px 0', wordBreak: 'break-all' }}>{personalInfo.email}</p>}
-                  {personalInfo.location && <p style={{ color: '#e5e7eb', margin: '4px 0' }}>{personalInfo.location}</p>}
+                  {personalInfo.location && <p style={{ color: '#e5e7eb', margin: '4px 0', wordBreak: 'break-word' }}>{personalInfo.location}</p>}
                 </div>
               </div>
 
               {/* Education */}
-              {education.length > 0 && (
+              {education?.length > 0 && (
                 <div style={{ marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '18px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '15px' }}>Education</h3>
+                  <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '12px' }}>Education</h3>
                   {education.map((edu) => (
                     <div key={edu.id} style={{ marginBottom: '8px' }}>
-                      <p style={{ fontWeight: '500', fontSize: '16px', margin: 0 }}>{edu.degree}</p>
-                      <p style={{ fontSize: '15px', color: '#d1d5db', margin: '2px 0' }}>{edu.school}</p>
-                      <p style={{ fontSize: '13px', color: '#9ca3af', margin: '2px 0' }}>{edu.year}</p>
-                      {edu.details && <p style={{ fontSize: '11px', color: '#9ca3af', margin: '2px 0' }}>{edu.details}</p>}
+                      <p style={{ fontWeight: '500', fontSize: '15px', margin: 0, wordBreak: 'break-word' }}>{edu.degree}</p>
+                      <p style={{ fontSize: '14px', color: '#d1d5db', margin: '2px 0', wordBreak: 'break-word' }}>{edu.school}</p>
+                      <p style={{ fontSize: '12px', color: '#9ca3af', margin: '2px 0' }}>{edu.year}</p>
+                      {edu.details && <p style={{ fontSize: '11px', color: '#9ca3af', margin: '2px 0', wordBreak: 'break-word' }}>{edu.details}</p>}
                     </div>
                   ))}
                 </div>
               )}
 
               {/* Skills */}
-              {skills.length > 0 && (
+              {skills?.length > 0 && (
                 <div style={{ marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '18px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Skills</h3>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Skills</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {skills.slice(0, 8).map((skill, i) => (
                       <span
                         key={i}
@@ -146,9 +148,8 @@ export default function MinimalTemplate({ resume }) {
                           color: 'white',
                           padding: '3px 8px',
                           borderRadius: '9999px',
-                          fontSize: '13px',
+                          fontSize: '12px',
                           border: '1px solid rgba(255,255,255,0.1)',
-                          margin:'2px'
                         }}
                       >
                         {skill}
@@ -159,13 +160,13 @@ export default function MinimalTemplate({ resume }) {
               )}
 
               {/* Certifications */}
-              {certifications.length > 0 && (
+              {certifications?.length > 0 && (
                 <div style={{ marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '18px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Certifications</h3>
+                  <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Certifications</h3>
                   {certifications.slice(0, 2).map((cert) => (
                     <div key={cert.id} style={{ marginBottom: '6px' }}>
-                      <p style={{ fontSize: '15px', fontWeight: '500', margin: 0 }}>{cert.name}</p>
-                      <p style={{ fontSize: '12px', color: '#d1d5db', margin: '2px 0' }}>{cert.organization}</p>
+                      <p style={{ fontSize: '14px', fontWeight: '500', margin: 0, wordBreak: 'break-word' }}>{cert.name}</p>
+                      <p style={{ fontSize: '12px', color: '#d1d5db', margin: '2px 0', wordBreak: 'break-word' }}>{cert.organization}</p>
                       <p style={{ fontSize: '11px', color: '#9ca3af', margin: '2px 0' }}>{cert.year}</p>
                     </div>
                   ))}
@@ -173,13 +174,13 @@ export default function MinimalTemplate({ resume }) {
               )}
 
               {/* Languages */}
-              {languages.length > 0 && (
+              {languages?.length > 0 && (
                 <div>
-                  <h3 style={{ fontSize: '18px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Languages</h3>
+                  <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '2px', color: '#d1d5db', marginBottom: '8px' }}>Languages</h3>
                   {languages.map((lang) => (
-                    <div key={lang.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                      <span style={{ fontSize: '13px', color: '#e5e7eb' }}>{lang.language}</span>
-                      <span style={{ fontSize: '12px', color: '#d1d5db' }}>{lang.proficiency}</span>
+                    <div key={lang.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', flexWrap: 'wrap', gap: '4px' }}>
+                      <span style={{ fontSize: '13px', color: '#e5e7eb', wordBreak: 'break-word' }}>{lang.language}</span>
+                      <span style={{ fontSize: '11px', color: '#d1d5db' }}>{lang.proficiency}</span>
                     </div>
                   ))}
                 </div>
@@ -187,29 +188,30 @@ export default function MinimalTemplate({ resume }) {
             </div>
           </div>
 
-          <div className="flex-1 p-10 print:p-8 bg-white min-w-0 overflow-hidden">
+          {/* White Content Area - Full width on mobile */}
+          <div className="flex-1 p-5 sm:p-6 md:p-8 lg:p-10 bg-white min-w-0 overflow-hidden">
             {/* About Me */}
             {professionalSummary && (
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 <h2 style={{ 
-                  fontSize: '18px', 
+                  fontSize: '16px', 
                   fontWeight: '600', 
                   borderBottom: '1px solid #d1d5db', 
                   paddingBottom: '4px', 
                   marginBottom: '12px',
                   color: '#1f2937'
                 }}>About Me</h2>
-                <p style={{ color: '#4b5563', lineHeight: '1.5', fontSize: '13px' }}>
+                <p style={{ color: '#4b5563', lineHeight: '1.5', fontSize: '13px', wordBreak: 'break-word' }}>
                   {professionalSummary}
                 </p>
               </div>
             )}
 
             {/* Experience */}
-            {experience.length > 0 && (
-              <div className="mb-14">
+            {experience?.length > 0 && (
+              <div className="mb-10 sm:mb-14">
                 <h2 style={{ 
-                  fontSize: '18px', 
+                  fontSize: '16px', 
                   fontWeight: '600', 
                   borderBottom: '1px solid #d1d5db', 
                   paddingBottom: '4px', 
@@ -218,34 +220,36 @@ export default function MinimalTemplate({ resume }) {
                 }}>Experience</h2>
                 {experience.map((exp) => (
                   <div key={exp.id} style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
-                      <div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', gap: '8px', marginBottom: '4px' }}>
+                      <div style={{ flex: '1' }}>
                         <h3 style={{ 
                           fontWeight: '800', 
-                          fontSize: '16px', 
+                          fontSize: '15px', 
                           margin: 0, 
                           color: '#111827',
-                          display: 'inline-block'
+                          wordBreak: 'break-word'
                         }}>
                           → {exp.position}
                         </h3>
                         <p style={{ 
                           color: '#4b5563', 
-                          fontSize: '14px', 
+                          fontSize: '13px', 
                           margin: '4px 0 0 0',
-                          fontWeight: '500'
+                          fontWeight: '500',
+                          wordBreak: 'break-word'
                         }}>
                           {exp.company}
                         </p>
                       </div>
                       <p style={{ 
                         fontSize: '11px', 
-                        color: '#6b7280'
+                        color: '#6b7280',
+                        whiteSpace: 'nowrap'
                       }}>
                         {exp.startDate} - {exp.endDate || 'Present'}
                       </p>
                     </div>
-                    <p style={{ marginTop: '6px', color: '#6b7280', fontSize: '13px', lineHeight: '1.45' }}>
+                    <p style={{ marginTop: '6px', color: '#6b7280', fontSize: '13px', lineHeight: '1.45', wordBreak: 'break-word' }}>
                       {exp.description}
                     </p>
                   </div>
@@ -253,10 +257,11 @@ export default function MinimalTemplate({ resume }) {
               </div>
             )}
 
-            {projects.length > 0 && (
+            {/* Projects */}
+            {projects?.length > 0 && (
               <div>
                 <h2 style={{ 
-                  fontSize: '18px', 
+                  fontSize: '16px', 
                   fontWeight: '600', 
                   borderBottom: '1px solid #d1d5db', 
                   paddingBottom: '4px', 
@@ -265,19 +270,16 @@ export default function MinimalTemplate({ resume }) {
                 }}>Projects</h2>
                 {projects.map((project) => (
                   <div key={project.id} style={{ marginBottom: '20px', paddingBottom: '12px', borderBottom: '1px solid #f3f4f6' }}>
-                    {/* Project Name */}
-                    <h3 style={{ fontWeight: '700', fontSize: '15px', margin: '0 0 4px 0', color: '#1f2937' }}>
+                    <h3 style={{ fontWeight: '700', fontSize: '14px', margin: '0 0 4px 0', color: '#1f2937', wordBreak: 'break-word' }}>
                       {project.name}
                     </h3>
                     
-                    {/* Project Description */}
-                    <p style={{ color: '#6b7280', fontSize: '13px', marginTop: '4px', lineHeight: '1.5' }}>
+                    <p style={{ color: '#6b7280', fontSize: '13px', marginTop: '4px', lineHeight: '1.5', wordBreak: 'break-word' }}>
                       {project.description}
                     </p>
                     
                     {project.techStack && (
                       <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                       
                         {typeof project.techStack === 'string' ? (
                           project.techStack.split(',').map((tech, i) => (
                             <span
@@ -311,7 +313,7 @@ export default function MinimalTemplate({ resume }) {
                       </div>
                     )}
                     
-                    <div style={{ marginTop: '8px', display: 'flex', gap: '12px' }}>
+                    <div style={{ marginTop: '8px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                       {project.demoLink && (
                         <a 
                           href={project.demoLink} 

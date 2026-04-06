@@ -100,29 +100,29 @@ export default function TemplatesPage() {
     <div className="min-h-screen bg-black text-white">
       <nav className="border-b border-yellow-600/20">
         <div className="container mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <ArrowLeft className="w-5 h-5 text-yellow-500 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-yellow-500 font-medium">Back to Home</span>
-            </Link>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
-                <Crown className="w-6 h-6 text-black" />
-              </div>
-              <div>
-                <span className="text-2xl font-bold text-yellow-500">ልዩCV</span>
-                <div className="h-1 w-12 bg-yellow-500 mt-1"></div>
-              </div>
-            </div>
+       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+  <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+    <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 group-hover:-translate-x-1 transition-transform" />
+    <span className="text-yellow-500 font-medium text-sm sm:text-base">Back to Home</span>
+  </Link>
+  
+  <div className="flex items-center space-x-2 sm:space-x-3">
+    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
+      <Crown className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+    </div>
+    <div className="text-center sm:text-left">
+      <span className="text-xl sm:text-2xl font-bold text-yellow-500">ልዩCV</span>
+      <div className="h-1 w-8 sm:w-12 bg-yellow-500 mt-1 mx-auto sm:mx-0"></div>
+    </div>
+  </div>
 
-            <Link 
-              href="/editor" 
-              className="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg transition-transform hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/30"
-            >
-              Go to Editor
-            </Link>
-          </div>
+  <Link 
+    href="/editor" 
+    className="bg-yellow-500 text-black font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-transform hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/30 text-sm sm:text-base"
+  >
+    Go to Editor
+  </Link>
+</div>
         </div>
       </nav>
 
